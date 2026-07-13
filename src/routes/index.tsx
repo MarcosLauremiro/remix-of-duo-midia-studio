@@ -359,7 +359,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
   );
 }
 
-
+function Home_() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [query, setQuery] = useState("");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
