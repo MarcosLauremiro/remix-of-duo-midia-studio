@@ -500,7 +500,7 @@ function Home_() {
                   onClick={() => setActiveCategory(cat)}
                   className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all ${
                     activeCategory === cat
-                      ? "bg-ink text-background"
+                      ? "bg-surface-strong text-ink"
                       : "border border-ink/10 bg-surface text-ink-muted hover:border-ink/20 hover:text-ink"
                   }`}
                 >
