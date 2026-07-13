@@ -1302,6 +1302,16 @@ function Home_() {
           <EventRotator items={events} />
         </section>
 
+        {/* Podcasts */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="DuoCast · nossos episódios"
+            title="Gravações de podcast"
+            count={podcasts.length}
+          />
+          <PodcastRotator items={podcasts} />
+        </section>
+
         {/* Blog */}
         <section className="mt-16">
           <SectionHeader
