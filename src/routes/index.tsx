@@ -1119,6 +1119,20 @@ const mediaClips: MediaClip[] = [
     image: media4Img,
     url: "https://bandnews.com.br",
   },
+  {
+    title: "Case DuoMídia é destaque em prêmio nacional",
+    outlet: "Portal da Comunicação",
+    type: "Notícia",
+    image: media1Img,
+    url: "https://portalcomunicacao.com.br",
+  },
+  {
+    title: "Agências independentes que fazem a diferença",
+    outlet: "AdNews",
+    type: "Reportagem",
+    image: media2Img,
+    url: "https://adnews.com.br",
+  },
 ];
 
 function MediaRotator({ items }: { items: MediaClip[] }) {
