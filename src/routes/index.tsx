@@ -20,6 +20,9 @@ import {
   Newspaper,
   ExternalLink,
   ArrowRight,
+  Mic,
+  Headphones,
+  Images,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
