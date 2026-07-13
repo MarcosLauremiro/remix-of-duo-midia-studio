@@ -360,15 +360,15 @@ type Founder = {
 
 const founders: Founder[] = [
   {
-    name: "Camila Duarte",
-    role: "Cofundadora · Diretora de Mídia",
+    name: "Fabia Homobono",
+    role: "Sócia · Diretora de Mídia",
     bio: "Estrategista com mais de 15 anos em campanhas de marca. Lidera a área de Mídia com um olhar afiado para audiência, veículo e resultado.",
     image: founder1Img,
     accent: "terracotta",
   },
   {
-    name: "Beatriz Duarte",
-    role: "Cofundadora · Diretora de Studio",
+    name: "Anna Valeria Oliveira",
+    role: "Sócia · Diretora de Studio",
     bio: "Diretora de arte à frente do Studio. Une design, audiovisual e narrativa para dar identidade a marcas que querem ser lembradas.",
     image: founder2Img,
     accent: "ochre",
