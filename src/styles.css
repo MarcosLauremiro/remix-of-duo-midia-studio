@@ -112,8 +112,10 @@
 
 @utility font-display {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
+
 
 @utility eyebrow {
   font-family: var(--font-mono);
