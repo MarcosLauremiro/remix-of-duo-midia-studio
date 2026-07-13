@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   Home,
@@ -13,6 +13,8 @@ import {
   Menu,
   ArrowUpRight,
   Eye,
+  Play,
+  Youtube,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
@@ -183,6 +185,180 @@ function ServiceCard({ service }: { service: Service }) {
   );
 }
 
+// ID da playlist pública do YouTube da DuoMídia — troque aqui quando quiser.
+const YOUTUBE_PLAYLIST_ID = "PLrEnWoR732-DE0Nyx-6JIC-oow0nyPQmR";
+
+function VideoHero() {
+  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
+  return (
+    <div className="relative">
+      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-terracotta/15 via-transparent to-ochre/20 blur-2xl" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-ink ring-1 ring-ink/10 shadow-2xl shadow-ink/10">
+        <div className="flex items-center justify-between gap-3 px-5 py-3 text-background/90">
+          <div className="flex items-center gap-2">
+            <Youtube className="size-4 text-terracotta" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-background/70">
+              DuoMídia · Playlist
+            </span>
+          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-background/10 px-2.5 py-1 text-[10px] font-medium text-background/80">
+            <span className="size-1.5 rounded-full bg-terracotta animate-pulse" />
+            Ao vivo no canal
+          </span>
+        </div>
+        <div className="relative aspect-video w-full bg-black">
+          <iframe
+            src={embedSrc}
+            title="Playlist DuoMídia no YouTube"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
+        <div className="flex items-center justify-between gap-3 px-5 py-4">
+          <p className="text-sm text-background/70">
+            Cases, bastidores e novidades da DuoMídia &amp; Studio.
+          </p>
+          <a
+            href={`https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-accent-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
+          >
+            <Play className="size-3.5 fill-current" />
+            Ver playlist
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FeaturedRotator({ services }: { services: Service[] }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (services.length <= 1 || paused) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % services.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, [services.length, paused]);
+
+  useEffect(() => {
+    setIndex(0);
+  }, [services]);
+
+  const featured = services[Math.min(index, services.length - 1)];
+  const others = services.filter((_, i) => i !== index);
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Featured card */}
+      <article
+        key={featured.name}
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/5 shadow-lg shadow-ink/[0.04] animate-fade-in"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
+          <img
+            src={featured.image}
+            alt={featured.name}
+            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          <div className="absolute left-5 top-5 flex items-center gap-2">
+            <span className="eyebrow rounded-full bg-background/90 px-2.5 py-1 text-ink/70 backdrop-blur">
+              {featured.category}
+            </span>
+            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+              Destaque
+            </span>
+          </div>
+          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-background">
+            <div>
+              <h3 className="font-display text-2xl leading-tight sm:text-3xl">
+                {featured.name}
+              </h3>
+              <p className="mt-2 max-w-md text-sm text-background/85 text-pretty">
+                {featured.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
+          <BillingBadge billing={featured.billing} credits={featured.credits} />
+          <div className="flex gap-2">
+            <button className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-surface px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface-strong">
+              <Eye className="size-4" />
+              Ver exemplo
+            </button>
+            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+              Solicitar
+              <ArrowUpRight className="size-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Progress dots */}
+        <div className="flex items-center gap-1.5 px-5 pb-5">
+          {services.map((s, i) => (
+            <span
+              key={s.name}
+              className={`h-1 rounded-full transition-all ${
+                i === index ? "w-8 bg-terracotta" : "w-3 bg-ink/15"
+              }`}
+            />
+          ))}
+        </div>
+      </article>
+
+      {/* Thumbnail rail */}
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow">Também disponíveis</p>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
+          {others.map((s) => {
+            const originalIndex = services.findIndex((x) => x.name === s.name);
+            return (
+              <li key={s.name}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/5 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-ink/[0.05] hover:ring-terracotta/30"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
+                    <img
+                      src={s.image}
+                      alt={s.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {s.billing === "creditos" && (
+                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-background/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
+                        <Coins className="size-2.5" />
+                        {s.credits}
+                      </span>
+                    )}
+                  </div>
+                  <div className="px-1 pb-1">
+                    <p className="line-clamp-1 text-sm font-medium text-ink">{s.name}</p>
+                    <p className="text-[11px] text-ink-muted">{s.category}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function Home_() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [query, setQuery] = useState("");
@@ -274,33 +450,38 @@ function Home_() {
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
-        {/* Hero */}
-        <section className="max-w-3xl">
-          <p className="eyebrow mb-4">Olá, Marina</p>
-          <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
-            Olá, seja bem-vindo <br className="hidden sm:block" />
-            ao <span className="text-terracotta">DuoHub</span>.
-          </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
-            Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
-          </p>
+        {/* Hero + Video */}
+        <section className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14">
+          <div>
+            <p className="eyebrow mb-4">Olá, Marina</p>
+            <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
+              Olá, seja bem-vindo <br className="hidden sm:block" />
+              ao <span className="text-terracotta">DuoHub</span>.
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
+              Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
+            </p>
 
-          <div className="mt-8 max-w-2xl">
-            <label className="relative block">
-              <span className="sr-only">Buscar serviço</span>
-              <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-ink-muted" />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Do que você precisa?"
-                className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
-              />
-              <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
-                ⌘ K
-              </span>
-            </label>
+            <div className="mt-8 max-w-2xl">
+              <label className="relative block">
+                <span className="sr-only">Buscar serviço</span>
+                <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-ink-muted" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Do que você precisa?"
+                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
+                />
+                <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
+                  ⌘ K
+                </span>
+              </label>
+            </div>
           </div>
+
+          {/* Video hero */}
+          <VideoHero />
         </section>
 
         {/* Categories */}
@@ -328,21 +509,23 @@ function Home_() {
           </div>
         </section>
 
-        {/* Services grid */}
-        <section className="mt-10">
+        {/* Featured service rotator */}
+        <section className="mt-12">
           <div className="mb-6 flex items-end justify-between">
-            <h2 className="font-display text-2xl text-ink sm:text-3xl">
-              Serviços mais solicitados
-            </h2>
+            <div>
+              <p className="eyebrow mb-2">Em destaque agora</p>
+              <h2 className="font-display text-2xl text-ink sm:text-3xl">
+                Serviços mais solicitados
+              </h2>
+            </div>
+            <span className="hidden text-xs text-ink-muted sm:block">
+              {filtered.length} serviços disponíveis
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map((service) => (
-              <ServiceCard key={service.name} service={service} />
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
+          {filtered.length > 0 ? (
+            <FeaturedRotator services={filtered} />
+          ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
               <p className="mt-1 text-sm text-ink-muted">
