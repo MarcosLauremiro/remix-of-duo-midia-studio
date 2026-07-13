@@ -13,6 +13,8 @@ import {
   Menu,
   ArrowUpRight,
   Eye,
+  Play,
+  Youtube,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
