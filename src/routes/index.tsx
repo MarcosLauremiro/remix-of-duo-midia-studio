@@ -276,33 +276,38 @@ function Home_() {
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
-        {/* Hero */}
-        <section className="max-w-3xl">
-          <p className="eyebrow mb-4">Olá, Marina</p>
-          <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
-            Olá, seja bem-vindo <br className="hidden sm:block" />
-            ao <span className="text-terracotta">DuoHub</span>.
-          </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
-            Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
-          </p>
+        {/* Hero + Video */}
+        <section className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14">
+          <div>
+            <p className="eyebrow mb-4">Olá, Marina</p>
+            <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
+              Olá, seja bem-vindo <br className="hidden sm:block" />
+              ao <span className="text-terracotta">DuoHub</span>.
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
+              Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
+            </p>
 
-          <div className="mt-8 max-w-2xl">
-            <label className="relative block">
-              <span className="sr-only">Buscar serviço</span>
-              <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-ink-muted" />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Do que você precisa?"
-                className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
-              />
-              <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
-                ⌘ K
-              </span>
-            </label>
+            <div className="mt-8 max-w-2xl">
+              <label className="relative block">
+                <span className="sr-only">Buscar serviço</span>
+                <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-ink-muted" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Do que você precisa?"
+                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
+                />
+                <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
+                  ⌘ K
+                </span>
+              </label>
+            </div>
           </div>
+
+          {/* Video hero */}
+          <VideoHero />
         </section>
 
         {/* Categories */}
@@ -330,21 +335,23 @@ function Home_() {
           </div>
         </section>
 
-        {/* Services grid */}
-        <section className="mt-10">
+        {/* Featured service rotator */}
+        <section className="mt-12">
           <div className="mb-6 flex items-end justify-between">
-            <h2 className="font-display text-2xl text-ink sm:text-3xl">
-              Serviços mais solicitados
-            </h2>
+            <div>
+              <p className="eyebrow mb-2">Em destaque agora</p>
+              <h2 className="font-display text-2xl text-ink sm:text-3xl">
+                Serviços mais solicitados
+              </h2>
+            </div>
+            <span className="hidden text-xs text-ink-muted sm:block">
+              {filtered.length} serviços disponíveis
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map((service) => (
-              <ServiceCard key={service.name} service={service} />
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
+          {filtered.length > 0 ? (
+            <FeaturedRotator services={filtered} />
+          ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
               <p className="mt-1 text-sm text-ink-muted">
