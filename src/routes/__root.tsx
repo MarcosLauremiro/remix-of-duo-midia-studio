@@ -88,10 +88,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Descubra os serviços da DuoMídia e envie sua solicitação de forma simples e visual.",
+          "DuoHub é a central visual da DuoMídia: encontre um serviço, veja exemplos e envie sua solicitação em poucos passos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "DuoHub — Central de serviços da DuoMídia" },
+      { name: "twitter:description", content: "DuoHub é a central visual da DuoMídia: encontre um serviço, veja exemplos e envie sua solicitação em poucos passos." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
