@@ -360,15 +360,15 @@ type Founder = {
 
 const founders: Founder[] = [
   {
-    name: "Camila Duarte",
-    role: "Cofundadora · Diretora de Mídia",
+    name: "Fabia Homobono",
+    role: "Sócia · Diretora de Mídia",
     bio: "Estrategista com mais de 15 anos em campanhas de marca. Lidera a área de Mídia com um olhar afiado para audiência, veículo e resultado.",
     image: founder1Img,
     accent: "terracotta",
   },
   {
-    name: "Beatriz Duarte",
-    role: "Cofundadora · Diretora de Studio",
+    name: "Anna Valeria Oliveira",
+    role: "Sócia · Diretora de Studio",
     bio: "Diretora de arte à frente do Studio. Une design, audiovisual e narrativa para dar identidade a marcas que querem ser lembradas.",
     image: founder2Img,
     accent: "ochre",
@@ -382,11 +382,11 @@ function AboutSection() {
         <div>
           <p className="eyebrow mb-3">Quem somos</p>
           <h2 className="font-display text-3xl leading-[1.1] text-ink text-balance sm:text-4xl lg:text-5xl">
-            Duas irmãs, uma agência <span className="text-terracotta">com alma</span> e um{" "}
+            Duas sócias, uma agência <span className="text-terracotta">com alma</span> e um{" "}
             <span className="text-ochre">Studio</span> que respira criação.
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted text-pretty">
-            A DUO nasceu da união entre estratégia e sensibilidade. Cuidamos de cada marca como
+            A DUO nasceu do encontro entre estratégia e sensibilidade. Cuidamos de cada marca como
             se fosse a nossa: com escuta, curiosidade e mão na massa. Aqui, cliente vira parceiro
             e ideia vira resultado.
           </p>
@@ -986,81 +986,119 @@ const blogPosts: BlogPost[] = [
     readTime: "3 min",
     image: blog4Img,
   },
+  {
+    title: "Storytelling: a alma das campanhas duradouras",
+    excerpt:
+      "Como boas histórias sustentam marcas por anos e transformam campanhas em memórias afetivas.",
+    date: "20 Mai 2026",
+    readTime: "5 min",
+    image: blog1Img,
+  },
+  {
+    title: "Design que respira: menos é mais",
+    excerpt:
+      "Espaço em branco, tipografia e ritmo visual — os detalhes que separam o bonito do memorável.",
+    date: "08 Mai 2026",
+    readTime: "4 min",
+    image: blog2Img,
+  },
 ];
 
-function BlogRotator({ items }: { items: BlogPost[] }) {
-  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+function BlogRotator({ items, intervalMs = 5500 }: { items: BlogPost[]; intervalMs?: number }) {
+  const pageSize = 3;
+  const pages = Math.max(1, Math.ceil(items.length / pageSize));
+  const [page, setPage] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || pages <= 1) return;
+    const id = setInterval(() => setPage((p) => (p + 1) % pages), intervalMs);
+    return () => clearInterval(id);
+  }, [pages, intervalMs, paused]);
+
+  const start = page * pageSize;
+  const visible = items.slice(start, start + pageSize);
+  const lead = visible[0] ?? items[0];
 
   return (
     <div
-      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
-      onMouseEnter={pause}
-      onMouseLeave={resume}
+      className="flex flex-col gap-5"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <article
-        key={featured.title}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
-      >
-        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
-          <img
-            src={featured.image}
-            alt={featured.title}
-            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+      {/* Cabeçalho da leva em destaque */}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
             <Newspaper className="size-3.5 text-terracotta" />
-            {featured.date} · {featured.readTime}
+            {lead.date} · {lead.readTime}
           </div>
-          <div className="absolute inset-x-5 bottom-5">
-            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
-              {featured.title}
-            </h3>
-            <p className="mt-2 max-w-lg text-sm text-ink/85 text-pretty">{featured.excerpt}</p>
-          </div>
+          <h3 key={lead.title} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
+            {lead.title}
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">{lead.excerpt}</p>
         </div>
+        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+          Ver todos os artigos
+          <ArrowRight className="size-4" />
+        </button>
+      </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
-          <ProgressDots count={items.length} index={index} />
-          <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-            Ler artigo
-            <ArrowRight className="size-4" />
-          </button>
-        </div>
-      </article>
+      {/* Faixa com 3 publicações da mesma leva */}
+      <div key={`blog-strip-${page}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {visible.map((b, i) => (
+          <article
+            key={`${b.title}-${page}`}
+            className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface ring-1 ring-ink/10 shadow-md shadow-black/10 animate-fade-in transition-all hover:-translate-y-0.5 hover:ring-terracotta/30"
+            style={{ animationDelay: `${i * 90}ms` }}
+          >
+            <div className="aspect-[4/3] overflow-hidden bg-surface-strong">
+              <img
+                src={b.image}
+                alt={b.title}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
+              />
+            </div>
+            <div className="flex flex-1 flex-col gap-2 p-4">
+              <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-ink-muted">
+                {b.date} · {b.readTime}
+              </p>
+              <h4 className="font-display text-lg leading-snug text-ink">{b.title}</h4>
+              <p className="line-clamp-2 text-xs leading-relaxed text-ink-muted text-pretty">{b.excerpt}</p>
+              <button className="mt-auto inline-flex w-fit items-center gap-1 text-xs font-semibold text-terracotta transition-all hover:gap-1.5">
+                Ler artigo
+                <ArrowRight className="size-3.5" />
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
 
-      <div className="flex flex-col gap-3">
-        <p className="eyebrow">Outras leituras</p>
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          {others.map((b) => {
-            const originalIndex = items.findIndex((x) => x.title === b.title);
-            return (
-              <li key={b.title}>
-                <button
-                  onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
-                >
-                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-surface-strong">
-                    <img
-                      src={b.image}
-                      alt={b.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="line-clamp-2 text-sm font-semibold text-ink">{b.title}</p>
-                    <p className="mt-1 text-[11px] text-ink-muted">{b.date}</p>
-                  </div>
-                </button>
-              </li>
-            );
-          })}
+      {/* Controles: pontinhos + páginas */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <ProgressDots count={pages} index={page} />
+        <ul className="flex flex-wrap items-center gap-2">
+          {Array.from({ length: pages }).map((_, i) => (
+            <li key={i}>
+              <button
+                onClick={() => setPage(i)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
+                  i === page
+                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
+                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
+                }`}
+              >
+                Página {i + 1}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Media / press clips                                                */
@@ -1103,80 +1141,117 @@ const mediaClips: MediaClip[] = [
     image: media4Img,
     url: "https://bandnews.com.br",
   },
+  {
+    title: "Case DuoMídia é destaque em prêmio nacional",
+    outlet: "Portal da Comunicação",
+    type: "Notícia",
+    image: media1Img,
+    url: "https://portalcomunicacao.com.br",
+  },
+  {
+    title: "Agências independentes que fazem a diferença",
+    outlet: "AdNews",
+    type: "Reportagem",
+    image: media2Img,
+    url: "https://adnews.com.br",
+  },
 ];
 
-function MediaRotator({ items }: { items: MediaClip[] }) {
-  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+function MediaRotator({ items, intervalMs = 5500 }: { items: MediaClip[]; intervalMs?: number }) {
+  const pageSize = 3;
+  const pages = Math.max(1, Math.ceil(items.length / pageSize));
+  const [page, setPage] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || pages <= 1) return;
+    const id = setInterval(() => setPage((p) => (p + 1) % pages), intervalMs);
+    return () => clearInterval(id);
+  }, [pages, intervalMs, paused]);
+
+  const start = page * pageSize;
+  const visible = items.slice(start, start + pageSize);
+  const lead = visible[0] ?? items[0];
 
   return (
     <div
-      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
-      onMouseEnter={pause}
-      onMouseLeave={resume}
+      className="flex flex-col gap-5"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <article
-        key={featured.title}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
-      >
-        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
-          <img
-            src={featured.image}
-            alt={featured.title}
-            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+      {/* Cabeçalho da leva em destaque */}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
             <ExternalLink className="size-3.5 text-terracotta" />
-            {featured.outlet} · {featured.type}
+            {lead.outlet} · {lead.type}
           </div>
-          <div className="absolute inset-x-5 bottom-5">
-            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
-              {featured.title}
-            </h3>
-          </div>
+          <h3 key={lead.title} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
+            {lead.title}
+          </h3>
         </div>
+        <a
+          href={lead.url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110"
+        >
+          Ver todas as matérias
+          <ExternalLink className="size-4" />
+        </a>
+      </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
-          <ProgressDots count={items.length} index={index} />
+      {/* Faixa com 3 matérias da mesma leva */}
+      <div key={`media-strip-${page}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {visible.map((m, i) => (
           <a
-            href={featured.url}
+            key={`${m.title}-${page}`}
+            href={m.url}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110"
+            className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface ring-1 ring-ink/10 shadow-md shadow-black/10 animate-fade-in transition-all hover:-translate-y-0.5 hover:ring-terracotta/30"
+            style={{ animationDelay: `${i * 90}ms` }}
           >
-            Abrir matéria
-            <ExternalLink className="size-4" />
+            <div className="aspect-[4/3] overflow-hidden bg-surface-strong">
+              <img
+                src={m.image}
+                alt={m.title}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
+              />
+            </div>
+            <div className="flex flex-1 flex-col gap-2 p-4">
+              <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-ink-muted">
+                {m.outlet} · {m.type}
+              </p>
+              <h4 className="font-display text-lg leading-snug text-ink">{m.title}</h4>
+              <span className="mt-auto inline-flex w-fit items-center gap-1 text-xs font-semibold text-terracotta transition-all group-hover:gap-1.5">
+                Abrir matéria
+                <ExternalLink className="size-3.5" />
+              </span>
+            </div>
           </a>
-        </div>
-      </article>
+        ))}
+      </div>
 
-      <div className="flex flex-col gap-3">
-        <p className="eyebrow">Na mídia</p>
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          {others.map((m) => {
-            const originalIndex = items.findIndex((x) => x.title === m.title);
-            return (
-              <li key={m.title}>
-                <button
-                  onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
-                >
-                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-surface-strong">
-                    <img
-                      src={m.image}
-                      alt={m.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="line-clamp-2 text-sm font-semibold text-ink">{m.title}</p>
-                    <p className="mt-1 text-[11px] text-ink-muted">{m.outlet}</p>
-                  </div>
-                </button>
-              </li>
-            );
-          })}
+      {/* Controles: pontinhos + páginas */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <ProgressDots count={pages} index={page} />
+        <ul className="flex flex-wrap items-center gap-2">
+          {Array.from({ length: pages }).map((_, i) => (
+            <li key={i}>
+              <button
+                onClick={() => setPage(i)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
+                  i === page
+                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
+                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
+                }`}
+              >
+                Página {i + 1}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
