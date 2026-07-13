@@ -382,11 +382,11 @@ function AboutSection() {
         <div>
           <p className="eyebrow mb-3">Quem somos</p>
           <h2 className="font-display text-3xl leading-[1.1] text-ink text-balance sm:text-4xl lg:text-5xl">
-            Duas irmãs, uma agência <span className="text-terracotta">com alma</span> e um{" "}
+            Duas sócias, uma agência <span className="text-terracotta">com alma</span> e um{" "}
             <span className="text-ochre">Studio</span> que respira criação.
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted text-pretty">
-            A DUO nasceu da união entre estratégia e sensibilidade. Cuidamos de cada marca como
+            A DUO nasceu do encontro entre estratégia e sensibilidade. Cuidamos de cada marca como
             se fosse a nossa: com escuta, curiosidade e mão na massa. Aqui, cliente vira parceiro
             e ideia vira resultado.
           </p>
