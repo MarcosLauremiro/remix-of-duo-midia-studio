@@ -15,6 +15,11 @@ import {
   Eye,
   Play,
   Youtube,
+  Quote,
+  Calendar,
+  Newspaper,
+  ExternalLink,
+  ArrowRight,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
@@ -25,6 +30,26 @@ import bannerImg from "@/assets/service-banner.jpg";
 import emailImg from "@/assets/service-email.jpg";
 import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
+
+import testimonial1Img from "@/assets/testimonial-1.jpg";
+import testimonial2Img from "@/assets/testimonial-2.jpg";
+import testimonial3Img from "@/assets/testimonial-3.jpg";
+import testimonial4Img from "@/assets/testimonial-4.jpg";
+
+import event1Img from "@/assets/event-1.jpg";
+import event2Img from "@/assets/event-2.jpg";
+import event3Img from "@/assets/event-3.jpg";
+import event4Img from "@/assets/event-4.jpg";
+
+import blog1Img from "@/assets/blog-1.jpg";
+import blog2Img from "@/assets/blog-2.jpg";
+import blog3Img from "@/assets/blog-3.jpg";
+import blog4Img from "@/assets/blog-4.jpg";
+
+import media1Img from "@/assets/media-1.jpg";
+import media2Img from "@/assets/media-2.jpg";
+import media3Img from "@/assets/media-3.jpg";
+import media4Img from "@/assets/media-4.jpg";
 
 export const Route = createFileRoute("/")({
   component: Home_,
@@ -235,30 +260,58 @@ function VideoHero() {
   );
 }
 
-function FeaturedRotator({ services }: { services: Service[] }) {
+function useRotator<T>(items: T[], interval = 4500) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (services.length <= 1 || paused) return;
+    if (items.length <= 1 || paused) return;
     const id = setInterval(() => {
-      setIndex((i) => (i + 1) % services.length);
-    }, 4500);
+      setIndex((i) => (i + 1) % items.length);
+    }, interval);
     return () => clearInterval(id);
-  }, [services.length, paused]);
+  }, [items.length, paused, interval]);
 
   useEffect(() => {
     setIndex(0);
-  }, [services]);
+  }, [items]);
 
-  const featured = services[Math.min(index, services.length - 1)];
-  const others = services.filter((_, i) => i !== index);
+  const featured = items[Math.min(index, items.length - 1)];
+  const others = items.filter((_, i) => i !== index);
+
+  return {
+    index,
+    setIndex,
+    featured,
+    others,
+    pause: () => setPaused(true),
+    resume: () => setPaused(false),
+  };
+}
+
+function ProgressDots({ count, index }: { count: number; index: number }) {
+  return (
+    <div className="flex items-center gap-1.5">
+      {Array.from({ length: count }).map((_, i) => (
+        <span
+          key={i}
+          className={`h-1 rounded-full transition-all ${
+            i === index ? "w-8 bg-terracotta" : "w-3 bg-ink/15"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FeaturedRotator({ services }: { services: Service[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(services);
 
   return (
     <div
       className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={pause}
+      onMouseLeave={resume}
     >
       {/* Featured card */}
       <article
@@ -282,12 +335,8 @@ function FeaturedRotator({ services }: { services: Service[] }) {
           </div>
           <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-ink">
             <div>
-              <h3 className="font-display text-2xl leading-tight sm:text-3xl">
-                {featured.name}
-              </h3>
-              <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">
-                {featured.description}
-              </p>
+              <h3 className="font-display text-2xl leading-tight sm:text-3xl">{featured.name}</h3>
+              <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">{featured.description}</p>
             </div>
           </div>
         </div>
@@ -306,16 +355,8 @@ function FeaturedRotator({ services }: { services: Service[] }) {
           </div>
         </div>
 
-        {/* Progress dots */}
-        <div className="flex items-center gap-1.5 px-5 pb-5">
-          {services.map((s, i) => (
-            <span
-              key={s.name}
-              className={`h-1 rounded-full transition-all ${
-                i === index ? "w-8 bg-terracotta" : "w-3 bg-ink/15"
-              }`}
-            />
-          ))}
+        <div className="px-5 pb-5">
+          <ProgressDots count={services.length} index={index} />
         </div>
       </article>
 
@@ -359,6 +400,494 @@ function FeaturedRotator({ services }: { services: Service[] }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Testimonials                                                       */
+/* ------------------------------------------------------------------ */
+
+type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  image: string;
+};
+
+const testimonials: Testimonial[] = [
+  {
+    quote:
+      "A DuoMídia transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
+    name: "Mariana Ribeiro",
+    role: "Diretora de Marketing, VivaBem",
+    image: testimonial1Img,
+  },
+  {
+    quote:
+      "Profissionalismo, criatividade e pontualidade. É raro encontrar um time que entrega tudo isso junto.",
+    name: "Ricardo Almeida",
+    role: "CEO, Construtora Horizonte",
+    image: testimonial2Img,
+  },
+  {
+    quote:
+      "O DuoHub facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
+    name: "Juliana Costa",
+    role: "Gestora de Redes, TechFlow",
+    image: testimonial3Img,
+  },
+  {
+    quote:
+      "A cobertura do nosso evento ficou impecável. Fotos, vídeos e conteúdo para redes saíram no mesmo dia.",
+    name: "Fernando Moura",
+    role: "Fundador, Summit Brasil",
+    image: testimonial4Img,
+  },
+];
+
+function TestimonialRotator({ items }: { items: Testimonial[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+    >
+      <article
+        key={featured.name}
+        className="group relative flex flex-col justify-between overflow-hidden rounded-[2rem] bg-surface p-6 ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in sm:p-10"
+      >
+        <div className="absolute right-6 top-6 text-terracotta/20">
+          <Quote className="size-16 fill-current" />
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-8 sm:flex-row sm:items-center">
+          <div className="shrink-0">
+            <div className="relative">
+              <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-terracotta/30 to-ochre/20 blur-lg" />
+              <img
+                src={featured.image}
+                alt={featured.name}
+                width={160}
+                height={160}
+                className="relative size-28 rounded-full object-cover ring-4 ring-surface-strong sm:size-40"
+              />
+            </div>
+          </div>
+          <div>
+            <p className="font-display text-xl leading-relaxed text-ink text-pretty sm:text-2xl">
+              “{featured.quote}”
+            </p>
+            <div className="mt-6">
+              <p className="font-semibold text-ink">{featured.name}</p>
+              <p className="text-sm text-ink-muted">{featured.role}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative z-10 mt-8">
+          <ProgressDots count={items.length} index={index} />
+        </div>
+      </article>
+
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow">Mais depoimentos</p>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          {others.map((t) => {
+            const originalIndex = items.findIndex((x) => x.name === t.name);
+            return (
+              <li key={t.name}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                >
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    width={64}
+                    height={64}
+                    className="size-14 rounded-full object-cover ring-2 ring-surface-strong"
+                  />
+                  <div className="min-w-0">
+                    <p className="line-clamp-1 text-sm font-semibold text-ink">{t.name}</p>
+                    <p className="line-clamp-1 text-xs text-ink-muted">{t.role}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Events gallery                                                     */
+/* ------------------------------------------------------------------ */
+
+type EventItem = {
+  title: string;
+  date: string;
+  description: string;
+  image: string;
+};
+
+const events: EventItem[] = [
+  {
+    title: "Conferência Anual de Inovação",
+    date: "15 Mar 2026",
+    description: "Palestras, painéis e networking com os principais líderes do setor.",
+    image: event1Img,
+  },
+  {
+    title: "Coquetel de Lançamento",
+    date: "28 Fev 2026",
+    description: "Noite de celebração com clientes e parceiros no rooftop da cidade.",
+    image: event2Img,
+  },
+  {
+    title: "Bastidores da Campanha",
+    date: "10 Jan 2026",
+    description: "Um olhar exclusivo sobre a produção do último filme da marca.",
+    image: event3Img,
+  },
+  {
+    title: "Workshop de Estratégia",
+    date: "05 Dez 2025",
+    description: "Dia imersivo de planejamento criativo com o time e clientes.",
+    image: event4Img,
+  },
+];
+
+function EventRotator({ items }: { items: EventItem[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+    >
+      <article
+        key={featured.title}
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
+          <img
+            src={featured.image}
+            alt={featured.title}
+            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+            <Calendar className="size-3.5 text-terracotta" />
+            {featured.date}
+          </div>
+          <div className="absolute inset-x-5 bottom-5">
+            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
+              {featured.title}
+            </h3>
+            <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">{featured.description}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
+          <ProgressDots count={items.length} index={index} />
+          <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            Ver galeria
+            <ArrowUpRight className="size-4" />
+          </button>
+        </div>
+      </article>
+
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow">Próximos e recentes</p>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
+          {others.map((e) => {
+            const originalIndex = items.findIndex((x) => x.title === e.title);
+            return (
+              <li key={e.title}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
+                    <img
+                      src={e.image}
+                      alt={e.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="px-1 pb-1">
+                    <p className="line-clamp-1 text-sm font-medium text-ink">{e.title}</p>
+                    <p className="text-[11px] text-ink-muted">{e.date}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Blog                                                               */
+/* ------------------------------------------------------------------ */
+
+type BlogPost = {
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  image: string;
+};
+
+const blogPosts: BlogPost[] = [
+  {
+    title: "5 tendências de conteúdo para 2026",
+    excerpt:
+      "O que está em alta nas redes sociais e como sua marca pode aproveitar cada formato sem perder a essência.",
+    date: "08 Jul 2026",
+    readTime: "4 min",
+    image: blog1Img,
+  },
+  {
+    title: "Como criar artes que convertem",
+    excerpt:
+      "Do primeiro rascunho à publicação: elementos visuais que realmente movem o público a agir.",
+    date: "22 Jun 2026",
+    readTime: "6 min",
+    image: blog2Img,
+  },
+  {
+    title: "Métricas que importam no digital",
+    excerpt:
+      "Engajamento, alcance, conversão: entenda quais números acompanhar e por quê.",
+    date: "10 Jun 2026",
+    readTime: "5 min",
+    image: blog3Img,
+  },
+  {
+    title: "O poder da cocriação com clientes",
+    excerpt:
+      "Por que os melhores resultados saem quando marca e agência caminham juntas desde o início.",
+    date: "01 Jun 2026",
+    readTime: "3 min",
+    image: blog4Img,
+  },
+];
+
+function BlogRotator({ items }: { items: BlogPost[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+    >
+      <article
+        key={featured.title}
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
+          <img
+            src={featured.image}
+            alt={featured.title}
+            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+            <Newspaper className="size-3.5 text-terracotta" />
+            {featured.date} · {featured.readTime}
+          </div>
+          <div className="absolute inset-x-5 bottom-5">
+            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
+              {featured.title}
+            </h3>
+            <p className="mt-2 max-w-lg text-sm text-ink/85 text-pretty">{featured.excerpt}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
+          <ProgressDots count={items.length} index={index} />
+          <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            Ler artigo
+            <ArrowRight className="size-4" />
+          </button>
+        </div>
+      </article>
+
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow">Outras leituras</p>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          {others.map((b) => {
+            const originalIndex = items.findIndex((x) => x.title === b.title);
+            return (
+              <li key={b.title}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                >
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-surface-strong">
+                    <img
+                      src={b.image}
+                      alt={b.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="line-clamp-2 text-sm font-semibold text-ink">{b.title}</p>
+                    <p className="mt-1 text-[11px] text-ink-muted">{b.date}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Media / press clips                                                */
+/* ------------------------------------------------------------------ */
+
+type MediaClip = {
+  title: string;
+  outlet: string;
+  type: string;
+  image: string;
+  url: string;
+};
+
+const mediaClips: MediaClip[] = [
+  {
+    title: "Como marcas pequenas conquistam grandes audiências",
+    outlet: "Exame",
+    type: "Reportagem",
+    image: media1Img,
+    url: "https://exame.com",
+  },
+  {
+    title: "Campanha viral da DuoMídia alcança milhões nas redes",
+    outlet: "Meio & Mensagem",
+    type: "Mídia",
+    image: media2Img,
+    url: "https://meioemensagem.com.br",
+  },
+  {
+    title: "A nova era da comunicação integrada",
+    outlet: "Revista Propaganda",
+    type: "Matéria",
+    image: media3Img,
+    url: "https://revistapropaganda.com.br",
+  },
+  {
+    title: "Entrevista: o futuro do marketing no Brasil",
+    outlet: "Band News",
+    type: "TV",
+    image: media4Img,
+    url: "https://bandnews.com.br",
+  },
+];
+
+function MediaRotator({ items }: { items: MediaClip[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+    >
+      <article
+        key={featured.title}
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
+          <img
+            src={featured.image}
+            alt={featured.title}
+            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+            <ExternalLink className="size-3.5 text-terracotta" />
+            {featured.outlet} · {featured.type}
+          </div>
+          <div className="absolute inset-x-5 bottom-5">
+            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
+              {featured.title}
+            </h3>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
+          <ProgressDots count={items.length} index={index} />
+          <a
+            href={featured.url}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110"
+          >
+            Abrir matéria
+            <ExternalLink className="size-4" />
+          </a>
+        </div>
+      </article>
+
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow">Na mídia</p>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          {others.map((m) => {
+            const originalIndex = items.findIndex((x) => x.title === m.title);
+            return (
+              <li key={m.title}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                >
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-surface-strong">
+                    <img
+                      src={m.image}
+                      alt={m.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="line-clamp-2 text-sm font-semibold text-ink">{m.title}</p>
+                    <p className="mt-1 text-[11px] text-ink-muted">{m.outlet}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader({ eyebrow, title, count }: { eyebrow: string; title: string; count?: number }) {
+  return (
+    <div className="mb-6 flex items-end justify-between">
+      <div>
+        <p className="eyebrow mb-2">{eyebrow}</p>
+        <h2 className="font-display text-2xl text-ink sm:text-3xl">{title}</h2>
+      </div>
+      {typeof count === "number" && (
+        <span className="hidden text-xs text-ink-muted sm:block">{count} itens</span>
+      )}
+    </div>
+  );
+}
+
 function Home_() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [query, setQuery] = useState("");
@@ -381,12 +910,12 @@ function Home_() {
             </span>
             <div className="flex flex-col leading-tight">
               <span className="font-display text-base font-bold text-ink">
-                DUO <span className="text-terracotta">|</span> Mídia <span className="text-ink-muted font-normal">&</span> <span className="text-ochre">Studio</span>
+                DUO <span className="text-terracotta">|</span> Mídia <span className="text-ink-muted font-normal">&</span>{" "}
+                <span className="text-ochre">Studio</span>
               </span>
               <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">DuoHub · Dashboard</span>
             </div>
           </div>
-
 
           <nav className="hidden items-center gap-1 lg:flex">
             {nav.map((item) => {
@@ -513,17 +1042,11 @@ function Home_() {
 
         {/* Featured service rotator */}
         <section className="mt-12">
-          <div className="mb-6 flex items-end justify-between">
-            <div>
-              <p className="eyebrow mb-2">Em destaque agora</p>
-              <h2 className="font-display text-2xl text-ink sm:text-3xl">
-                Serviços mais solicitados
-              </h2>
-            </div>
-            <span className="hidden text-xs text-ink-muted sm:block">
-              {filtered.length} serviços disponíveis
-            </span>
-          </div>
+          <SectionHeader
+            eyebrow="Em destaque agora"
+            title="Serviços mais solicitados"
+            count={filtered.length}
+          />
 
           {filtered.length > 0 ? (
             <FeaturedRotator services={filtered} />
@@ -535,6 +1058,46 @@ function Home_() {
               </p>
             </div>
           )}
+        </section>
+
+        {/* Testimonials */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="O que dizem nossos clientes"
+            title="Depoimentos"
+            count={testimonials.length}
+          />
+          <TestimonialRotator items={testimonials} />
+        </section>
+
+        {/* Events gallery */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="Momentos que construímos juntos"
+            title="Galeria de eventos"
+            count={events.length}
+          />
+          <EventRotator items={events} />
+        </section>
+
+        {/* Blog */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="Conteúdo da DuoMídia"
+            title="Blog da empresa"
+            count={blogPosts.length}
+          />
+          <BlogRotator items={blogPosts} />
+        </section>
+
+        {/* Media / press */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="DuoMídia na imprensa"
+            title="Mídia e links"
+            count={mediaClips.length}
+          />
+          <MediaRotator items={mediaClips} />
         </section>
 
         {/* Featured "não encontrou" card */}
