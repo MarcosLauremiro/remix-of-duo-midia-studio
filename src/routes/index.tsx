@@ -199,10 +199,14 @@ function BillingBadge({ billing, credits }: { billing: Billing; credits?: number
   );
 }
 
-function ServiceCard({ service }: { service: Service }) {
+function ServiceCard({ service, compact = false }: { service: Service; compact?: boolean }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20">
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-strong">
+    <article
+      className={`group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 ${
+        compact ? "rounded-2xl" : "rounded-3xl"
+      }`}
+    >
+      <div className={`relative overflow-hidden bg-surface-strong ${compact ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
         <img
           src={service.image}
           alt={service.name}
@@ -218,22 +222,34 @@ function ServiceCard({ service }: { service: Service }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 p-5">
+      <div className={`flex flex-1 flex-col ${compact ? "gap-2 p-3.5" : "gap-4 p-5"}`}>
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-semibold leading-tight text-ink">{service.name}</h3>
+          <h3 className={`font-semibold leading-tight text-ink ${compact ? "text-sm" : "text-lg"}`}>
+            {service.name}
+          </h3>
         </div>
-        <p className="text-sm leading-relaxed text-ink-muted text-pretty">{service.description}</p>
+        <p className={`leading-relaxed text-ink-muted text-pretty ${compact ? "text-xs" : "text-sm"}`}>
+          {service.description}
+        </p>
 
-        <div className="mt-auto flex flex-col gap-3">
+        <div className="mt-auto flex flex-col gap-2.5">
           <BillingBadge billing={service.billing} credits={service.credits} />
           <div className="flex gap-2">
-            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-ink/10 bg-surface px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface-strong">
-              <Eye className="size-4" />
+            <button
+              className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-ink/10 bg-surface font-medium text-ink transition-colors hover:bg-surface-strong ${
+                compact ? "px-2.5 py-2 text-xs" : "px-3 py-2.5 text-sm"
+              }`}
+            >
+              <Eye className={compact ? "size-3" : "size-4"} />
               Ver exemplo
             </button>
-            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta px-3 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            <button
+              className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110 ${
+                compact ? "px-2.5 py-2 text-xs" : "px-3 py-2.5 text-sm"
+              }`}
+            >
               Solicitar
-              <ArrowUpRight className="size-4" />
+              <ArrowUpRight className={compact ? "size-3" : "size-4"} />
             </button>
           </div>
         </div>
