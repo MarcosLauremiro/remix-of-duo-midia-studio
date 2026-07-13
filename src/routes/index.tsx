@@ -263,7 +263,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
       {/* Featured card */}
       <article
         key={featured.name}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/5 shadow-lg shadow-ink/[0.04] animate-fade-in"
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
       >
         <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
           <img
@@ -273,19 +273,19 @@ function FeaturedRotator({ services }: { services: Service[] }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
           <div className="absolute left-5 top-5 flex items-center gap-2">
-            <span className="eyebrow rounded-full bg-background/90 px-2.5 py-1 text-ink/70 backdrop-blur">
+            <span className="eyebrow rounded-full bg-surface/90 px-2.5 py-1 text-ink/80 backdrop-blur">
               {featured.category}
             </span>
-            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
               Destaque
             </span>
           </div>
-          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-background">
+          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-ink">
             <div>
               <h3 className="font-display text-2xl leading-tight sm:text-3xl">
                 {featured.name}
               </h3>
-              <p className="mt-2 max-w-md text-sm text-background/85 text-pretty">
+              <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">
                 {featured.description}
               </p>
             </div>
@@ -299,7 +299,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
               <Eye className="size-4" />
               Ver exemplo
             </button>
-            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
               Solicitar
               <ArrowUpRight className="size-4" />
             </button>
@@ -329,7 +329,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
               <li key={s.name}>
                 <button
                   onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/5 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-ink/[0.05] hover:ring-terracotta/30"
+                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
                     <img
@@ -339,7 +339,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {s.billing === "creditos" && (
-                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-background/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
+                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-surface/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
                         <Coins className="size-2.5" />
                         {s.credits}
                       </span>
