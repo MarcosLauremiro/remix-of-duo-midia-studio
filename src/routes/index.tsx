@@ -74,9 +74,6 @@ import clientLogo6 from "@/assets/client-logo-6.png";
 import clientLogo7 from "@/assets/client-logo-7.png";
 import clientLogo8 from "@/assets/client-logo-8.png";
 import clientLogo9 from "@/assets/client-logo-9.png";
-import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
-import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
-import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
 export const Route = createFileRoute("/")({
   component: Home_,
