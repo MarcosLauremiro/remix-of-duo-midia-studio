@@ -259,32 +259,92 @@ function ServiceCard({ service, compact = false }: { service: Service; compact?:
 }
 
 /* ------------------------------------------------------------------ */
-/* Rotating uniform services grid (2 cols × 3 rows)                    */
+/* Services strip — same exposure as the events gallery                */
 /* ------------------------------------------------------------------ */
 
-function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { services: Service[]; visible?: number; intervalMs?: number }) {
-  const [offset, setOffset] = useState(0);
+function ServicesStrip({ services, intervalMs = 5000 }: { services: Service[]; intervalMs?: number }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const step = 3;
 
   useEffect(() => {
-    if (services.length <= visible) return;
-    const id = setInterval(() => {
-      setOffset((o) => (o + 3) % services.length);
-    }, intervalMs);
-    return () => clearInterval(id);
-  }, [services.length, visible, intervalMs]);
+    setIndex(0);
+  }, [services]);
 
-  const window = Array.from({ length: Math.min(visible, services.length) }, (_, i) => services[(offset + i) % services.length]);
+  useEffect(() => {
+    if (paused || services.length <= step) return;
+    const pages = Math.ceil(services.length / step);
+    const id = setInterval(() => setIndex((i) => (i + 1) % pages), intervalMs);
+    return () => clearInterval(id);
+  }, [services.length, intervalMs, paused]);
+
+  const pages = Math.ceil(services.length / step) || 1;
+  const currentPage = Math.min(index, pages - 1);
+  const visible = Array.from({ length: step }, (_, i) => services[currentPage * step + i]).filter(Boolean);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {window.map((s, i) => (
-        <div key={`${s.name}-${offset}-${i}`} className="animate-fade-in">
-          <ServiceCard service={s} compact />
+    <div
+      className="flex flex-col gap-5"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Header of the current group */}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
+            <Sparkles className="size-3.5 text-terracotta" />
+            Serviços mais solicitados
+          </div>
+          <h3 key={currentPage} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
+            Página {currentPage + 1} de {pages}
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">
+            Três soluções por vez. Clique em "Solicitar" para pedir qualquer uma delas.
+          </p>
         </div>
-      ))}
+        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+          Ver todos os serviços
+          <ArrowUpRight className="size-4" />
+        </button>
+      </div>
+
+      {/* Strip with 3 service cards side by side */}
+      <div key={`strip-${currentPage}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {visible.map((s, i) => (
+          <div
+            key={`${s.name}-${currentPage}-${i}`}
+            className="animate-fade-in"
+            style={{ animationDelay: `${i * 90}ms` }}
+          >
+            <ServiceCard service={s} compact />
+          </div>
+        ))}
+      </div>
+
+      {/* Controls: dots + page buttons */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <ProgressDots count={pages} index={currentPage} />
+        <ul className="flex flex-wrap items-center gap-2">
+          {Array.from({ length: pages }).map((_, i) => (
+            <li key={i}>
+              <button
+                onClick={() => setIndex(i)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
+                  i === currentPage
+                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
+                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
+                }`}
+              >
+                Página {i + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* About section — as duas fundadoras                                  */
@@ -1506,7 +1566,7 @@ function Home_() {
           </div>
         </section>
 
-        {/* Services grid — uniform, rotating (2×3) */}
+        {/* Services strip — same exposure as events gallery */}
         <section className="mt-12">
           <SectionHeader
             eyebrow="Trabalhos mais recentes em rotação"
@@ -1515,7 +1575,7 @@ function Home_() {
           />
 
           {filtered.length > 0 ? (
-            <RotatingServicesGrid services={filtered} />
+            <ServicesStrip services={filtered} />
           ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
@@ -1525,6 +1585,7 @@ function Home_() {
             </div>
           )}
         </section>
+
 
         {/* Testimonials */}
         <section className="mt-16">
