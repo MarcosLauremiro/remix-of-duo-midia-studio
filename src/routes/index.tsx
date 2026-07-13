@@ -62,6 +62,19 @@ import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
 import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
+import founder1Img from "@/assets/founder-1.jpg";
+import founder2Img from "@/assets/founder-2.jpg";
+
+import clientLogo1 from "@/assets/client-logo-1.png";
+import clientLogo2 from "@/assets/client-logo-2.png";
+import clientLogo3 from "@/assets/client-logo-3.png";
+import clientLogo4 from "@/assets/client-logo-4.png";
+import clientLogo5 from "@/assets/client-logo-5.png";
+import clientLogo6 from "@/assets/client-logo-6.png";
+import clientLogo7 from "@/assets/client-logo-7.png";
+import clientLogo8 from "@/assets/client-logo-8.png";
+import clientLogo9 from "@/assets/client-logo-9.png";
+
 export const Route = createFileRoute("/")({
   component: Home_,
 });
@@ -218,6 +231,201 @@ function ServiceCard({ service }: { service: Service }) {
         </div>
       </div>
     </article>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Rotating uniform services grid (2 cols × 3 rows)                    */
+/* ------------------------------------------------------------------ */
+
+function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { services: Service[]; visible?: number; intervalMs?: number }) {
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    if (services.length <= visible) return;
+    const id = setInterval(() => {
+      setOffset((o) => (o + 2) % services.length);
+    }, intervalMs);
+    return () => clearInterval(id);
+  }, [services.length, visible, intervalMs]);
+
+  const window = Array.from({ length: Math.min(visible, services.length) }, (_, i) => services[(offset + i) % services.length]);
+
+  return (
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {window.map((s, i) => (
+        <div key={`${s.name}-${offset}-${i}`} className="animate-fade-in">
+          <ServiceCard service={s} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* About section — as duas fundadoras                                  */
+/* ------------------------------------------------------------------ */
+
+type Founder = {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  accent: "terracotta" | "ochre";
+};
+
+const founders: Founder[] = [
+  {
+    name: "Camila Duarte",
+    role: "Cofundadora · Diretora de Mídia",
+    bio: "Estrategista com mais de 15 anos em campanhas de marca. Lidera a área de Mídia com um olhar afiado para audiência, veículo e resultado.",
+    image: founder1Img,
+    accent: "terracotta",
+  },
+  {
+    name: "Beatriz Duarte",
+    role: "Cofundadora · Diretora de Studio",
+    bio: "Diretora de arte à frente do Studio. Une design, audiovisual e narrativa para dar identidade a marcas que querem ser lembradas.",
+    image: founder2Img,
+    accent: "ochre",
+  },
+];
+
+function AboutSection() {
+  return (
+    <section id="quem-somos" className="mt-16 lg:mt-24">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+        <div>
+          <p className="eyebrow mb-3">Quem somos</p>
+          <h2 className="font-display text-3xl leading-[1.1] text-ink text-balance sm:text-4xl lg:text-5xl">
+            Duas irmãs, uma agência <span className="text-terracotta">com alma</span> e um{" "}
+            <span className="text-ochre">Studio</span> que respira criação.
+          </h2>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted text-pretty">
+            A DUO nasceu da união entre estratégia e sensibilidade. Cuidamos de cada marca como
+            se fosse a nossa: com escuta, curiosidade e mão na massa. Aqui, cliente vira parceiro
+            e ideia vira resultado.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-ink-muted">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 ring-1 ring-ink/10">
+              <span className="size-1.5 rounded-full bg-terracotta" />
+              Fundada em 2014
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 ring-1 ring-ink/10">
+              <span className="size-1.5 rounded-full bg-ochre" />
+              +120 marcas atendidas
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {founders.map((f) => {
+            const accentText = f.accent === "terracotta" ? "text-terracotta" : "text-ochre";
+            const accentBg = f.accent === "terracotta" ? "from-terracotta/30" : "from-ochre/30";
+            return (
+              <article
+                key={f.name}
+                className="group relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 transition-transform hover:-translate-y-1"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-surface-strong">
+                  <div className={`absolute -inset-6 -z-0 bg-gradient-to-br ${accentBg} via-transparent to-transparent blur-2xl`} />
+                  <img
+                    src={f.image}
+                    alt={f.name}
+                    loading="lazy"
+                    className="relative h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+                  <div className="absolute inset-x-4 bottom-4">
+                    <p className={`text-[10px] font-mono uppercase tracking-[0.2em] ${accentText}`}>
+                      {f.role}
+                    </p>
+                    <h3 className="mt-1 font-display text-xl text-ink sm:text-2xl">{f.name}</h3>
+                  </div>
+                </div>
+                <p className="p-5 text-sm leading-relaxed text-ink-muted text-pretty">{f.bio}</p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Client logos — faixa rotativa 3 a 3, aplicação branca              */
+/* ------------------------------------------------------------------ */
+
+const clientLogos = [
+  { name: "Aurora", src: clientLogo1 },
+  { name: "Verano", src: clientLogo2 },
+  { name: "Nortex", src: clientLogo3 },
+  { name: "Solvia", src: clientLogo4 },
+  { name: "Kova", src: clientLogo5 },
+  { name: "Marévia", src: clientLogo6 },
+  { name: "Fértil", src: clientLogo7 },
+  { name: "Orbe", src: clientLogo8 },
+  { name: "Lumen", src: clientLogo9 },
+];
+
+function ClientLogosStrip() {
+  const [offset, setOffset] = useState(0);
+  const step = 3;
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setOffset((o) => (o + step) % clientLogos.length);
+    }, 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const visible = Array.from({ length: step }, (_, i) => clientLogos[(offset + i) % clientLogos.length]);
+
+  return (
+    <section className="mt-16 lg:mt-20">
+      <div className="relative overflow-hidden rounded-[2rem] border border-ink/10 bg-gradient-to-r from-surface via-surface-strong to-surface px-6 py-8 sm:px-10 sm:py-10">
+        <div className="absolute -left-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-terracotta/15 blur-3xl" />
+        <div className="absolute -right-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-ochre/15 blur-3xl" />
+
+        <div className="relative grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] md:items-center">
+          <div>
+            <p className="eyebrow mb-2">Marcas que confiam na DUO</p>
+            <h2 className="font-display text-xl leading-tight text-ink sm:text-2xl">
+              Uma seleção rotativa dos <span className="text-terracotta">nossos clientes</span>.
+            </h2>
+          </div>
+
+          <div
+            key={offset}
+            className="grid animate-fade-in grid-cols-3 items-center gap-6 sm:gap-10"
+          >
+            {visible.map((logo) => (
+              <div key={`${logo.name}-${offset}`} className="flex items-center justify-center">
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  loading="lazy"
+                  className="h-10 w-auto max-w-full object-contain opacity-80 transition-opacity hover:opacity-100 sm:h-12"
+                  style={{ filter: "brightness(0) invert(1)" }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative mt-6 flex items-center justify-center gap-1.5">
+          {Array.from({ length: Math.ceil(clientLogos.length / step) }).map((_, i) => (
+            <span
+              key={i}
+              className={`h-1 rounded-full transition-all ${
+                i === Math.floor(offset / step) ? "w-8 bg-terracotta" : "w-3 bg-ink/15"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1237,6 +1445,12 @@ function Home_() {
           </div>
         </section>
 
+        {/* Quem somos */}
+        <AboutSection />
+
+        {/* Client logos strip */}
+        <ClientLogosStrip />
+
         {/* Categories */}
         <section className="mt-14">
           <div className="mb-4 flex items-baseline justify-between">
@@ -1262,16 +1476,16 @@ function Home_() {
           </div>
         </section>
 
-        {/* Featured service rotator */}
+        {/* Services grid — uniform, rotating (2×3) */}
         <section className="mt-12">
           <SectionHeader
-            eyebrow="Em destaque agora"
+            eyebrow="Trabalhos mais recentes em rotação"
             title="Serviços mais solicitados"
             count={filtered.length}
           />
 
           {filtered.length > 0 ? (
-            <FeaturedRotator services={filtered} />
+            <RotatingServicesGrid services={filtered} />
           ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
