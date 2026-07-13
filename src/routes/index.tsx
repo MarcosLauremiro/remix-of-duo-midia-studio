@@ -276,10 +276,10 @@ function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { se
   const window = Array.from({ length: Math.min(visible, services.length) }, (_, i) => services[(offset + i) % services.length]);
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {window.map((s, i) => (
         <div key={`${s.name}-${offset}-${i}`} className="animate-fade-in">
-          <ServiceCard service={s} />
+          <ServiceCard service={s} compact />
         </div>
       ))}
     </div>
