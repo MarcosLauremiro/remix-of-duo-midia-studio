@@ -20,6 +20,9 @@ import {
   Newspaper,
   ExternalLink,
   ArrowRight,
+  Mic,
+  Headphones,
+  Images,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
@@ -50,6 +53,14 @@ import media1Img from "@/assets/media-1.jpg";
 import media2Img from "@/assets/media-2.jpg";
 import media3Img from "@/assets/media-3.jpg";
 import media4Img from "@/assets/media-4.jpg";
+
+import podcast1Img from "@/assets/podcast-1.jpg";
+import podcast2Img from "@/assets/podcast-2.jpg";
+import podcast3Img from "@/assets/podcast-3.jpg";
+import podcast4Img from "@/assets/podcast-4.jpg";
+import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
+import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
+import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
 export const Route = createFileRoute("/")({
   component: Home_,
@@ -874,6 +885,217 @@ function MediaRotator({ items }: { items: MediaClip[] }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Podcasts                                                           */
+/* ------------------------------------------------------------------ */
+
+type Podcast = {
+  title: string;
+  guest: string;
+  episode: string;
+  duration: string;
+  description: string;
+  cover: string;
+  reelId: string; // YouTube video ID (Shorts-friendly)
+  gallery: string[];
+};
+
+const podcasts: Podcast[] = [
+  {
+    title: "Criatividade que vende sem gritar",
+    guest: "com Marina Bastos",
+    episode: "EP 24",
+    duration: "38 min",
+    description:
+      "Um bate-papo sobre como marcas conquistam atenção com sutileza, storytelling e consistência — sem depender de fórmulas prontas.",
+    cover: podcast1Img,
+    reelId: "dQw4w9WgXcQ",
+    gallery: [podcastGallery1, podcastGallery2, podcastGallery3],
+  },
+  {
+    title: "Bastidores de uma campanha nacional",
+    guest: "com Rafael Prado",
+    episode: "EP 23",
+    duration: "42 min",
+    description:
+      "Do briefing ao ar: como nasce uma campanha que roda em TV, redes e ponto de venda ao mesmo tempo.",
+    cover: podcast2Img,
+    reelId: "M7lc1UVf-VE",
+    gallery: [podcastGallery2, podcastGallery3, podcastGallery1],
+  },
+  {
+    title: "O novo consumidor brasileiro",
+    guest: "com Ana e Léo Duarte",
+    episode: "EP 22",
+    duration: "35 min",
+    description:
+      "Pesquisas, comportamentos e tendências que estão mudando a forma de comprar e se relacionar com marcas.",
+    cover: podcast3Img,
+    reelId: "ScMzIvxBSi4",
+    gallery: [podcastGallery3, podcastGallery1, podcastGallery2],
+  },
+  {
+    title: "Rir também é estratégia",
+    guest: "com Diego Nunes",
+    episode: "EP 21",
+    duration: "29 min",
+    description:
+      "Humor bem usado gera memória e afeto. Conversamos sobre o limite entre a graça e a mensagem certa.",
+    cover: podcast4Img,
+    reelId: "aqz-KE-bpKQ",
+    gallery: [podcastGallery1, podcastGallery3, podcastGallery2],
+  },
+];
+
+function PodcastRotator({ items }: { items: Podcast[] }) {
+  const { index, setIndex, featured, others, pause, resume } = useRotator(items, 6000);
+  const reelSrc = `https://www.youtube-nocookie.com/embed/${featured.reelId}?rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${featured.reelId}`;
+
+  return (
+    <div
+      className="grid gap-5 lg:grid-cols-[1.6fr_1fr]"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+    >
+      {/* Featured podcast — vertical reel + gallery + description */}
+      <article
+        key={featured.title}
+        className="relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
+      >
+        <div className="grid gap-0 sm:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
+          {/* Vertical reel */}
+          <div className="relative bg-background">
+            <div className="absolute -inset-6 -z-0 rounded-[3rem] bg-gradient-to-br from-terracotta/20 via-ochre/10 to-transparent blur-3xl" />
+            <div className="relative m-4 overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10 sm:m-5">
+              <div className="relative aspect-[9/16] w-full">
+                <iframe
+                  src={reelSrc}
+                  title={featured.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full"
+                />
+                <div className="pointer-events-none absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
+                  <span className="size-1.5 rounded-full bg-white animate-pulse" />
+                  Reel
+                </div>
+                <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/50 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
+                  {featured.duration}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Description + gallery */}
+          <div className="flex flex-col gap-5 p-5 sm:pl-2 sm:pr-6 sm:py-6">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-ochre/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ochre">
+                <Mic className="size-3" />
+                Podcast DuoCast
+              </span>
+              <span className="eyebrow">{featured.episode}</span>
+            </div>
+
+            <div>
+              <h3 className="font-display text-2xl leading-tight text-ink sm:text-[28px]">
+                {featured.title}
+              </h3>
+              <p className="mt-1 text-sm text-ink-muted">{featured.guest}</p>
+            </div>
+
+            <p className="text-sm leading-relaxed text-ink-muted text-pretty">
+              {featured.description}
+            </p>
+
+            <div>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="eyebrow inline-flex items-center gap-1.5">
+                  <Images className="size-3" />
+                  Galeria do episódio
+                </p>
+                <span className="text-[11px] text-ink-muted">{featured.gallery.length} fotos</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {featured.gallery.map((src, i) => (
+                  <div
+                    key={i}
+                    className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface-strong ring-1 ring-ink/10"
+                  >
+                    <img
+                      src={src}
+                      alt={`Foto ${i + 1} do episódio ${featured.title}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2">
+              <ProgressDots count={items.length} index={index} />
+              <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+                <Play className="size-3.5 fill-current" />
+                Ouvir episódio
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* Side rail — 3 smaller podcasts */}
+      <div className="flex flex-col gap-3">
+        <p className="eyebrow inline-flex items-center gap-1.5">
+          <Headphones className="size-3" />
+          Outros episódios
+        </p>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+          {others.map((p) => {
+            const originalIndex = items.findIndex((x) => x.title === p.title);
+            return (
+              <li key={p.title}>
+                <button
+                  onClick={() => setIndex(originalIndex)}
+                  className="group flex w-full items-stretch gap-3 rounded-2xl bg-surface p-2.5 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                >
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-surface-strong sm:size-24 lg:size-20">
+                    <img
+                      src={p.cover}
+                      alt={p.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 grid place-items-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="grid size-8 place-items-center rounded-full bg-terracotta text-primary-foreground">
+                        <Play className="size-3.5 fill-current" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-ochre">
+                          {p.episode}
+                        </span>
+                        <span className="text-[10px] text-ink-muted">· {p.duration}</span>
+                      </div>
+                      <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-ink">
+                        {p.title}
+                      </p>
+                    </div>
+                    <p className="line-clamp-1 text-[11px] text-ink-muted">{p.guest}</p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function SectionHeader({ eyebrow, title, count }: { eyebrow: string; title: string; count?: number }) {
   return (
     <div className="mb-6 flex items-end justify-between">
@@ -1078,6 +1300,16 @@ function Home_() {
             count={events.length}
           />
           <EventRotator items={events} />
+        </section>
+
+        {/* Podcasts */}
+        <section className="mt-16">
+          <SectionHeader
+            eyebrow="DuoCast · nossos episódios"
+            title="Gravações de podcast"
+            count={podcasts.length}
+          />
+          <PodcastRotator items={podcasts} />
         </section>
 
         {/* Blog */}
