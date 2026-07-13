@@ -373,10 +373,10 @@ function Home_() {
   return (
     <div className="min-h-screen bg-background text-ink">
       {/* Top Nav */}
-      <header className="sticky top-0 z-40 border-b border-ink/5 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
           <div className="flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-background">
+            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-primary-foreground">
               D
             </span>
             <div className="flex flex-col leading-tight">
@@ -396,7 +396,7 @@ function Home_() {
                   key={item.label}
                   className={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
                     item.active
-                      ? "bg-ink text-background"
+                      ? "bg-surface-strong text-ink"
                       : "text-ink-muted hover:bg-surface-strong hover:text-ink"
                   }`}
                 >
@@ -412,7 +412,7 @@ function Home_() {
               <Sparkles className="size-3.5" />
               12 créditos
             </div>
-            <div className="grid size-9 place-items-center rounded-full bg-ink text-background text-xs font-semibold">
+            <div className="grid size-9 place-items-center rounded-full bg-surface-strong text-ink text-xs font-semibold">
               MB
             </div>
             <button
@@ -426,7 +426,7 @@ function Home_() {
         </div>
 
         {mobileNavOpen && (
-          <div className="border-t border-ink/5 bg-surface lg:hidden">
+          <div className="border-t border-ink/10 bg-surface lg:hidden">
             <div className="mx-auto grid max-w-7xl grid-cols-2 gap-1 px-5 py-3 sm:grid-cols-3">
               {nav.map((item) => {
                 const Icon = item.icon;
@@ -435,7 +435,7 @@ function Home_() {
                     key={item.label}
                     className={`inline-flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium ${
                       item.active
-                        ? "bg-ink text-background"
+                        ? "bg-surface-strong text-ink"
                         : "text-ink-muted hover:bg-surface-strong"
                     }`}
                   >
