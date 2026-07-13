@@ -40,9 +40,17 @@ import testimonial3Img from "@/assets/testimonial-3.jpg";
 import testimonial4Img from "@/assets/testimonial-4.jpg";
 
 import event1Img from "@/assets/event-1.jpg";
+import event1bImg from "@/assets/event-1b.jpg";
+import event1cImg from "@/assets/event-1c.jpg";
 import event2Img from "@/assets/event-2.jpg";
+import event2bImg from "@/assets/event-2b.jpg";
+import event2cImg from "@/assets/event-2c.jpg";
 import event3Img from "@/assets/event-3.jpg";
+import event3bImg from "@/assets/event-3b.jpg";
+import event3cImg from "@/assets/event-3c.jpg";
 import event4Img from "@/assets/event-4.jpg";
+import event4bImg from "@/assets/event-4b.jpg";
+import event4cImg from "@/assets/event-4c.jpg";
 
 import blog1Img from "@/assets/blog-1.jpg";
 import blog2Img from "@/assets/blog-2.jpg";
@@ -244,7 +252,7 @@ function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { se
   useEffect(() => {
     if (services.length <= visible) return;
     const id = setInterval(() => {
-      setOffset((o) => (o + 2) % services.length);
+      setOffset((o) => (o + 3) % services.length);
     }, intervalMs);
     return () => clearInterval(id);
   }, [services.length, visible, intervalMs]);
@@ -252,7 +260,7 @@ function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { se
   const window = Array.from({ length: Math.min(visible, services.length) }, (_, i) => services[(offset + i) % services.length]);
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {window.map((s, i) => (
         <div key={`${s.name}-${offset}-${i}`} className="animate-fade-in">
           <ServiceCard service={s} />
@@ -747,7 +755,7 @@ type EventItem = {
   title: string;
   date: string;
   description: string;
-  image: string;
+  photos: string[];
 };
 
 const events: EventItem[] = [
@@ -755,96 +763,102 @@ const events: EventItem[] = [
     title: "Conferência Anual de Inovação",
     date: "15 Mar 2026",
     description: "Palestras, painéis e networking com os principais líderes do setor.",
-    image: event1Img,
+    photos: [event1Img, event1bImg, event1cImg],
   },
   {
     title: "Coquetel de Lançamento",
     date: "28 Fev 2026",
     description: "Noite de celebração com clientes e parceiros no rooftop da cidade.",
-    image: event2Img,
+    photos: [event2Img, event2bImg, event2cImg],
   },
   {
     title: "Bastidores da Campanha",
     date: "10 Jan 2026",
     description: "Um olhar exclusivo sobre a produção do último filme da marca.",
-    image: event3Img,
+    photos: [event3Img, event3bImg, event3cImg],
   },
   {
     title: "Workshop de Estratégia",
     date: "05 Dez 2025",
     description: "Dia imersivo de planejamento criativo com o time e clientes.",
-    image: event4Img,
+    photos: [event4Img, event4bImg, event4cImg],
   },
 ];
 
-function EventRotator({ items }: { items: EventItem[] }) {
-  const { index, setIndex, featured, others, pause, resume } = useRotator(items);
+function EventRotator({ items, intervalMs = 5500 }: { items: EventItem[]; intervalMs?: number }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || items.length <= 1) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), intervalMs);
+    return () => clearInterval(id);
+  }, [items.length, intervalMs, paused]);
+
+  const current = items[index];
 
   return (
     <div
-      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
-      onMouseEnter={pause}
-      onMouseLeave={resume}
+      className="flex flex-col gap-5"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <article
-        key={featured.title}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
-      >
-        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
-          <img
-            src={featured.image}
-            alt={featured.title}
-            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
+      {/* Cabeçalho do evento em destaque */}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
             <Calendar className="size-3.5 text-terracotta" />
-            {featured.date}
+            {current.date}
           </div>
-          <div className="absolute inset-x-5 bottom-5">
-            <h3 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
-              {featured.title}
-            </h3>
-            <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">{featured.description}</p>
-          </div>
+          <h3 key={current.title} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
+            {current.title}
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">{current.description}</p>
         </div>
+        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+          Ver galeria completa
+          <ArrowUpRight className="size-4" />
+        </button>
+      </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
-          <ProgressDots count={items.length} index={index} />
-          <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-            Ver galeria
-            <ArrowUpRight className="size-4" />
-          </button>
-        </div>
-      </article>
+      {/* Faixa com 3 fotos do mesmo evento */}
+      <div key={`strip-${index}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {current.photos.slice(0, 3).map((src, i) => (
+          <figure
+            key={`${current.title}-${i}`}
+            className="group relative overflow-hidden rounded-2xl bg-surface-strong ring-1 ring-ink/10 shadow-md shadow-black/10 animate-fade-in"
+            style={{ animationDelay: `${i * 90}ms` }}
+          >
+            <div className="aspect-[4/3] overflow-hidden">
+              <img
+                src={src}
+                alt={`${current.title} — foto ${i + 1}`}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
+              />
+            </div>
+          </figure>
+        ))}
+      </div>
 
-      <div className="flex flex-col gap-3">
-        <p className="eyebrow">Próximos e recentes</p>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
-          {others.map((e) => {
-            const originalIndex = items.findIndex((x) => x.title === e.title);
-            return (
-              <li key={e.title}>
-                <button
-                  onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
-                    <img
-                      src={e.image}
-                      alt={e.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="px-1 pb-1">
-                    <p className="line-clamp-1 text-sm font-medium text-ink">{e.title}</p>
-                    <p className="text-[11px] text-ink-muted">{e.date}</p>
-                  </div>
-                </button>
-              </li>
-            );
-          })}
+      {/* Controles: pontinhos + próximos eventos */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <ProgressDots count={items.length} index={index} />
+        <ul className="flex flex-wrap items-center gap-2">
+          {items.map((e, i) => (
+            <li key={e.title}>
+              <button
+                onClick={() => setIndex(i)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
+                  i === index
+                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
+                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
+                }`}
+              >
+                {e.title}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
