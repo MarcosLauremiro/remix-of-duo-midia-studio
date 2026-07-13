@@ -144,7 +144,7 @@ function BillingBadge({ billing, credits }: { billing: Billing; credits?: number
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-ink/[0.04]">
+    <article className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20">
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-strong">
         <img
           src={service.image}
@@ -155,7 +155,7 @@ function ServiceCard({ service }: { service: Service }) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute left-3 top-3">
-          <span className="eyebrow rounded-full bg-background/85 px-2.5 py-1 text-ink/70 backdrop-blur">
+          <span className="eyebrow rounded-full bg-surface/85 px-2.5 py-1 text-ink/80 backdrop-blur">
             {service.category}
           </span>
         </div>
@@ -174,7 +174,7 @@ function ServiceCard({ service }: { service: Service }) {
               <Eye className="size-4" />
               Ver exemplo
             </button>
-            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta px-3 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta px-3 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
               Solicitar
               <ArrowUpRight className="size-4" />
             </button>
