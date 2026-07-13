@@ -144,7 +144,7 @@ function BillingBadge({ billing, credits }: { billing: Billing; credits?: number
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-ink/[0.04]">
+    <article className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20">
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-strong">
         <img
           src={service.image}
@@ -155,7 +155,7 @@ function ServiceCard({ service }: { service: Service }) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute left-3 top-3">
-          <span className="eyebrow rounded-full bg-background/85 px-2.5 py-1 text-ink/70 backdrop-blur">
+          <span className="eyebrow rounded-full bg-surface/85 px-2.5 py-1 text-ink/80 backdrop-blur">
             {service.category}
           </span>
         </div>
@@ -174,7 +174,7 @@ function ServiceCard({ service }: { service: Service }) {
               <Eye className="size-4" />
               Ver exemplo
             </button>
-            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta px-3 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta px-3 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
               Solicitar
               <ArrowUpRight className="size-4" />
             </button>
@@ -192,21 +192,21 @@ function VideoHero() {
   const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
   return (
     <div className="relative">
-      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-terracotta/15 via-transparent to-ochre/20 blur-2xl" />
-      <div className="relative overflow-hidden rounded-[2rem] bg-ink ring-1 ring-ink/10 shadow-2xl shadow-ink/10">
-        <div className="flex items-center justify-between gap-3 px-5 py-3 text-background/90">
+      <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-ochre/20 via-terracotta/10 to-transparent blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-2xl shadow-black/20">
+        <div className="flex items-center justify-between gap-3 px-5 py-3 text-ink/90">
           <div className="flex items-center gap-2">
             <Youtube className="size-4 text-terracotta" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-background/70">
+            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-ink-muted">
               DuoMídia · Playlist
             </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-background/10 px-2.5 py-1 text-[10px] font-medium text-background/80">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-terracotta/10 px-2.5 py-1 text-[10px] font-medium text-terracotta">
             <span className="size-1.5 rounded-full bg-terracotta animate-pulse" />
             Ao vivo no canal
           </span>
         </div>
-        <div className="relative aspect-video w-full bg-black">
+        <div className="relative aspect-video w-full bg-background">
           <iframe
             src={embedSrc}
             title="Playlist DuoMídia no YouTube"
@@ -217,14 +217,14 @@ function VideoHero() {
           />
         </div>
         <div className="flex items-center justify-between gap-3 px-5 py-4">
-          <p className="text-sm text-background/70">
+          <p className="text-sm text-ink-muted">
             Cases, bastidores e novidades da DuoMídia &amp; Studio.
           </p>
           <a
             href={`https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-accent-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
           >
             <Play className="size-3.5 fill-current" />
             Ver playlist
@@ -263,7 +263,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
       {/* Featured card */}
       <article
         key={featured.name}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/5 shadow-lg shadow-ink/[0.04] animate-fade-in"
+        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
       >
         <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
           <img
@@ -273,19 +273,19 @@ function FeaturedRotator({ services }: { services: Service[] }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
           <div className="absolute left-5 top-5 flex items-center gap-2">
-            <span className="eyebrow rounded-full bg-background/90 px-2.5 py-1 text-ink/70 backdrop-blur">
+            <span className="eyebrow rounded-full bg-surface/90 px-2.5 py-1 text-ink/80 backdrop-blur">
               {featured.category}
             </span>
-            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
               Destaque
             </span>
           </div>
-          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-background">
+          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-ink">
             <div>
               <h3 className="font-display text-2xl leading-tight sm:text-3xl">
                 {featured.name}
               </h3>
-              <p className="mt-2 max-w-md text-sm text-background/85 text-pretty">
+              <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">
                 {featured.description}
               </p>
             </div>
@@ -299,7 +299,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
               <Eye className="size-4" />
               Ver exemplo
             </button>
-            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
+            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
               Solicitar
               <ArrowUpRight className="size-4" />
             </button>
@@ -329,7 +329,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
               <li key={s.name}>
                 <button
                   onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/5 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-ink/[0.05] hover:ring-terracotta/30"
+                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
                     <img
@@ -339,7 +339,7 @@ function FeaturedRotator({ services }: { services: Service[] }) {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {s.billing === "creditos" && (
-                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-background/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
+                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-surface/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
                         <Coins className="size-2.5" />
                         {s.credits}
                       </span>
@@ -373,10 +373,10 @@ function Home_() {
   return (
     <div className="min-h-screen bg-background text-ink">
       {/* Top Nav */}
-      <header className="sticky top-0 z-40 border-b border-ink/5 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
           <div className="flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-background">
+            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-primary-foreground">
               D
             </span>
             <div className="flex flex-col leading-tight">
@@ -396,7 +396,7 @@ function Home_() {
                   key={item.label}
                   className={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
                     item.active
-                      ? "bg-ink text-background"
+                      ? "bg-surface-strong text-ink"
                       : "text-ink-muted hover:bg-surface-strong hover:text-ink"
                   }`}
                 >
@@ -412,7 +412,7 @@ function Home_() {
               <Sparkles className="size-3.5" />
               12 créditos
             </div>
-            <div className="grid size-9 place-items-center rounded-full bg-ink text-background text-xs font-semibold">
+            <div className="grid size-9 place-items-center rounded-full bg-surface-strong text-ink text-xs font-semibold">
               MB
             </div>
             <button
@@ -426,7 +426,7 @@ function Home_() {
         </div>
 
         {mobileNavOpen && (
-          <div className="border-t border-ink/5 bg-surface lg:hidden">
+          <div className="border-t border-ink/10 bg-surface lg:hidden">
             <div className="mx-auto grid max-w-7xl grid-cols-2 gap-1 px-5 py-3 sm:grid-cols-3">
               {nav.map((item) => {
                 const Icon = item.icon;
@@ -435,7 +435,7 @@ function Home_() {
                     key={item.label}
                     className={`inline-flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium ${
                       item.active
-                        ? "bg-ink text-background"
+                        ? "bg-surface-strong text-ink"
                         : "text-ink-muted hover:bg-surface-strong"
                     }`}
                   >
@@ -451,8 +451,8 @@ function Home_() {
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
         {/* Hero + Video */}
-        <section className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14">
-          <div>
+        <section className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
+          <div className="flex flex-col">
             <p className="eyebrow mb-4">Olá, Marina</p>
             <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
               Olá, seja bem-vindo <br className="hidden sm:block" />
@@ -471,7 +471,7 @@ function Home_() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Do que você precisa?"
-                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
+                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-black/20 outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
                 />
                 <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
                   ⌘ K
@@ -480,8 +480,10 @@ function Home_() {
             </div>
           </div>
 
-          {/* Video hero */}
-          <VideoHero />
+          {/* Video hero — aligned to the right of the title on desktop */}
+          <div className="lg:pt-2">
+            <VideoHero />
+          </div>
         </section>
 
         {/* Categories */}
@@ -498,7 +500,7 @@ function Home_() {
                   onClick={() => setActiveCategory(cat)}
                   className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all ${
                     activeCategory === cat
-                      ? "bg-ink text-background"
+                      ? "bg-surface-strong text-ink"
                       : "border border-ink/10 bg-surface text-ink-muted hover:border-ink/20 hover:text-ink"
                   }`}
                 >
@@ -537,22 +539,22 @@ function Home_() {
 
         {/* Featured "não encontrou" card */}
         <section className="mt-16">
-          <div className="relative overflow-hidden rounded-[2rem] bg-ink p-8 text-background sm:p-14">
-            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/40 blur-3xl" />
-            <div className="absolute -bottom-24 -left-10 size-64 rounded-full bg-ochre/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-surface-strong p-8 text-ink sm:p-14">
+            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/25 blur-3xl" />
+            <div className="absolute -bottom-24 -left-10 size-64 rounded-full bg-ochre/15 blur-3xl" />
 
             <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
               <div className="max-w-xl">
-                <p className="eyebrow mb-3 text-background/60">Projeto sob medida</p>
-                <h3 className="font-display text-3xl leading-tight text-background sm:text-4xl">
+                <p className="eyebrow mb-3 text-ink-muted">Projeto sob medida</p>
+                <h3 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
                   Não encontrou o que precisa?
                 </h3>
-                <p className="mt-3 text-base leading-relaxed text-background/70">
+                <p className="mt-3 text-base leading-relaxed text-ink-muted">
                   Conte pra gente o que você imagina — nossa equipe monta uma proposta
                   personalizada para o seu momento, sem complicação.
                 </p>
               </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-terracotta px-6 py-4 text-sm font-semibold text-accent-foreground shadow-lg shadow-terracotta/20 transition-transform hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-full bg-terracotta px-6 py-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-terracotta/20 transition-transform hover:-translate-y-0.5">
                 Conte para a gente
                 <ArrowUpRight className="size-4" />
               </button>

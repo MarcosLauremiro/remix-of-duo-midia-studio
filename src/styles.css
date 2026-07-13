@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * DuoHub — Editorial warm craft design system.
- * Cream background, terracotta accent, Playfair Display italic for display,
- * Inter for body, JetBrains Mono for eyebrows/badges.
+ * DuoHub — Dark dashboard design system.
+ * Deep black-blue background, crisp white type, red details and blue accents.
+ * Manrope for display, Inter for body, JetBrains Mono for eyebrows/badges.
  */
 
 @theme inline {
@@ -57,38 +57,38 @@
 :root {
   --radius: 0.75rem;
 
-  /* DUO | Mídia & Studio — white base, deep red primary, blue accents */
-  --background: oklch(0.995 0.002 250);
-  --foreground: oklch(0.2 0.02 260);
+  /* DUO | Mídia & Studio — dark dashboard, red details, blue accents */
+  --background: oklch(0.12 0.02 260);
+  --foreground: oklch(0.99 0.005 250);
 
-  --surface: oklch(1 0 0);
-  --surface-strong: oklch(0.965 0.006 250);
-  --ink: oklch(0.2 0.02 260);
-  --ink-muted: oklch(0.5 0.015 260);
+  --surface: oklch(0.17 0.03 260);
+  --surface-strong: oklch(0.23 0.04 260);
+  --ink: oklch(0.99 0.005 250);
+  --ink-muted: oklch(0.68 0.02 260);
 
-  /* "terracotta" token retained as brand red for compatibility */
-  --terracotta: oklch(0.44 0.18 25);
-  --terracotta-soft: oklch(0.44 0.18 25 / 0.08);
-  /* "ochre" retained as blue accent */
-  --ochre: oklch(0.55 0.16 255);
+  /* Brand red — DUO | Mídia */
+  --terracotta: oklch(0.55 0.2 25);
+  --terracotta-soft: oklch(0.55 0.2 25 / 0.12);
+  /* Blue accent — DUO | Studio */
+  --ochre: oklch(0.6 0.16 255);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 260);
-  --primary: oklch(0.44 0.18 25);
+  --card: oklch(0.17 0.03 260);
+  --card-foreground: oklch(0.99 0.005 250);
+  --popover: oklch(0.17 0.03 260);
+  --popover-foreground: oklch(0.99 0.005 250);
+  --primary: oklch(0.55 0.2 25);
   --primary-foreground: oklch(0.99 0.005 250);
-  --secondary: oklch(0.55 0.16 255);
+  --secondary: oklch(0.6 0.16 255);
   --secondary-foreground: oklch(0.99 0.005 250);
-  --muted: oklch(0.965 0.006 250);
-  --muted-foreground: oklch(0.5 0.015 260);
-  --accent: oklch(0.55 0.16 255);
+  --muted: oklch(0.23 0.04 260);
+  --muted-foreground: oklch(0.68 0.02 260);
+  --accent: oklch(0.6 0.16 255);
   --accent-foreground: oklch(0.99 0.005 250);
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.99 0.005 250);
-  --border: oklch(0.2 0.02 260 / 0.1);
-  --input: oklch(0.2 0.02 260 / 0.12);
-  --ring: oklch(0.44 0.18 25 / 0.4);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.55 0.2 25 / 0.4);
 }
 
 
@@ -106,7 +106,8 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-terracotta) 25%, transparent);
+    background: color-mix(in oklab, var(--color-terracotta) 35%, transparent);
+    color: var(--color-foreground);
   }
 }
 
