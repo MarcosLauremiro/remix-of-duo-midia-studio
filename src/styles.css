@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * DuoHub — Editorial warm craft design system.
- * Cream background, terracotta accent, Playfair Display italic for display,
- * Inter for body, JetBrains Mono for eyebrows/badges.
+ * DuoHub — Dark dashboard design system.
+ * Deep black-blue background, crisp white type, red details and blue accents.
+ * Manrope for display, Inter for body, JetBrains Mono for eyebrows/badges.
  */
 
 @theme inline {
