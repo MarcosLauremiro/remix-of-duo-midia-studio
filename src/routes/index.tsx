@@ -539,22 +539,22 @@ function Home_() {
 
         {/* Featured "não encontrou" card */}
         <section className="mt-16">
-          <div className="relative overflow-hidden rounded-[2rem] bg-ink p-8 text-background sm:p-14">
-            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/40 blur-3xl" />
-            <div className="absolute -bottom-24 -left-10 size-64 rounded-full bg-ochre/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-surface-strong p-8 text-ink sm:p-14">
+            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/25 blur-3xl" />
+            <div className="absolute -bottom-24 -left-10 size-64 rounded-full bg-ochre/15 blur-3xl" />
 
             <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
               <div className="max-w-xl">
-                <p className="eyebrow mb-3 text-background/60">Projeto sob medida</p>
-                <h3 className="font-display text-3xl leading-tight text-background sm:text-4xl">
+                <p className="eyebrow mb-3 text-ink-muted">Projeto sob medida</p>
+                <h3 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
                   Não encontrou o que precisa?
                 </h3>
-                <p className="mt-3 text-base leading-relaxed text-background/70">
+                <p className="mt-3 text-base leading-relaxed text-ink-muted">
                   Conte pra gente o que você imagina — nossa equipe monta uma proposta
                   personalizada para o seu momento, sem complicação.
                 </p>
               </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-terracotta px-6 py-4 text-sm font-semibold text-accent-foreground shadow-lg shadow-terracotta/20 transition-transform hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-full bg-terracotta px-6 py-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-terracotta/20 transition-transform hover:-translate-y-0.5">
                 Conte para a gente
                 <ArrowUpRight className="size-4" />
               </button>
