@@ -451,8 +451,8 @@ function Home_() {
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
         {/* Hero + Video */}
-        <section className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14">
-          <div>
+        <section className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
+          <div className="flex flex-col">
             <p className="eyebrow mb-4">Olá, Marina</p>
             <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
               Olá, seja bem-vindo <br className="hidden sm:block" />
@@ -471,7 +471,7 @@ function Home_() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Do que você precisa?"
-                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-ink/[0.03] outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
+                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-black/20 outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
                 />
                 <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
                   ⌘ K
@@ -480,8 +480,10 @@ function Home_() {
             </div>
           </div>
 
-          {/* Video hero */}
-          <VideoHero />
+          {/* Video hero — aligned to the right of the title on desktop */}
+          <div className="lg:pt-2">
+            <VideoHero />
+          </div>
         </section>
 
         {/* Categories */}
