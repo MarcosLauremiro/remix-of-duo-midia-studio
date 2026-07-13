@@ -1445,6 +1445,12 @@ function Home_() {
           </div>
         </section>
 
+        {/* Quem somos */}
+        <AboutSection />
+
+        {/* Client logos strip */}
+        <ClientLogosStrip />
+
         {/* Categories */}
         <section className="mt-14">
           <div className="mb-4 flex items-baseline justify-between">
@@ -1470,16 +1476,16 @@ function Home_() {
           </div>
         </section>
 
-        {/* Featured service rotator */}
+        {/* Services grid — uniform, rotating (2×3) */}
         <section className="mt-12">
           <SectionHeader
-            eyebrow="Em destaque agora"
+            eyebrow="Trabalhos mais recentes em rotação"
             title="Serviços mais solicitados"
             count={filtered.length}
           />
 
           {filtered.length > 0 ? (
-            <FeaturedRotator services={filtered} />
+            <RotatingServicesGrid services={filtered} />
           ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
