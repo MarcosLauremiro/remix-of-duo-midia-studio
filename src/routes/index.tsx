@@ -1566,7 +1566,7 @@ function Home_() {
           </div>
         </section>
 
-        {/* Services grid — uniform, rotating (2×3) */}
+        {/* Services strip — same exposure as events gallery */}
         <section className="mt-12">
           <SectionHeader
             eyebrow="Trabalhos mais recentes em rotação"
@@ -1575,7 +1575,7 @@ function Home_() {
           />
 
           {filtered.length > 0 ? (
-            <RotatingServicesGrid services={filtered} />
+            <ServicesStrip services={filtered} />
           ) : (
             <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
               <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
@@ -1585,6 +1585,7 @@ function Home_() {
             </div>
           )}
         </section>
+
 
         {/* Testimonials */}
         <section className="mt-16">
