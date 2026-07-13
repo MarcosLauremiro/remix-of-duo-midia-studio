@@ -54,6 +54,14 @@ import media2Img from "@/assets/media-2.jpg";
 import media3Img from "@/assets/media-3.jpg";
 import media4Img from "@/assets/media-4.jpg";
 
+import podcast1Img from "@/assets/podcast-1.jpg";
+import podcast2Img from "@/assets/podcast-2.jpg";
+import podcast3Img from "@/assets/podcast-3.jpg";
+import podcast4Img from "@/assets/podcast-4.jpg";
+import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
+import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
+import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
+
 export const Route = createFileRoute("/")({
   component: Home_,
 });
