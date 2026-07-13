@@ -62,6 +62,22 @@ import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
 import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
+import founder1Img from "@/assets/founder-1.jpg";
+import founder2Img from "@/assets/founder-2.jpg";
+
+import clientLogo1 from "@/assets/client-logo-1.png";
+import clientLogo2 from "@/assets/client-logo-2.png";
+import clientLogo3 from "@/assets/client-logo-3.png";
+import clientLogo4 from "@/assets/client-logo-4.png";
+import clientLogo5 from "@/assets/client-logo-5.png";
+import clientLogo6 from "@/assets/client-logo-6.png";
+import clientLogo7 from "@/assets/client-logo-7.png";
+import clientLogo8 from "@/assets/client-logo-8.png";
+import clientLogo9 from "@/assets/client-logo-9.png";
+import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
+import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
+import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
+
 export const Route = createFileRoute("/")({
   component: Home_,
 });
