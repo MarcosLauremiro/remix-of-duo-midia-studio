@@ -199,10 +199,18 @@ function Home_() {
       {/* Top Nav */}
       <header className="sticky top-0 z-40 border-b border-ink/5 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
-          <div className="flex items-center gap-2">
-            <span className="font-display text-2xl font-bold text-terracotta">DuoHub</span>
-            <span className="hidden text-xs text-ink-muted sm:inline">by DuoMídia</span>
+          <div className="flex items-center gap-2.5">
+            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-background">
+              D
+            </span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-display text-base font-bold text-ink">
+                DUO <span className="text-terracotta">|</span> Mídia <span className="text-ink-muted font-normal">&</span> <span className="text-ochre">Studio</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">DuoHub · Dashboard</span>
+            </div>
           </div>
+
 
           <nav className="hidden items-center gap-1 lg:flex">
             {nav.map((item) => {
