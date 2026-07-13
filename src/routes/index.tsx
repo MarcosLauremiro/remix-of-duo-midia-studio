@@ -986,6 +986,22 @@ const blogPosts: BlogPost[] = [
     readTime: "3 min",
     image: blog4Img,
   },
+  {
+    title: "Storytelling: a alma das campanhas duradouras",
+    excerpt:
+      "Como boas histórias sustentam marcas por anos e transformam campanhas em memórias afetivas.",
+    date: "20 Mai 2026",
+    readTime: "5 min",
+    image: blog1Img,
+  },
+  {
+    title: "Design que respira: menos é mais",
+    excerpt:
+      "Espaço em branco, tipografia e ritmo visual — os detalhes que separam o bonito do memorável.",
+    date: "08 Mai 2026",
+    readTime: "4 min",
+    image: blog2Img,
+  },
 ];
 
 function BlogRotator({ items }: { items: BlogPost[] }) {
