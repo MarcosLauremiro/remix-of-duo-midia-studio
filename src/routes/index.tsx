@@ -192,21 +192,21 @@ function VideoHero() {
   const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
   return (
     <div className="relative">
-      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-terracotta/15 via-transparent to-ochre/20 blur-2xl" />
-      <div className="relative overflow-hidden rounded-[2rem] bg-ink ring-1 ring-ink/10 shadow-2xl shadow-ink/10">
-        <div className="flex items-center justify-between gap-3 px-5 py-3 text-background/90">
+      <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-ochre/20 via-terracotta/10 to-transparent blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-2xl shadow-black/20">
+        <div className="flex items-center justify-between gap-3 px-5 py-3 text-ink/90">
           <div className="flex items-center gap-2">
             <Youtube className="size-4 text-terracotta" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-background/70">
+            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-ink-muted">
               DuoMídia · Playlist
             </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-background/10 px-2.5 py-1 text-[10px] font-medium text-background/80">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-terracotta/10 px-2.5 py-1 text-[10px] font-medium text-terracotta">
             <span className="size-1.5 rounded-full bg-terracotta animate-pulse" />
             Ao vivo no canal
           </span>
         </div>
-        <div className="relative aspect-video w-full bg-black">
+        <div className="relative aspect-video w-full bg-background">
           <iframe
             src={embedSrc}
             title="Playlist DuoMídia no YouTube"
@@ -217,14 +217,14 @@ function VideoHero() {
           />
         </div>
         <div className="flex items-center justify-between gap-3 px-5 py-4">
-          <p className="text-sm text-background/70">
+          <p className="text-sm text-ink-muted">
             Cases, bastidores e novidades da DuoMídia &amp; Studio.
           </p>
           <a
             href={`https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-accent-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
           >
             <Play className="size-3.5 fill-current" />
             Ver playlist
