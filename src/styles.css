@@ -106,7 +106,8 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-terracotta) 25%, transparent);
+    background: color-mix(in oklab, var(--color-terracotta) 35%, transparent);
+    color: var(--color-foreground);
   }
 }
 
