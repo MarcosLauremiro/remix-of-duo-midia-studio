@@ -252,7 +252,7 @@ function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { se
   useEffect(() => {
     if (services.length <= visible) return;
     const id = setInterval(() => {
-      setOffset((o) => (o + 2) % services.length);
+      setOffset((o) => (o + 3) % services.length);
     }, intervalMs);
     return () => clearInterval(id);
   }, [services.length, visible, intervalMs]);
@@ -260,7 +260,7 @@ function RotatingServicesGrid({ services, visible = 6, intervalMs = 5000 }: { se
   const window = Array.from({ length: Math.min(visible, services.length) }, (_, i) => services[(offset + i) % services.length]);
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {window.map((s, i) => (
         <div key={`${s.name}-${offset}-${i}`} className="animate-fade-in">
           <ServiceCard service={s} />
