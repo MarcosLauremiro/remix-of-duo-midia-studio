@@ -70,8 +70,10 @@ import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
 import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
-import founder1Img from "@/assets/founder-1.jpg";
-import founder2Img from "@/assets/founder-2.jpg";
+import founder1Asset from "@/assets/founder-fabia.png.asset.json";
+import founder2Asset from "@/assets/founder-anna.png.asset.json";
+const founder1Img = founder1Asset.url;
+const founder2Img = founder2Asset.url;
 
 import clientLogo1 from "@/assets/client-logo-1.png";
 import clientLogo2 from "@/assets/client-logo-2.png";
@@ -731,7 +733,7 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "O DuoHub facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
+      "A DUO facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
     name: "Juliana Costa",
     role: "Gestora de Redes, TechFlow",
     image: testimonial3Img,
@@ -1505,10 +1507,10 @@ function Home_() {
             </span>
             <div className="flex flex-col leading-tight">
               <span className="font-display text-base font-bold text-ink">
-                DUO <span className="text-terracotta">|</span> Mídia <span className="text-ink-muted font-normal">&</span>{" "}
+                DUO <span className="text-ink-muted font-normal">|</span> <span className="text-terracotta">Mídia</span> <span className="text-ink-muted font-normal">&</span>{" "}
                 <span className="text-ochre">Studio</span>
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">DuoHub · Dashboard</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">Dashboard do cliente</span>
             </div>
           </div>
 
@@ -1579,11 +1581,11 @@ function Home_() {
           <div className="flex flex-col">
             <p className="eyebrow mb-4">Olá, Marina</p>
             <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
-              Olá, seja bem-vindo <br className="hidden sm:block" />
-              ao <span className="text-terracotta">DuoHub</span>.
+              DUO <span className="text-ink-muted font-light">|</span> <span className="text-terracotta">Mídia</span>{" "}
+              <span className="text-ink-muted font-light">&</span> <span className="text-ochre">Studio</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
-              Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
+              Uma agência, várias soluções.
             </p>
 
             <div className="mt-8 max-w-2xl">
