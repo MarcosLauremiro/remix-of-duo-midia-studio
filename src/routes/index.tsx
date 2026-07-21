@@ -23,6 +23,7 @@ import {
   Mic,
   Headphones,
   Images,
+  Star,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
