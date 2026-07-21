@@ -51,6 +51,14 @@ export const GOOGLE_REVIEWS_URL =
 export const testimonials: Testimonial[] = [
   {
     quote:
+      "Agência super dedicada ao profissional e no bem estar do atendimento. Super recomendo.",
+    name: "Bia Homobono Sales (Bia)",
+    rating: 5,
+    date: "há 8 meses",
+    image: biaHomobonoImg.url,
+  },
+  {
+    quote:
       "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
     name: "Mariana Ribeiro",
     role: "Diretora de Marketing, VivaBem",
