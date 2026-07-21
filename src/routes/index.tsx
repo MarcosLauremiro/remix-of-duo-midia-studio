@@ -37,18 +37,14 @@ import figurinhaImg from "@/assets/service-figurinha.jpg";
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 
-import event1Img from "@/assets/event-1.jpg";
-import event1bImg from "@/assets/event-1b.jpg";
-import event1cImg from "@/assets/event-1c.jpg";
-import event2Img from "@/assets/event-2.jpg";
-import event2bImg from "@/assets/event-2b.jpg";
-import event2cImg from "@/assets/event-2c.jpg";
-import event3Img from "@/assets/event-3.jpg";
-import event3bImg from "@/assets/event-3b.jpg";
-import event3cImg from "@/assets/event-3c.jpg";
-import event4Img from "@/assets/event-4.jpg";
-import event4bImg from "@/assets/event-4b.jpg";
-import event4cImg from "@/assets/event-4c.jpg";
+import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
+import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
+import eventPhotoCrowdAsset from "@/assets/events/duo00598.jpg.asset.json";
+import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
+const eventPhotoTeam = eventPhotoTeamAsset.url;
+const eventPhotoLady = eventPhotoLadyAsset.url;
+const eventPhotoCrowd = eventPhotoCrowdAsset.url;
+const eventPhotoBand = eventPhotoBandAsset.url;
 
 import blog1Img from "@/assets/blog-1.jpg";
 import blog2Img from "@/assets/blog-2.jpg";
@@ -491,12 +487,15 @@ function ClientLogosStrip() {
             className="grid animate-fade-in grid-cols-3 items-center gap-6 sm:gap-10"
           >
             {visible.map((logo) => (
-              <div key={`${logo.name}-${offset}`} className="flex items-center justify-center">
+              <div
+                key={`${logo.name}-${offset}`}
+                className="flex h-24 items-center justify-center sm:h-32 md:h-36"
+              >
                 <img
                   src={logo.src}
                   alt={logo.name}
                   loading="lazy"
-                  className="h-10 w-auto max-w-full object-contain opacity-80 transition-opacity hover:opacity-100 sm:h-12"
+                  className="max-h-full max-w-full object-contain opacity-90 transition-opacity hover:opacity-100"
                   style={{ filter: "brightness(0) invert(1)" }}
                 />
               </div>
@@ -847,28 +846,16 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
-    title: "Conferência Anual de Inovação",
+    title: "Motoshow — Palco Principal",
     date: "15 Mar 2026",
-    description: "Palestras, painéis e networking com os principais líderes do setor.",
-    photos: [event1Img, event1bImg, event1cImg],
+    description: "Show da Lady Velvet iluminando a noite com uma multidão vibrante.",
+    photos: [eventPhotoLady, eventPhotoCrowd, eventPhotoBand],
   },
   {
-    title: "Coquetel de Lançamento",
-    date: "28 Fev 2026",
-    description: "Noite de celebração com clientes e parceiros no rooftop da cidade.",
-    photos: [event2Img, event2bImg, event2cImg],
-  },
-  {
-    title: "Bastidores da Campanha",
-    date: "10 Jan 2026",
-    description: "Um olhar exclusivo sobre a produção do último filme da marca.",
-    photos: [event3Img, event3bImg, event3cImg],
-  },
-  {
-    title: "Workshop de Estratégia",
-    date: "05 Dez 2025",
-    description: "Dia imersivo de planejamento criativo com o time e clientes.",
-    photos: [event4Img, event4bImg, event4cImg],
+    title: "Bastidores com a Equipe DUO",
+    date: "15 Mar 2026",
+    description: "Nossa equipe ao lado dos parceiros e artistas nos bastidores do evento.",
+    photos: [eventPhotoTeam, eventPhotoBand, eventPhotoLady],
   },
 ];
 
