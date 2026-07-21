@@ -37,18 +37,14 @@ import figurinhaImg from "@/assets/service-figurinha.jpg";
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 
-import event1Img from "@/assets/event-1.jpg";
-import event1bImg from "@/assets/event-1b.jpg";
-import event1cImg from "@/assets/event-1c.jpg";
-import event2Img from "@/assets/event-2.jpg";
-import event2bImg from "@/assets/event-2b.jpg";
-import event2cImg from "@/assets/event-2c.jpg";
-import event3Img from "@/assets/event-3.jpg";
-import event3bImg from "@/assets/event-3b.jpg";
-import event3cImg from "@/assets/event-3c.jpg";
-import event4Img from "@/assets/event-4.jpg";
-import event4bImg from "@/assets/event-4b.jpg";
-import event4cImg from "@/assets/event-4c.jpg";
+import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
+import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
+import eventPhotoCrowdAsset from "@/assets/events/duo00598.jpg.asset.json";
+import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
+const eventPhotoTeam = eventPhotoTeamAsset.url;
+const eventPhotoLady = eventPhotoLadyAsset.url;
+const eventPhotoCrowd = eventPhotoCrowdAsset.url;
+const eventPhotoBand = eventPhotoBandAsset.url;
 
 import blog1Img from "@/assets/blog-1.jpg";
 import blog2Img from "@/assets/blog-2.jpg";
