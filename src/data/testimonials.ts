@@ -28,6 +28,7 @@
  * ─────────────────────────────────────────────────────────────────────
  */
 
+import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
 import testimonial2Img from "@/assets/testimonial-2.jpg";
 import testimonial3Img from "@/assets/testimonial-3.jpg";
@@ -48,6 +49,14 @@ export const GOOGLE_REVIEWS_URL =
   "https://www.google.com/search?q=DUO+M%C3%ADdia+%26+Studio+avalia%C3%A7%C3%B5es";
 
 export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Agência super dedicada ao profissional e no bem estar do atendimento. Super recomendo.",
+    name: "Bia Homobono Sales (Bia)",
+    rating: 5,
+    date: "há 8 meses",
+    image: biaHomobonoImg.url,
+  },
   {
     quote:
       "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
