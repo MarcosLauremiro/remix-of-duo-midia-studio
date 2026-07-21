@@ -70,6 +70,14 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
+      "Atendimento excelente! As meninas são super atenciosas, entendem do assunto e entregam resultados de verdade. Recomendo demais!",
+    name: "Elton Sales",
+    rating: 5,
+    date: "hoje",
+    image: eltonSalesImg.url,
+  },
+  {
+    quote:
       "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
     name: "Mariana Ribeiro",
     role: "Diretora de Marketing, VivaBem",
