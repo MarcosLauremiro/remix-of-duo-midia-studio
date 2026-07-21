@@ -706,43 +706,22 @@ function FeaturedRotator({ services }: { services: Service[] }) {
 /* Testimonials                                                       */
 /* ------------------------------------------------------------------ */
 
-type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  image: string;
-};
-
-const testimonials: Testimonial[] = [
-  {
-    quote:
-      "A DuoMídia transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
-    name: "Mariana Ribeiro",
-    role: "Diretora de Marketing, VivaBem",
-    image: testimonial1Img,
-  },
-  {
-    quote:
-      "Profissionalismo, criatividade e pontualidade. É raro encontrar um time que entrega tudo isso junto.",
-    name: "Ricardo Almeida",
-    role: "CEO, Construtora Horizonte",
-    image: testimonial2Img,
-  },
-  {
-    quote:
-      "A DUO facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
-    name: "Juliana Costa",
-    role: "Gestora de Redes, TechFlow",
-    image: testimonial3Img,
-  },
-  {
-    quote:
-      "A cobertura do nosso evento ficou impecável. Fotos, vídeos e conteúdo para redes saíram no mesmo dia.",
-    name: "Fernando Moura",
-    role: "Fundador, Summit Brasil",
-    image: testimonial4Img,
-  },
-];
+function Stars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrelas`}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={
+            i < rating
+              ? "size-4 fill-amber-400 text-amber-400"
+              : "size-4 text-ink/20"
+          }
+        />
+      ))}
+    </div>
+  );
+}
 
 function TestimonialRotator({ items }: { items: Testimonial[] }) {
   const { index, setIndex, featured, others, pause, resume } = useRotator(items);
