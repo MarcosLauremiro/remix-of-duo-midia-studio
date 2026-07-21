@@ -1581,11 +1581,11 @@ function Home_() {
           <div className="flex flex-col">
             <p className="eyebrow mb-4">Olá, Marina</p>
             <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
-              Olá, seja bem-vindo <br className="hidden sm:block" />
-              ao <span className="text-terracotta">DuoHub</span>.
+              DUO <span className="text-ink-muted font-light">|</span> <span className="text-terracotta">Mídia</span>{" "}
+              <span className="text-ink-muted font-light">&</span> <span className="text-ochre">Studio</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
-              Encontre uma solução, veja exemplos e envie sua solicitação em poucos passos.
+              Uma agência, várias soluções.
             </p>
 
             <div className="mt-8 max-w-2xl">
