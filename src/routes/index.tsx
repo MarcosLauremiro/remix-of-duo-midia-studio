@@ -733,7 +733,7 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "O DuoHub facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
+      "A DUO facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
     name: "Juliana Costa",
     role: "Gestora de Redes, TechFlow",
     image: testimonial3Img,
