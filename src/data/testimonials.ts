@@ -29,6 +29,7 @@
  */
 
 import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
+import eltonSalesImg from "@/assets/testimonials/elton-sales.png.asset.json";
 import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
 import testimonial2Img from "@/assets/testimonial-2.jpg";
@@ -66,6 +67,14 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "há 1 dia",
     image: nadyaJacobImg.url,
+  },
+  {
+    quote:
+      "Atendimento excelente! As meninas são super atenciosas, entendem do assunto e entregam resultados de verdade. Recomendo demais!",
+    name: "Elton Sales",
+    rating: 5,
+    date: "hoje",
+    image: eltonSalesImg.url,
   },
   {
     quote:
