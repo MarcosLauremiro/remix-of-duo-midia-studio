@@ -1507,10 +1507,10 @@ function Home_() {
             </span>
             <div className="flex flex-col leading-tight">
               <span className="font-display text-base font-bold text-ink">
-                DUO <span className="text-terracotta">|</span> Mídia <span className="text-ink-muted font-normal">&</span>{" "}
+                DUO <span className="text-ink-muted font-normal">|</span> <span className="text-terracotta">Mídia</span> <span className="text-ink-muted font-normal">&</span>{" "}
                 <span className="text-ochre">Studio</span>
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">DuoHub · Dashboard</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">Dashboard do cliente</span>
             </div>
           </div>
 
