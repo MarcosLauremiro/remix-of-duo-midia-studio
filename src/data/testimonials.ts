@@ -29,6 +29,7 @@
  */
 
 import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
+import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.png.asset.json";
 import eltonSalesImg from "@/assets/testimonials/elton-sales.png.asset.json";
 import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
