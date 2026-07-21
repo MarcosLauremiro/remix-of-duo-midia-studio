@@ -487,12 +487,15 @@ function ClientLogosStrip() {
             className="grid animate-fade-in grid-cols-3 items-center gap-6 sm:gap-10"
           >
             {visible.map((logo) => (
-              <div key={`${logo.name}-${offset}`} className="flex items-center justify-center">
+              <div
+                key={`${logo.name}-${offset}`}
+                className="flex h-24 items-center justify-center sm:h-32 md:h-36"
+              >
                 <img
                   src={logo.src}
                   alt={logo.name}
                   loading="lazy"
-                  className="h-10 w-auto max-w-full object-contain opacity-80 transition-opacity hover:opacity-100 sm:h-12"
+                  className="max-h-full max-w-full object-contain opacity-90 transition-opacity hover:opacity-100"
                   style={{ filter: "brightness(0) invert(1)" }}
                 />
               </div>
