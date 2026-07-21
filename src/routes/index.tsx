@@ -449,15 +449,14 @@ function AboutSection() {
 /* ------------------------------------------------------------------ */
 
 const clientLogos = [
-  { name: "Aurora", src: clientLogo1 },
-  { name: "Verano", src: clientLogo2 },
-  { name: "Nortex", src: clientLogo3 },
-  { name: "Solvia", src: clientLogo4 },
-  { name: "Kova", src: clientLogo5 },
-  { name: "Marévia", src: clientLogo6 },
-  { name: "Fértil", src: clientLogo7 },
-  { name: "Orbe", src: clientLogo8 },
-  { name: "Lumen", src: clientLogo9 },
+  { name: "Imperial Shopping", src: clientLogo5 },
+  { name: "Kasa Nossa Restaurante", src: clientLogo6 },
+  { name: "CDA", src: clientLogo2 },
+  { name: "Equipamentos e EPI", src: clientLogo3 },
+  { name: "MJ", src: clientLogo8 },
+  { name: "FO", src: clientLogo4 },
+  { name: "Cliente Duo", src: clientLogo1 },
+  { name: "Parceiro Duo", src: clientLogo7 },
 ];
 
 function ClientLogosStrip() {
