@@ -811,9 +811,12 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
                     height={64}
                     className="size-14 rounded-full object-cover ring-2 ring-surface-strong"
                   />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-sm font-semibold text-ink">{t.name}</p>
-                    <p className="line-clamp-1 text-xs text-ink-muted">{t.role}</p>
+                    <div className="mt-0.5 flex items-center gap-1.5">
+                      <Stars rating={t.rating} />
+                      <span className="text-[10px] text-ink-muted">{t.date}</span>
+                    </div>
                   </div>
                 </button>
               </li>
