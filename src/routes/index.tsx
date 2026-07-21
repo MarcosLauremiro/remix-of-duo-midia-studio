@@ -23,6 +23,7 @@ import {
   Mic,
   Headphones,
   Images,
+  Star,
 } from "lucide-react";
 
 import postImg from "@/assets/service-post.jpg";
@@ -34,10 +35,7 @@ import emailImg from "@/assets/service-email.jpg";
 import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
 
-import testimonial1Img from "@/assets/testimonial-1.jpg";
-import testimonial2Img from "@/assets/testimonial-2.jpg";
-import testimonial3Img from "@/assets/testimonial-3.jpg";
-import testimonial4Img from "@/assets/testimonial-4.jpg";
+import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 
 import event1Img from "@/assets/event-1.jpg";
 import event1bImg from "@/assets/event-1b.jpg";
@@ -709,43 +707,22 @@ function FeaturedRotator({ services }: { services: Service[] }) {
 /* Testimonials                                                       */
 /* ------------------------------------------------------------------ */
 
-type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  image: string;
-};
-
-const testimonials: Testimonial[] = [
-  {
-    quote:
-      "A DuoMídia transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
-    name: "Mariana Ribeiro",
-    role: "Diretora de Marketing, VivaBem",
-    image: testimonial1Img,
-  },
-  {
-    quote:
-      "Profissionalismo, criatividade e pontualidade. É raro encontrar um time que entrega tudo isso junto.",
-    name: "Ricardo Almeida",
-    role: "CEO, Construtora Horizonte",
-    image: testimonial2Img,
-  },
-  {
-    quote:
-      "A DUO facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
-    name: "Juliana Costa",
-    role: "Gestora de Redes, TechFlow",
-    image: testimonial3Img,
-  },
-  {
-    quote:
-      "A cobertura do nosso evento ficou impecável. Fotos, vídeos e conteúdo para redes saíram no mesmo dia.",
-    name: "Fernando Moura",
-    role: "Fundador, Summit Brasil",
-    image: testimonial4Img,
-  },
-];
+function Stars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrelas`}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={
+            i < rating
+              ? "size-4 fill-amber-400 text-amber-400"
+              : "size-4 text-ink/20"
+          }
+        />
+      ))}
+    </div>
+  );
+}
 
 function TestimonialRotator({ items }: { items: Testimonial[] }) {
   const { index, setIndex, featured, others, pause, resume } = useRotator(items);
@@ -777,19 +754,42 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
               />
             </div>
           </div>
-          <div>
+          <div className="flex-1">
+            <div className="mb-4 flex items-center gap-3">
+              <Stars rating={featured.rating} />
+              <span className="text-xs text-ink-muted">{featured.date}</span>
+              <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-ink/5 px-2.5 py-1 text-[11px] font-medium text-ink-muted ring-1 ring-ink/10">
+                <svg viewBox="0 0 24 24" className="size-3" aria-hidden>
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.75h3.57c2.08-1.92 3.28-4.74 3.28-8.07z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.75c-.99.66-2.25 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A10.99 10.99 0 0 0 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.12A6.6 6.6 0 0 1 5.5 12c0-.74.13-1.45.34-2.12V7.04H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.96l3.66-2.84z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.04l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/>
+                </svg>
+                Google
+              </span>
+            </div>
             <p className="font-display text-xl leading-relaxed text-ink text-pretty sm:text-2xl">
               “{featured.quote}”
             </p>
             <div className="mt-6">
               <p className="font-semibold text-ink">{featured.name}</p>
-              <p className="text-sm text-ink-muted">{featured.role}</p>
+              {featured.role ? (
+                <p className="text-sm text-ink-muted">{featured.role}</p>
+              ) : null}
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8">
+        <div className="relative z-10 mt-8 flex items-center justify-between gap-4">
           <ProgressDots count={items.length} index={index} />
+          <a
+            href={featured.googleUrl ?? GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-muted transition-colors hover:text-terracotta"
+          >
+            Ver todas no Google <ExternalLink className="size-3.5" />
+          </a>
         </div>
       </article>
 
@@ -811,9 +811,12 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
                     height={64}
                     className="size-14 rounded-full object-cover ring-2 ring-surface-strong"
                   />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-sm font-semibold text-ink">{t.name}</p>
-                    <p className="line-clamp-1 text-xs text-ink-muted">{t.role}</p>
+                    <div className="mt-0.5 flex items-center gap-1.5">
+                      <Stars rating={t.rating} />
+                      <span className="text-[10px] text-ink-muted">{t.date}</span>
+                    </div>
                   </div>
                 </button>
               </li>
