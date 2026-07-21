@@ -843,28 +843,16 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
-    title: "Conferência Anual de Inovação",
+    title: "Motoshow — Palco Principal",
     date: "15 Mar 2026",
-    description: "Palestras, painéis e networking com os principais líderes do setor.",
-    photos: [event1Img, event1bImg, event1cImg],
+    description: "Show da Lady Velvet iluminando a noite com uma multidão vibrante.",
+    photos: [eventPhotoLady, eventPhotoCrowd, eventPhotoBand],
   },
   {
-    title: "Coquetel de Lançamento",
-    date: "28 Fev 2026",
-    description: "Noite de celebração com clientes e parceiros no rooftop da cidade.",
-    photos: [event2Img, event2bImg, event2cImg],
-  },
-  {
-    title: "Bastidores da Campanha",
-    date: "10 Jan 2026",
-    description: "Um olhar exclusivo sobre a produção do último filme da marca.",
-    photos: [event3Img, event3bImg, event3cImg],
-  },
-  {
-    title: "Workshop de Estratégia",
-    date: "05 Dez 2025",
-    description: "Dia imersivo de planejamento criativo com o time e clientes.",
-    photos: [event4Img, event4bImg, event4cImg],
+    title: "Bastidores com a Equipe DUO",
+    date: "15 Mar 2026",
+    description: "Nossa equipe ao lado dos parceiros e artistas nos bastidores do evento.",
+    photos: [eventPhotoTeam, eventPhotoBand, eventPhotoLady],
   },
 ];
 
