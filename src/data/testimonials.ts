@@ -29,6 +29,7 @@
  */
 
 import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
+import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.png.asset.json";
 import eltonSalesImg from "@/assets/testimonials/elton-sales.png.asset.json";
 import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
@@ -75,6 +76,14 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "hoje",
     image: eltonSalesImg.url,
+  },
+  {
+    quote:
+      "Profissionais de altíssima qualidade. Entregam o que propõem, recomendo!",
+    name: "Camila Magalhães",
+    rating: 5,
+    date: "hoje",
+    image: camilaMagalhaesImg.url,
   },
   {
     quote:
