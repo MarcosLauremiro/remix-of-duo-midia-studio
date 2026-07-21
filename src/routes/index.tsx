@@ -73,15 +73,22 @@ import founder2Asset from "@/assets/founder-anna.png.asset.json";
 const founder1Img = founder1Asset.url;
 const founder2Img = founder2Asset.url;
 
-import clientLogo1 from "@/assets/client-logo-1.png";
-import clientLogo2 from "@/assets/client-logo-2.png";
-import clientLogo3 from "@/assets/client-logo-3.png";
-import clientLogo4 from "@/assets/client-logo-4.png";
-import clientLogo5 from "@/assets/client-logo-5.png";
-import clientLogo6 from "@/assets/client-logo-6.png";
-import clientLogo7 from "@/assets/client-logo-7.png";
-import clientLogo8 from "@/assets/client-logo-8.png";
-import clientLogo9 from "@/assets/client-logo-9.png";
+import clientLogo1Asset from "@/assets/clients/c1.png.asset.json";
+import clientLogo2Asset from "@/assets/clients/c2.png.asset.json";
+import clientLogo3Asset from "@/assets/clients/c3.png.asset.json";
+import clientLogo4Asset from "@/assets/clients/c4.png.asset.json";
+import clientLogo5Asset from "@/assets/clients/c5.png.asset.json";
+import clientLogo6Asset from "@/assets/clients/c6.png.asset.json";
+import clientLogo7Asset from "@/assets/clients/c7.png.asset.json";
+import clientLogo8Asset from "@/assets/clients/c8.png.asset.json";
+const clientLogo1 = clientLogo1Asset.url;
+const clientLogo2 = clientLogo2Asset.url;
+const clientLogo3 = clientLogo3Asset.url;
+const clientLogo4 = clientLogo4Asset.url;
+const clientLogo5 = clientLogo5Asset.url;
+const clientLogo6 = clientLogo6Asset.url;
+const clientLogo7 = clientLogo7Asset.url;
+const clientLogo8 = clientLogo8Asset.url;
 
 export const Route = createFileRoute("/")({
   component: Home_,
