@@ -34,10 +34,7 @@ import emailImg from "@/assets/service-email.jpg";
 import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
 
-import testimonial1Img from "@/assets/testimonial-1.jpg";
-import testimonial2Img from "@/assets/testimonial-2.jpg";
-import testimonial3Img from "@/assets/testimonial-3.jpg";
-import testimonial4Img from "@/assets/testimonial-4.jpg";
+import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 
 import event1Img from "@/assets/event-1.jpg";
 import event1bImg from "@/assets/event-1b.jpg";
