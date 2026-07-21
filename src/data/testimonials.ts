@@ -28,6 +28,7 @@
  * ─────────────────────────────────────────────────────────────────────
  */
 
+import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
 import testimonial2Img from "@/assets/testimonial-2.jpg";
 import testimonial3Img from "@/assets/testimonial-3.jpg";
