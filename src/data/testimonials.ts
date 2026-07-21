@@ -60,6 +60,15 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
+      "Fiquei extremamente satisfeita com o atendimento e o profissionalismo da equipe da DuoMídia. Foram super atenciosos, entenderam exatamente o que eu precisava e entregaram um trabalho de altíssima qualidade, dentro do prazo. Comunicação rápida, resultado impecável e total comprometimento. Recomendo de olhos fechados!",
+    name: "Nadya Jacob",
+    role: "8 avaliações no Google",
+    rating: 5,
+    date: "há 1 dia",
+    image: nadyaJacobImg.url,
+  },
+  {
+    quote:
       "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
     name: "Mariana Ribeiro",
     role: "Diretora de Marketing, VivaBem",
