@@ -29,6 +29,7 @@
  */
 
 import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
+import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
 import testimonial1Img from "@/assets/testimonial-1.jpg";
 import testimonial2Img from "@/assets/testimonial-2.jpg";
 import testimonial3Img from "@/assets/testimonial-3.jpg";
@@ -56,6 +57,15 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "há 8 meses",
     image: biaHomobonoImg.url,
+  },
+  {
+    quote:
+      "Fiquei extremamente satisfeita com o atendimento e o profissionalismo da equipe da DuoMídia. Foram super atenciosos, entenderam exatamente o que eu precisava e entregaram um trabalho de altíssima qualidade, dentro do prazo. Comunicação rápida, resultado impecável e total comprometimento. Recomendo de olhos fechados!",
+    name: "Nadya Jacob",
+    role: "8 avaliações no Google",
+    rating: 5,
+    date: "há 1 dia",
+    image: nadyaJacobImg.url,
   },
   {
     quote:
