@@ -79,6 +79,14 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
+      "Profissionais de altíssima qualidade. Entregam o que propõem, recomendo!",
+    name: "Camila Magalhães",
+    rating: 5,
+    date: "hoje",
+    image: camilaMagalhaesImg.url,
+  },
+  {
+    quote:
       "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
     name: "Mariana Ribeiro",
     role: "Diretora de Marketing, VivaBem",
