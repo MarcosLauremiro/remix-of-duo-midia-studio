@@ -1532,7 +1532,7 @@ function Home_() {
                 DUO <span className="text-ink-muted font-normal">|</span> <span className="text-terracotta">Mídia</span> <span className="text-ink-muted font-normal">&</span>{" "}
                 <span className="text-ochre">Studio</span>
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">Dashboard do cliente</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">Mídia & Studio</span>
             </div>
           </div>
 
