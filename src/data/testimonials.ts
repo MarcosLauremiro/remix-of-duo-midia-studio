@@ -47,9 +47,8 @@ export type Testimonial = {
   googleUrl?: string; // link direto para a review no Google (opcional)
 };
 
-/** Link do perfil da empresa no Google — troque pela URL real. */
-export const GOOGLE_REVIEWS_URL =
-  "https://www.google.com/search?q=DUO+M%C3%ADdia+%26+Studio+avalia%C3%A7%C3%B5es";
+/** Link do perfil da empresa no Google Maps. */
+export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/zJdezq9149rD8pqJ9";
 
 export const testimonials: Testimonial[] = [
   {

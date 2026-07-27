@@ -15,6 +15,7 @@ import {
   Eye,
   Play,
   Youtube,
+  Instagram,
   Quote,
   Calendar,
   Newspaper,
@@ -25,6 +26,13 @@ import {
   Images,
   Star,
 } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/* Links oficiais da DUO | Mídia & Studio                             */
+/* ------------------------------------------------------------------ */
+
+const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@DuoMidia";
+const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 
 import postImg from "@/assets/service-post.jpg";
 import storyImg from "@/assets/service-story.jpg";
