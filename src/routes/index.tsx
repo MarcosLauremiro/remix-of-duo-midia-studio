@@ -526,7 +526,8 @@ function ClientLogosStrip() {
   );
 }
 
-// ID da playlist pública do YouTube da DuoMídia — troque aqui quando quiser.
+// ID da playlist pública do YouTube da DuoMídia — usada no embed da home.
+// Troque aqui se quiser exibir outra playlist do canal @DuoMidia.
 const YOUTUBE_PLAYLIST_ID = "PLrEnWoR732-DE0Nyx-6JIC-oow0nyPQmR";
 
 function VideoHero() {
@@ -539,7 +540,7 @@ function VideoHero() {
           <div className="flex items-center gap-2">
             <Youtube className="size-4 text-terracotta" />
             <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-ink-muted">
-              DuoMídia · Playlist
+              DuoMídia · Canal no YouTube
             </span>
           </div>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-terracotta/10 px-2.5 py-1 text-[10px] font-medium text-terracotta">
@@ -550,7 +551,7 @@ function VideoHero() {
         <div className="relative aspect-video w-full bg-background">
           <iframe
             src={embedSrc}
-            title="Playlist DuoMídia no YouTube"
+            title="Canal DuoMídia no YouTube"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"
@@ -562,13 +563,13 @@ function VideoHero() {
             Cases, bastidores e novidades da DuoMídia &amp; Studio.
           </p>
           <a
-            href={`https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`}
+            href={YOUTUBE_CHANNEL_URL}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
           >
             <Play className="size-3.5 fill-current" />
-            Ver playlist
+            Ver canal
           </a>
         </div>
       </div>
