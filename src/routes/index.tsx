@@ -526,12 +526,12 @@ function ClientLogosStrip() {
   );
 }
 
-// ID da playlist pública do YouTube da DuoMídia — usada no embed da home.
-// Troque aqui se quiser exibir outra playlist do canal @DuoMidia.
-const YOUTUBE_PLAYLIST_ID = "PLrEnWoR732-DE0Nyx-6JIC-oow0nyPQmR";
+// Playlist de uploads do canal @DuoMidia (UC… → UU…): sempre mostra os
+// vídeos mais recentes publicados no canal, sem precisar atualizar nada aqui.
+const YOUTUBE_UPLOADS_PLAYLIST_ID = "UUVuZRvVPmBRW4D9VyEcCW5A";
 
 function VideoHero() {
-  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
+  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_UPLOADS_PLAYLIST_ID}&rel=0&modestbranding=1`;
   return (
     <div className="relative">
       <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-ochre/20 via-terracotta/10 to-transparent blur-3xl" />
@@ -1282,47 +1282,47 @@ type Podcast = {
 
 const podcasts: Podcast[] = [
   {
-    title: "Criatividade que vende sem gritar",
-    guest: "com Marina Bastos",
-    episode: "EP 24",
-    duration: "38 min",
+    title: "Reels — Apresentação Bia HS",
+    guest: "Produção DUO | Mídia & Studio",
+    episode: "Reels",
+    duration: "",
     description:
-      "Um bate-papo sobre como marcas conquistam atenção com sutileza, storytelling e consistência — sem depender de fórmulas prontas.",
+      "Vídeo vertical de apresentação produzido pela equipe: roteiro, gravação e edição feitos do começo ao fim pela DUO.",
     cover: podcast1Img,
-    reelId: "dQw4w9WgXcQ",
+    reelId: "vc94rLmtrb8",
     gallery: [podcastGallery1, podcastGallery2, podcastGallery3],
   },
   {
-    title: "Bastidores de uma campanha nacional",
-    guest: "com Rafael Prado",
-    episode: "EP 23",
-    duration: "42 min",
+    title: "Doce Sedução — Black Friday 01",
+    guest: "Cliente Doce Sedução",
+    episode: "Reels",
+    duration: "",
     description:
-      "Do briefing ao ar: como nasce uma campanha que roda em TV, redes e ponto de venda ao mesmo tempo.",
+      "Primeiro vídeo da série de Black Friday: mensagem direta, ritmo rápido e identidade da marca em destaque.",
     cover: podcast2Img,
-    reelId: "M7lc1UVf-VE",
+    reelId: "GFhRTBmctSw",
     gallery: [podcastGallery2, podcastGallery3, podcastGallery1],
   },
   {
-    title: "O novo consumidor brasileiro",
-    guest: "com Ana e Léo Duarte",
-    episode: "EP 22",
-    duration: "35 min",
+    title: "Doce Sedução — Black Friday 02",
+    guest: "Cliente Doce Sedução",
+    episode: "Reels",
+    duration: "",
     description:
-      "Pesquisas, comportamentos e tendências que estão mudando a forma de comprar e se relacionar com marcas.",
+      "Sequência da campanha, com foco nos produtos e nas ofertas do período.",
     cover: podcast3Img,
-    reelId: "ScMzIvxBSi4",
+    reelId: "KawVmw7s0J8",
     gallery: [podcastGallery3, podcastGallery1, podcastGallery2],
   },
   {
-    title: "Rir também é estratégia",
-    guest: "com Diego Nunes",
-    episode: "EP 21",
-    duration: "29 min",
+    title: "Doce Sedução — Black Friday 03",
+    guest: "Cliente Doce Sedução",
+    episode: "Reels",
+    duration: "",
     description:
-      "Humor bem usado gera memória e afeto. Conversamos sobre o limite entre a graça e a mensagem certa.",
+      "Fechamento da série, reforçando a chamada para ação e o prazo da promoção.",
     cover: podcast4Img,
-    reelId: "aqz-KE-bpKQ",
+    reelId: "6C9UK-d9g-A",
     gallery: [podcastGallery1, podcastGallery3, podcastGallery2],
   },
 ];
@@ -1360,9 +1360,11 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                   <span className="size-1.5 rounded-full bg-white animate-pulse" />
                   Reel
                 </div>
-                <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/50 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
-                  {featured.duration}
-                </div>
+                {featured.duration ? (
+                  <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/50 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
+                    {featured.duration}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -1458,7 +1460,9 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                         <span className="text-[10px] font-mono uppercase tracking-wider text-ochre">
                           {p.episode}
                         </span>
-                        <span className="text-[10px] text-ink-muted">· {p.duration}</span>
+                        {p.duration ? (
+                          <span className="text-[10px] text-ink-muted">· {p.duration}</span>
+                        ) : null}
                       </div>
                       <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-ink">
                         {p.title}

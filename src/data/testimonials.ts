@@ -32,10 +32,6 @@ import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
 import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.png.asset.json";
 import eltonSalesImg from "@/assets/testimonials/elton-sales.png.asset.json";
 import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
-import testimonial1Img from "@/assets/testimonial-1.jpg";
-import testimonial2Img from "@/assets/testimonial-2.jpg";
-import testimonial3Img from "@/assets/testimonial-3.jpg";
-import testimonial4Img from "@/assets/testimonial-4.jpg";
 
 export type Testimonial = {
   quote: string;
@@ -83,41 +79,5 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: "hoje",
     image: camilaMagalhaesImg.url,
-  },
-  {
-    quote:
-      "A DUO transformou a forma como nos comunicamos. Em poucos dias nosso feed ganhou vida e os resultados apareceram.",
-    name: "Mariana Ribeiro",
-    role: "Diretora de Marketing, VivaBem",
-    rating: 5,
-    date: "há 1 mês",
-    image: testimonial1Img,
-  },
-  {
-    quote:
-      "Profissionalismo, criatividade e pontualidade. É raro encontrar um time que entrega tudo isso junto.",
-    name: "Ricardo Almeida",
-    role: "CEO, Construtora Horizonte",
-    rating: 5,
-    date: "há 3 meses",
-    image: testimonial2Img,
-  },
-  {
-    quote:
-      "A DUO facilitou demais nosso dia a dia. Peço uma arte, acompanho tudo e recebo prontinho para publicar.",
-    name: "Juliana Costa",
-    role: "Gestora de Redes, TechFlow",
-    rating: 5,
-    date: "há 4 meses",
-    image: testimonial3Img,
-  },
-  {
-    quote:
-      "A cobertura do nosso evento ficou impecável. Fotos, vídeos e conteúdo para redes saíram no mesmo dia.",
-    name: "Fernando Moura",
-    role: "Fundador, Summit Brasil",
-    rating: 5,
-    date: "há 6 meses",
-    image: testimonial4Img,
   },
 ];
