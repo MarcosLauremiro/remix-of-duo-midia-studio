@@ -372,15 +372,15 @@ type Founder = {
 const founders: Founder[] = [
   {
     name: "Fabia Homobono",
-    role: "Sócia · Diretora de Mídia",
-    bio: "Estrategista com mais de 15 anos em campanhas de marca. Lidera a área de Mídia com um olhar afiado para audiência, veículo e resultado.",
+    role: "Sócia · CEO",
+    bio: "Fábia Homobono é publicitária, estrategista de marketing e CEO da Duomídia. Com mais de 20 anos de experiência no mercado da comunicação, reúne sólida formação em Marketing, especializações em Comunicação e Marketing Digital e uma trajetória marcada pela criação de estratégias que fortalecem marcas, impulsionam negócios e geram resultados. Sua expertise alia visão estratégica, criatividade e inovação para desenvolver soluções de marketing que conectam empresas ao crescimento e ao posicionamento de mercado.",
     image: founder1Img,
     accent: "terracotta",
   },
   {
     name: "Anna Valeria Oliveira",
-    role: "Sócia · Diretora de Studio",
-    bio: "Diretora de arte à frente do Studio. Une design, audiovisual e narrativa para dar identidade a marcas que querem ser lembradas.",
+    role: "Sócia · Gestora de Contas",
+    bio: "Anna Valéria Oliveira é publicitária, especialista em marketing e Gestora de Contas da Duomídia. Com mais de 15 anos de experiência no mercado de comunicação e publicidade, possui sólida atuação no relacionamento estratégico com clientes, planejamento de ações de marketing e desenvolvimento de projetos que conectam marcas e públicos. Sua trajetória é marcada pela criatividade, organização e visão estratégica, contribuindo para transformar objetivos de negócios em soluções de comunicação eficientes e resultados concretos.",
     image: founder2Img,
     accent: "ochre",
   },
