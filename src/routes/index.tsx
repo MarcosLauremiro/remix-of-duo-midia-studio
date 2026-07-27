@@ -15,6 +15,7 @@ import {
   Eye,
   Play,
   Youtube,
+  Instagram,
   Quote,
   Calendar,
   Newspaper,
@@ -25,6 +26,13 @@ import {
   Images,
   Star,
 } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/* Links oficiais da DUO | Mídia & Studio                             */
+/* ------------------------------------------------------------------ */
+
+const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@DuoMidia";
+const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 
 import postImg from "@/assets/service-post.jpg";
 import storyImg from "@/assets/service-story.jpg";
@@ -518,7 +526,8 @@ function ClientLogosStrip() {
   );
 }
 
-// ID da playlist pública do YouTube da DuoMídia — troque aqui quando quiser.
+// ID da playlist pública do YouTube da DuoMídia — usada no embed da home.
+// Troque aqui se quiser exibir outra playlist do canal @DuoMidia.
 const YOUTUBE_PLAYLIST_ID = "PLrEnWoR732-DE0Nyx-6JIC-oow0nyPQmR";
 
 function VideoHero() {
@@ -531,7 +540,7 @@ function VideoHero() {
           <div className="flex items-center gap-2">
             <Youtube className="size-4 text-terracotta" />
             <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-ink-muted">
-              DuoMídia · Playlist
+              DuoMídia · Canal no YouTube
             </span>
           </div>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-terracotta/10 px-2.5 py-1 text-[10px] font-medium text-terracotta">
@@ -542,7 +551,7 @@ function VideoHero() {
         <div className="relative aspect-video w-full bg-background">
           <iframe
             src={embedSrc}
-            title="Playlist DuoMídia no YouTube"
+            title="Canal DuoMídia no YouTube"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"
@@ -554,13 +563,13 @@ function VideoHero() {
             Cases, bastidores e novidades da DuoMídia &amp; Studio.
           </p>
           <a
-            href={`https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`}
+            href={YOUTUBE_CHANNEL_URL}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
           >
             <Play className="size-3.5 fill-current" />
-            Ver playlist
+            Ver canal
           </a>
         </div>
       </div>
@@ -1467,16 +1476,29 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, count }: { eyebrow: string; title: string; count?: number }) {
+function SectionHeader({
+  eyebrow,
+  title,
+  count,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  count?: number;
+  action?: React.ReactNode;
+}) {
   return (
-    <div className="mb-6 flex items-end justify-between">
+    <div className="mb-6 flex items-end justify-between gap-4">
       <div>
         <p className="eyebrow mb-2">{eyebrow}</p>
         <h2 className="font-display text-2xl text-ink sm:text-3xl">{title}</h2>
       </div>
-      {typeof count === "number" && (
-        <span className="hidden text-xs text-ink-muted sm:block">{count} itens</span>
-      )}
+      <div className="flex items-center gap-3">
+        {typeof count === "number" && (
+          <span className="hidden text-xs text-ink-muted sm:block">{count} itens</span>
+        )}
+        {action}
+      </div>
     </div>
   );
 }
@@ -1686,6 +1708,18 @@ function Home_() {
             eyebrow="DuoCast · nossos episódios"
             title="Gravações de podcast"
             count={podcasts.length}
+            action={
+              <a
+                href={INSTAGRAM_REELS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10 transition-colors hover:bg-surface-strong hover:text-terracotta"
+              >
+                <Instagram className="size-3.5" />
+                Ver Reels
+                <ExternalLink className="size-3" />
+              </a>
+            }
           />
           <PodcastRotator items={podcasts} />
         </section>
