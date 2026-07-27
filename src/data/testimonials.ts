@@ -32,10 +32,6 @@ import biaHomobonoImg from "@/assets/bia-homobono.png.asset.json";
 import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.png.asset.json";
 import eltonSalesImg from "@/assets/testimonials/elton-sales.png.asset.json";
 import nadyaJacobImg from "@/assets/testimonial-nadya.png.asset.json";
-import testimonial1Img from "@/assets/testimonial-1.jpg";
-import testimonial2Img from "@/assets/testimonial-2.jpg";
-import testimonial3Img from "@/assets/testimonial-3.jpg";
-import testimonial4Img from "@/assets/testimonial-4.jpg";
 
 export type Testimonial = {
   quote: string;
