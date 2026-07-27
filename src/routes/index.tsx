@@ -1460,7 +1460,9 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                         <span className="text-[10px] font-mono uppercase tracking-wider text-ochre">
                           {p.episode}
                         </span>
-                        <span className="text-[10px] text-ink-muted">· {p.duration}</span>
+                        {p.duration ? (
+                          <span className="text-[10px] text-ink-muted">· {p.duration}</span>
+                        ) : null}
                       </div>
                       <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-ink">
                         {p.title}
