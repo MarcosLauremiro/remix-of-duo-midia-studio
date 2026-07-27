@@ -526,12 +526,12 @@ function ClientLogosStrip() {
   );
 }
 
-// ID da playlist pública do YouTube da DuoMídia — usada no embed da home.
-// Troque aqui se quiser exibir outra playlist do canal @DuoMidia.
-const YOUTUBE_PLAYLIST_ID = "PLrEnWoR732-DE0Nyx-6JIC-oow0nyPQmR";
+// Playlist de uploads do canal @DuoMidia (UC… → UU…): sempre mostra os
+// vídeos mais recentes publicados no canal, sem precisar atualizar nada aqui.
+const YOUTUBE_UPLOADS_PLAYLIST_ID = "UUVuZRvVPmBRW4D9VyEcCW5A";
 
 function VideoHero() {
-  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
+  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_UPLOADS_PLAYLIST_ID}&rel=0&modestbranding=1`;
   return (
     <div className="relative">
       <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-ochre/20 via-terracotta/10 to-transparent blur-3xl" />
