@@ -569,7 +569,7 @@ function VideoHero() {
             className="inline-flex items-center gap-1.5 rounded-full bg-terracotta px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm shadow-terracotta/30 transition-transform hover:-translate-y-0.5"
           >
             <Play className="size-3.5 fill-current" />
-            Ver canal
+            Ver playlist
           </a>
         </div>
       </div>
