@@ -1708,6 +1708,18 @@ function Home_() {
             eyebrow="DuoCast · nossos episódios"
             title="Gravações de podcast"
             count={podcasts.length}
+            action={
+              <a
+                href={INSTAGRAM_REELS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10 transition-colors hover:bg-surface-strong hover:text-terracotta"
+              >
+                <Instagram className="size-3.5" />
+                Ver Reels
+                <ExternalLink className="size-3" />
+              </a>
+            }
           />
           <PodcastRotator items={podcasts} />
         </section>
