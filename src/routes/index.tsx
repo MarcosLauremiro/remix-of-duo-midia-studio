@@ -526,12 +526,12 @@ function ClientLogosStrip() {
   );
 }
 
-// Playlist de uploads do canal @DuoMidia (UC… → UU…): sempre mostra os
-// vídeos mais recentes publicados no canal, sem precisar atualizar nada aqui.
-const YOUTUBE_UPLOADS_PLAYLIST_ID = "UUVuZRvVPmBRW4D9VyEcCW5A";
+// Playlist específica enviada pelo cliente: sempre mostra apenas os
+// vídeos dessa playlist, sem misturar outros conteúdos do canal.
+const YOUTUBE_PLAYLIST_ID = "PLOhe-XthqQMA";
 
 function VideoHero() {
-  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_UPLOADS_PLAYLIST_ID}&rel=0&modestbranding=1`;
+  const embedSrc = `https://www.youtube-nocookie.com/embed/videoseries?list=${YOUTUBE_PLAYLIST_ID}&rel=0&modestbranding=1`;
   return (
     <div className="relative">
       <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-ochre/20 via-terracotta/10 to-transparent blur-3xl" />
