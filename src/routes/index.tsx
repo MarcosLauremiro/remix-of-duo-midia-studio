@@ -1476,16 +1476,29 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, count }: { eyebrow: string; title: string; count?: number }) {
+function SectionHeader({
+  eyebrow,
+  title,
+  count,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  count?: number;
+  action?: React.ReactNode;
+}) {
   return (
-    <div className="mb-6 flex items-end justify-between">
+    <div className="mb-6 flex items-end justify-between gap-4">
       <div>
         <p className="eyebrow mb-2">{eyebrow}</p>
         <h2 className="font-display text-2xl text-ink sm:text-3xl">{title}</h2>
       </div>
-      {typeof count === "number" && (
-        <span className="hidden text-xs text-ink-muted sm:block">{count} itens</span>
-      )}
+      <div className="flex items-center gap-3">
+        {typeof count === "number" && (
+          <span className="hidden text-xs text-ink-muted sm:block">{count} itens</span>
+        )}
+        {action}
+      </div>
     </div>
   );
 }
