@@ -1360,9 +1360,11 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                   <span className="size-1.5 rounded-full bg-white animate-pulse" />
                   Reel
                 </div>
-                <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/50 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
-                  {featured.duration}
-                </div>
+                {featured.duration ? (
+                  <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/50 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
+                    {featured.duration}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
