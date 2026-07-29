@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PainelClienteRoute = PainelClienteRouteImport.update({
   id: '/painel-cliente',
   path: '/painel-cliente',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/duomidia' | '/duostudio' | '/painel-cliente'
+  fullPaths: '/' | '/duomidia' | '/duostudio' | '/painel-cliente' | '/servicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/duomidia' | '/duostudio' | '/painel-cliente'
-  id: '__root__' | '/' | '/duomidia' | '/duostudio' | '/painel-cliente'
+  to: '/' | '/duomidia' | '/duostudio' | '/painel-cliente' | '/servicos'
+  id:
+    | '__root__'
+    | '/'
+    | '/duomidia'
+    | '/duostudio'
+    | '/painel-cliente'
+    | '/servicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +82,18 @@ export interface RootRouteChildren {
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
   PainelClienteRoute: typeof PainelClienteRoute
+  ServicosRoute: typeof ServicosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/painel-cliente': {
       id: '/painel-cliente'
       path: '/painel-cliente'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
   PainelClienteRoute: PainelClienteRoute,
+  ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
