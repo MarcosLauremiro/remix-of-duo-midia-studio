@@ -10,7 +10,6 @@ import {
   FolderOpen,
   LifeBuoy,
   Sparkles,
-  Menu,
   ArrowUpRight,
   Eye,
   Play,
