@@ -10,7 +10,6 @@ import {
   FolderOpen,
   LifeBuoy,
   Sparkles,
-  Menu,
   ArrowUpRight,
   Eye,
   Play,
@@ -44,6 +43,7 @@ import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
+import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 
 import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
 import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
@@ -181,16 +181,6 @@ const categories = [
   "Sites e Digital",
   "Coberturas",
   "Outros",
-];
-
-const nav = [
-  { label: "Início", icon: Home, active: true },
-  { label: "Nova solicitação", icon: PlusCircle },
-  { label: "Minhas solicitações", icon: ListChecks },
-  { label: "Meus serviços", icon: Layers },
-  { label: "Créditos", icon: Coins },
-  { label: "Arquivos", icon: FolderOpen },
-  { label: "Ajuda", icon: LifeBuoy },
 ];
 
 function BillingBadge({ billing, credits }: { billing: Billing; credits?: number }) {
@@ -1510,7 +1500,6 @@ function SectionHeader({
 function Home_() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [query, setQuery] = useState("");
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const filtered = services.filter((s) => {
     const matchCat = activeCategory === "Todos" || s.category === activeCategory;
@@ -1520,82 +1509,8 @@ function Home_() {
 
   return (
     <div className="min-h-screen bg-background text-ink">
-      {/* Top Nav */}
-      <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
-          <div className="flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-primary-foreground">
-              D
-            </span>
-            <div className="flex flex-col leading-tight">
-              <span className="font-display text-base font-bold text-ink">
-                DUO <span className="text-ink-muted font-normal">|</span> <span className="text-terracotta">Mídia</span> <span className="text-ink-muted font-normal">&</span>{" "}
-                <span className="text-ochre">Studio</span>
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">Mídia & Studio</span>
-            </div>
-          </div>
+      <SiteHeader />
 
-          <nav className="hidden items-center gap-1 lg:flex">
-            {nav.map((item) => {
-              const Icon = item.icon;
-              return (
-                <button
-                  key={item.label}
-                  className={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
-                    item.active
-                      ? "bg-surface-strong text-ink"
-                      : "text-ink-muted hover:bg-surface-strong hover:text-ink"
-                  }`}
-                >
-                  <Icon className="size-4" />
-                  {item.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <div className="hidden items-center gap-2 rounded-full bg-terracotta-soft px-3 py-1.5 text-xs font-medium text-terracotta md:inline-flex">
-              <Sparkles className="size-3.5" />
-              12 créditos
-            </div>
-            <div className="grid size-9 place-items-center rounded-full bg-surface-strong text-ink text-xs font-semibold">
-              MB
-            </div>
-            <button
-              onClick={() => setMobileNavOpen((v) => !v)}
-              className="grid size-9 place-items-center rounded-full border border-ink/10 lg:hidden"
-              aria-label="Abrir menu"
-            >
-              <Menu className="size-4" />
-            </button>
-          </div>
-        </div>
-
-        {mobileNavOpen && (
-          <div className="border-t border-ink/10 bg-surface lg:hidden">
-            <div className="mx-auto grid max-w-7xl grid-cols-2 gap-1 px-5 py-3 sm:grid-cols-3">
-              {nav.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.label}
-                    className={`inline-flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium ${
-                      item.active
-                        ? "bg-surface-strong text-ink"
-                        : "text-ink-muted hover:bg-surface-strong"
-                    }`}
-                  >
-                    <Icon className="size-4" />
-                    {item.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
         {/* Hero + Video */}
@@ -1773,20 +1688,7 @@ function Home_() {
           </div>
         </section>
 
-        <footer className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-ink/10 pt-8 text-sm text-ink-muted sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} DuoMídia · Todos os direitos reservados.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-ink">
-              Sobre
-            </a>
-            <a href="#" className="hover:text-ink">
-              Privacidade
-            </a>
-            <a href="#" className="hover:text-ink">
-              Contato
-            </a>
-          </div>
-        </footer>
+        <SiteFooter />
       </main>
     </div>
   );
