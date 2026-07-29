@@ -19,8 +19,6 @@ export const siteNav = [
   { label: "DUOMÍDIA", to: "/duomidia", icon: Megaphone },
   { label: "DUOSTUDIO", to: "/duostudio", icon: Clapperboard },
   { label: "Serviços", to: "/servicos", icon: Layers },
-  { label: "Coberturas", to: "/coberturas", icon: Camera },
-  { label: "Podcasts", to: "/podcasts", icon: Mic },
   { label: "Blog", to: "/blog", icon: Newspaper },
   { label: "Imprensa", to: "/imprensa", icon: Radio },
   { label: "Painel do cliente", to: "/painel-cliente", icon: LayoutDashboard },
