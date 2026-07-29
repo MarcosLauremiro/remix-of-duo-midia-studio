@@ -10,23 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicosRouteImport } from './routes/servicos'
-import { Route as PodcastsRouteImport } from './routes/podcasts'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as ImprensaRouteImport } from './routes/imprensa'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
-import { Route as CoberturasRouteImport } from './routes/coberturas'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ServicosRoute = ServicosRouteImport.update({
   id: '/servicos',
   path: '/servicos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PodcastsRoute = PodcastsRouteImport.update({
-  id: '/podcasts',
-  path: '/podcasts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelClienteRoute = PainelClienteRouteImport.update({
@@ -49,11 +42,6 @@ const DuomidiaRoute = DuomidiaRouteImport.update({
   path: '/duomidia',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CoberturasRoute = CoberturasRouteImport.update({
-  id: '/coberturas',
-  path: '/coberturas',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
   path: '/blog',
@@ -68,35 +56,29 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/imprensa': typeof ImprensaRoute
   '/painel-cliente': typeof PainelClienteRoute
-  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/imprensa': typeof ImprensaRoute
   '/painel-cliente': typeof PainelClienteRoute
-  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/imprensa': typeof ImprensaRoute
   '/painel-cliente': typeof PainelClienteRoute
-  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRouteTypes {
@@ -104,46 +86,38 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
-    | '/coberturas'
     | '/duomidia'
     | '/duostudio'
     | '/imprensa'
     | '/painel-cliente'
-    | '/podcasts'
     | '/servicos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blog'
-    | '/coberturas'
     | '/duomidia'
     | '/duostudio'
     | '/imprensa'
     | '/painel-cliente'
-    | '/podcasts'
     | '/servicos'
   id:
     | '__root__'
     | '/'
     | '/blog'
-    | '/coberturas'
     | '/duomidia'
     | '/duostudio'
     | '/imprensa'
     | '/painel-cliente'
-    | '/podcasts'
     | '/servicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRoute: typeof BlogRoute
-  CoberturasRoute: typeof CoberturasRoute
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
   ImprensaRoute: typeof ImprensaRoute
   PainelClienteRoute: typeof PainelClienteRoute
-  PodcastsRoute: typeof PodcastsRoute
   ServicosRoute: typeof ServicosRoute
 }
 
@@ -154,13 +128,6 @@ declare module '@tanstack/react-router' {
       path: '/servicos'
       fullPath: '/servicos'
       preLoaderRoute: typeof ServicosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/podcasts': {
-      id: '/podcasts'
-      path: '/podcasts'
-      fullPath: '/podcasts'
-      preLoaderRoute: typeof PodcastsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel-cliente': {
@@ -191,13 +158,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DuomidiaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/coberturas': {
-      id: '/coberturas'
-      path: '/coberturas'
-      fullPath: '/coberturas'
-      preLoaderRoute: typeof CoberturasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/blog': {
       id: '/blog'
       path: '/blog'
@@ -218,12 +178,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRoute,
-  CoberturasRoute: CoberturasRoute,
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
   ImprensaRoute: ImprensaRoute,
   PainelClienteRoute: PainelClienteRoute,
-  PodcastsRoute: PodcastsRoute,
   ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
