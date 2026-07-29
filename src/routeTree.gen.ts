@@ -13,6 +13,7 @@ import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
+import { Route as CoberturasRouteImport } from './routes/coberturas'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ServicosRoute = ServicosRouteImport.update({
@@ -35,6 +36,11 @@ const DuomidiaRoute = DuomidiaRouteImport.update({
   path: '/duomidia',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoberturasRoute = CoberturasRouteImport.update({
+  id: '/coberturas',
+  path: '/coberturas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/coberturas': typeof CoberturasRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
@@ -65,12 +74,25 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/duomidia' | '/duostudio' | '/painel-cliente' | '/servicos'
+  fullPaths:
+    | '/'
+    | '/coberturas'
+    | '/duomidia'
+    | '/duostudio'
+    | '/painel-cliente'
+    | '/servicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/duomidia' | '/duostudio' | '/painel-cliente' | '/servicos'
+  to:
+    | '/'
+    | '/coberturas'
+    | '/duomidia'
+    | '/duostudio'
+    | '/painel-cliente'
+    | '/servicos'
   id:
     | '__root__'
     | '/'
+    | '/coberturas'
     | '/duomidia'
     | '/duostudio'
     | '/painel-cliente'
@@ -79,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CoberturasRoute: typeof CoberturasRoute
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
   PainelClienteRoute: typeof PainelClienteRoute
@@ -115,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DuomidiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coberturas': {
+      id: '/coberturas'
+      path: '/coberturas'
+      fullPath: '/coberturas'
+      preLoaderRoute: typeof CoberturasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -127,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CoberturasRoute: CoberturasRoute,
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
   PainelClienteRoute: PainelClienteRoute,
