@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
+import { Route as DuomidiaRouteImport } from './routes/duomidia'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PainelClienteRoute = PainelClienteRouteImport.update({
   id: '/painel-cliente',
   path: '/painel-cliente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DuomidiaRoute = DuomidiaRouteImport.update({
+  id: '/duomidia',
+  path: '/duomidia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/duomidia': typeof DuomidiaRoute
   '/painel-cliente': typeof PainelClienteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/duomidia': typeof DuomidiaRoute
   '/painel-cliente': typeof PainelClienteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/duomidia': typeof DuomidiaRoute
   '/painel-cliente': typeof PainelClienteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/painel-cliente'
+  fullPaths: '/' | '/duomidia' | '/painel-cliente'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/painel-cliente'
-  id: '__root__' | '/' | '/painel-cliente'
+  to: '/' | '/duomidia' | '/painel-cliente'
+  id: '__root__' | '/' | '/duomidia' | '/painel-cliente'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DuomidiaRoute: typeof DuomidiaRoute
   PainelClienteRoute: typeof PainelClienteRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/painel-cliente'
       fullPath: '/painel-cliente'
       preLoaderRoute: typeof PainelClienteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/duomidia': {
+      id: '/duomidia'
+      path: '/duomidia'
+      fullPath: '/duomidia'
+      preLoaderRoute: typeof DuomidiaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DuomidiaRoute: DuomidiaRoute,
   PainelClienteRoute: PainelClienteRoute,
 }
 export const routeTree = rootRouteImport
