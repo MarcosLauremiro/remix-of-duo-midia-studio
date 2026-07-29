@@ -5,8 +5,6 @@ import {
   Megaphone,
   Clapperboard,
   Layers,
-  Camera,
-  Mic,
   Newspaper,
   Radio,
   LayoutDashboard,
