@@ -44,6 +44,7 @@ import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
+import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 
 import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
 import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
@@ -181,16 +182,6 @@ const categories = [
   "Sites e Digital",
   "Coberturas",
   "Outros",
-];
-
-const nav = [
-  { label: "Início", icon: Home, active: true },
-  { label: "Nova solicitação", icon: PlusCircle },
-  { label: "Minhas solicitações", icon: ListChecks },
-  { label: "Meus serviços", icon: Layers },
-  { label: "Créditos", icon: Coins },
-  { label: "Arquivos", icon: FolderOpen },
-  { label: "Ajuda", icon: LifeBuoy },
 ];
 
 function BillingBadge({ billing, credits }: { billing: Billing; credits?: number }) {
@@ -1698,20 +1689,7 @@ function Home_() {
           </div>
         </section>
 
-        <footer className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-ink/10 pt-8 text-sm text-ink-muted sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} DuoMídia · Todos os direitos reservados.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-ink">
-              Sobre
-            </a>
-            <a href="#" className="hover:text-ink">
-              Privacidade
-            </a>
-            <a href="#" className="hover:text-ink">
-              Contato
-            </a>
-          </div>
-        </footer>
+        <SiteFooter />
       </main>
     </div>
   );
