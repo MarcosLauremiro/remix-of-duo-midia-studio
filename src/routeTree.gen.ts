@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as PodcastsRouteImport } from './routes/podcasts'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ServicosRoute = ServicosRouteImport.update({
   id: '/servicos',
   path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastsRoute = PodcastsRouteImport.update({
+  id: '/podcasts',
+  path: '/podcasts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelClienteRoute = PainelClienteRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
   '/painel-cliente': typeof PainelClienteRoute
+  '/podcasts': typeof PodcastsRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/duomidia'
     | '/duostudio'
     | '/painel-cliente'
+    | '/podcasts'
     | '/servicos'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/duomidia'
     | '/duostudio'
     | '/painel-cliente'
+    | '/podcasts'
     | '/servicos'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/duomidia'
     | '/duostudio'
     | '/painel-cliente'
+    | '/podcasts'
     | '/servicos'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
   PainelClienteRoute: typeof PainelClienteRoute
+  PodcastsRoute: typeof PodcastsRoute
   ServicosRoute: typeof ServicosRoute
 }
 
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/servicos'
       fullPath: '/servicos'
       preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcasts': {
+      id: '/podcasts'
+      path: '/podcasts'
+      fullPath: '/podcasts'
+      preLoaderRoute: typeof PodcastsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel-cliente': {
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
   PainelClienteRoute: PainelClienteRoute,
+  PodcastsRoute: PodcastsRoute,
   ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
