@@ -9,7 +9,8 @@ import {
   Radio,
   LayoutDashboard,
   Menu,
-  Sparkles,
+  LogIn,
+
 } from "lucide-react";
 
 import logoAsset from "@/assets/logo-duo-midia.png.asset.json";
