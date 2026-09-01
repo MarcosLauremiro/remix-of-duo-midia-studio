@@ -39,8 +39,9 @@ import carrosselImg from "@/assets/service-carrossel.jpg";
 import reelImg from "@/assets/service-reel.jpg";
 import bannerImg from "@/assets/service-banner.jpg";
 import emailImg from "@/assets/service-email.jpg";
-import crachaImg from "@/assets/service-cracha.jpg";
+import crachaCredencialAsset from "@/assets/cracha-credencial.png.asset.json";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
+const crachaCredencialImg = crachaCredencialAsset.url;
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
@@ -155,10 +156,10 @@ const services: Service[] = [
     billing: "plano",
   },
   {
-    name: "Crachá",
-    description: "Identificação impressa para equipe, eventos e visitas.",
+    name: "Crachás e credenciais",
+    description: "Identificação personalizada para equipe, eventos, visitantes e acessos.",
     category: "Design e Materiais",
-    image: crachaImg,
+    image: crachaCredencialImg,
     billing: "plano",
   },
   {
