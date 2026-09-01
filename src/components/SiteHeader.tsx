@@ -65,13 +65,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-full bg-terracotta-soft px-3 py-1.5 text-xs font-medium text-terracotta md:inline-flex">
-            <Sparkles className="size-3.5" />
-            12 créditos
-          </div>
-          <div className="grid size-9 place-items-center rounded-full bg-surface-strong text-xs font-semibold text-ink">
-            MB
-          </div>
+          <Link
+            to="/painel-cliente"
+            className="inline-flex items-center gap-2 rounded-full bg-terracotta px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            <LogIn className="size-4" />
+            <span className="hidden sm:inline">Entrar</span>
+          </Link>
+
           <button
             onClick={() => setMobileNavOpen((v) => !v)}
             className="grid size-9 place-items-center rounded-full border border-ink/10 xl:hidden"
