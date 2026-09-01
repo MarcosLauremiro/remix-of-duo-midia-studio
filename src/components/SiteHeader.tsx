@@ -21,8 +21,8 @@ export const siteNav = [
   { label: "Serviços", to: "/servicos", icon: Layers },
   { label: "Blog", to: "/blog", icon: Newspaper },
   { label: "Imprensa", to: "/imprensa", icon: Radio },
-  { label: "Painel do cliente", to: "/painel-cliente", icon: LayoutDashboard },
 ] as const;
+
 
 export function SiteHeader() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
