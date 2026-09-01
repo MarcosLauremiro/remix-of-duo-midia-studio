@@ -1517,7 +1517,7 @@ function Home_() {
         {/* Hero + Video */}
         <section className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
           <div className="flex flex-col">
-            <p className="eyebrow mb-4">Olá, Marina</p>
+            <p className="eyebrow mb-4">Bem-vindo à DUO | Mídia & Studio</p>
             <h1 className="font-display text-4xl leading-[1.05] text-ink text-balance sm:text-5xl lg:text-6xl">
               DUO <span className="text-ink-muted font-light">|</span> <span className="text-terracotta">Mídia</span>{" "}
               <span className="text-ink-muted font-light">&</span> <span className="text-ochre">Studio</span>
