@@ -7,9 +7,10 @@ import {
   Layers,
   Newspaper,
   Radio,
-  LayoutDashboard,
+  
   Menu,
-  Sparkles,
+  LogIn,
+
 } from "lucide-react";
 
 import logoAsset from "@/assets/logo-duo-midia.png.asset.json";
@@ -21,8 +22,8 @@ export const siteNav = [
   { label: "Serviços", to: "/servicos", icon: Layers },
   { label: "Blog", to: "/blog", icon: Newspaper },
   { label: "Imprensa", to: "/imprensa", icon: Radio },
-  { label: "Painel do cliente", to: "/painel-cliente", icon: LayoutDashboard },
 ] as const;
+
 
 export function SiteHeader() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -31,7 +32,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-10 w-28 items-center justify-center overflow-hidden rounded-lg bg-white p-1.5">
+          <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-1">
             <img
               src={logoAsset.url}
               alt="DUO Mídia"
@@ -65,13 +66,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-full bg-terracotta-soft px-3 py-1.5 text-xs font-medium text-terracotta md:inline-flex">
-            <Sparkles className="size-3.5" />
-            12 créditos
-          </div>
-          <div className="grid size-9 place-items-center rounded-full bg-surface-strong text-xs font-semibold text-ink">
-            MB
-          </div>
+          <Link
+            to="/painel-cliente"
+            className="inline-flex items-center gap-2 rounded-full bg-terracotta px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            <LogIn className="size-4" />
+            <span className="hidden sm:inline">Entrar</span>
+          </Link>
+
           <button
             onClick={() => setMobileNavOpen((v) => !v)}
             className="grid size-9 place-items-center rounded-full border border-ink/10 xl:hidden"
