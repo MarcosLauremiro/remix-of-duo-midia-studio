@@ -12,6 +12,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import logoAsset from "@/assets/logo-duo-midia.png.asset.json";
+
 export const siteNav = [
   { label: "Início", to: "/", icon: Home },
   { label: "DUOMÍDIA", to: "/duomidia", icon: Megaphone },
@@ -29,8 +31,12 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-lg bg-terracotta font-display text-sm font-bold text-primary-foreground">
-            D
+          <span className="grid h-10 w-auto place-items-center overflow-hidden rounded-lg bg-white p-1">
+            <img
+              src={logoAsset.url}
+              alt="DUO Mídia"
+              className="h-full w-auto object-contain"
+            />
           </span>
           <div className="flex flex-col leading-tight">
             <span className="font-display text-base font-bold text-ink">
