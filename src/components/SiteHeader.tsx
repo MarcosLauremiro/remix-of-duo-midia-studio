@@ -31,7 +31,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-10 w-28 items-center justify-center overflow-hidden rounded-lg bg-white p-1.5">
+          <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-1">
             <img
               src={logoAsset.url}
               alt="DUO Mídia"
