@@ -67,7 +67,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link
-            to="/painel-cliente"
+            to="/entrar"
             className="inline-flex items-center gap-2 rounded-full bg-terracotta px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             <LogIn className="size-4" />

@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
+import { Route as PacotesRouteImport } from './routes/pacotes'
 import { Route as ImprensaRouteImport } from './routes/imprensa'
+import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -27,9 +29,19 @@ const PainelClienteRoute = PainelClienteRouteImport.update({
   path: '/painel-cliente',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PacotesRoute = PacotesRouteImport.update({
+  id: '/pacotes',
+  path: '/pacotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImprensaRoute = ImprensaRouteImport.update({
   id: '/imprensa',
   path: '/imprensa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DuostudioRoute = DuostudioRouteImport.update({
@@ -58,7 +70,9 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
+  '/entrar': typeof EntrarRoute
   '/imprensa': typeof ImprensaRoute
+  '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
 }
@@ -67,7 +81,9 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
+  '/entrar': typeof EntrarRoute
   '/imprensa': typeof ImprensaRoute
+  '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
 }
@@ -77,7 +93,9 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
+  '/entrar': typeof EntrarRoute
   '/imprensa': typeof ImprensaRoute
+  '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
 }
@@ -88,7 +106,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/duomidia'
     | '/duostudio'
+    | '/entrar'
     | '/imprensa'
+    | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +117,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/duomidia'
     | '/duostudio'
+    | '/entrar'
     | '/imprensa'
+    | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
   id:
@@ -106,7 +128,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/duomidia'
     | '/duostudio'
+    | '/entrar'
     | '/imprensa'
+    | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
   fileRoutesById: FileRoutesById
@@ -116,7 +140,9 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
+  EntrarRoute: typeof EntrarRoute
   ImprensaRoute: typeof ImprensaRoute
+  PacotesRoute: typeof PacotesRoute
   PainelClienteRoute: typeof PainelClienteRoute
   ServicosRoute: typeof ServicosRoute
 }
@@ -137,11 +163,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelClienteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pacotes': {
+      id: '/pacotes'
+      path: '/pacotes'
+      fullPath: '/pacotes'
+      preLoaderRoute: typeof PacotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/imprensa': {
       id: '/imprensa'
       path: '/imprensa'
       fullPath: '/imprensa'
       preLoaderRoute: typeof ImprensaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/duostudio': {
@@ -180,7 +220,9 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
+  EntrarRoute: EntrarRoute,
   ImprensaRoute: ImprensaRoute,
+  PacotesRoute: PacotesRoute,
   PainelClienteRoute: PainelClienteRoute,
   ServicosRoute: ServicosRoute,
 }
