@@ -9,37 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as DuomidiaRouteImport } from './routes/duomidia'
-import { Route as DuostudioRouteImport } from './routes/duostudio'
-import { Route as ImprensaRouteImport } from './routes/imprensa'
-import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
+import { Route as ImprensaRouteImport } from './routes/imprensa'
+import { Route as DuostudioRouteImport } from './routes/duostudio'
+import { Route as DuomidiaRouteImport } from './routes/duomidia'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as IndexRouteImport } from './routes/index'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DuomidiaRoute = DuomidiaRouteImport.update({
-  id: '/duomidia',
-  path: '/duomidia',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DuostudioRoute = DuostudioRouteImport.update({
-  id: '/duostudio',
-  path: '/duostudio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImprensaRoute = ImprensaRouteImport.update({
-  id: '/imprensa',
-  path: '/imprensa',
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelClienteRoute = PainelClienteRouteImport.update({
@@ -47,9 +27,29 @@ const PainelClienteRoute = PainelClienteRouteImport.update({
   path: '/painel-cliente',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicosRoute = ServicosRouteImport.update({
-  id: '/servicos',
-  path: '/servicos',
+const ImprensaRoute = ImprensaRouteImport.update({
+  id: '/imprensa',
+  path: '/imprensa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DuostudioRoute = DuostudioRouteImport.update({
+  id: '/duostudio',
+  path: '/duostudio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DuomidiaRoute = DuomidiaRouteImport.update({
+  id: '/duomidia',
+  path: '/duomidia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -123,39 +123,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/duomidia': {
-      id: '/duomidia'
-      path: '/duomidia'
-      fullPath: '/duomidia'
-      preLoaderRoute: typeof DuomidiaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/duostudio': {
-      id: '/duostudio'
-      path: '/duostudio'
-      fullPath: '/duostudio'
-      preLoaderRoute: typeof DuostudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/imprensa': {
-      id: '/imprensa'
-      path: '/imprensa'
-      fullPath: '/imprensa'
-      preLoaderRoute: typeof ImprensaRouteImport
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel-cliente': {
@@ -165,11 +137,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelClienteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/servicos': {
-      id: '/servicos'
-      path: '/servicos'
-      fullPath: '/servicos'
-      preLoaderRoute: typeof ServicosRouteImport
+    '/imprensa': {
+      id: '/imprensa'
+      path: '/imprensa'
+      fullPath: '/imprensa'
+      preLoaderRoute: typeof ImprensaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/duostudio': {
+      id: '/duostudio'
+      path: '/duostudio'
+      fullPath: '/duostudio'
+      preLoaderRoute: typeof DuostudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/duomidia': {
+      id: '/duomidia'
+      path: '/duomidia'
+      fullPath: '/duomidia'
+      preLoaderRoute: typeof DuomidiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
