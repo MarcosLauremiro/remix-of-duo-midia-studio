@@ -138,7 +138,7 @@ function PainelCliente() {
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
-        <p className="eyebrow mb-3">Olá, Marina</p>
+        <p className="eyebrow mb-3">Bem-vindo ao seu painel</p>
         <h1 className="font-display text-4xl leading-tight text-ink sm:text-5xl">
           Painel do cliente
         </h1>
