@@ -9,49 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ServicosRouteImport } from './routes/servicos'
-import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
-import { Route as PacotesRouteImport } from './routes/pacotes'
-import { Route as ImprensaRouteImport } from './routes/imprensa'
-import { Route as EntrarRouteImport } from './routes/entrar'
-import { Route as DuostudioRouteImport } from './routes/duostudio'
-import { Route as DuomidiaRouteImport } from './routes/duomidia'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as DuomidiaRouteImport } from './routes/duomidia'
+import { Route as DuostudioRouteImport } from './routes/duostudio'
+import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as ImprensaRouteImport } from './routes/imprensa'
+import { Route as PacotesRouteImport } from './routes/pacotes'
+import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
+import { Route as ServicosRouteImport } from './routes/servicos'
 
-const ServicosRoute = ServicosRouteImport.update({
-  id: '/servicos',
-  path: '/servicos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PainelClienteRoute = PainelClienteRouteImport.update({
-  id: '/painel-cliente',
-  path: '/painel-cliente',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PacotesRoute = PacotesRouteImport.update({
-  id: '/pacotes',
-  path: '/pacotes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImprensaRoute = ImprensaRouteImport.update({
-  id: '/imprensa',
-  path: '/imprensa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EntrarRoute = EntrarRouteImport.update({
-  id: '/entrar',
-  path: '/entrar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DuostudioRoute = DuostudioRouteImport.update({
-  id: '/duostudio',
-  path: '/duostudio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DuomidiaRoute = DuomidiaRouteImport.update({
-  id: '/duomidia',
-  path: '/duomidia',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -59,9 +29,39 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DuomidiaRoute = DuomidiaRouteImport.update({
+  id: '/duomidia',
+  path: '/duomidia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DuostudioRoute = DuostudioRouteImport.update({
+  id: '/duostudio',
+  path: '/duostudio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImprensaRoute = ImprensaRouteImport.update({
+  id: '/imprensa',
+  path: '/imprensa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PacotesRoute = PacotesRouteImport.update({
+  id: '/pacotes',
+  path: '/pacotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PainelClienteRoute = PainelClienteRouteImport.update({
+  id: '/painel-cliente',
+  path: '/painel-cliente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -149,53 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/servicos': {
-      id: '/servicos'
-      path: '/servicos'
-      fullPath: '/servicos'
-      preLoaderRoute: typeof ServicosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/painel-cliente': {
-      id: '/painel-cliente'
-      path: '/painel-cliente'
-      fullPath: '/painel-cliente'
-      preLoaderRoute: typeof PainelClienteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pacotes': {
-      id: '/pacotes'
-      path: '/pacotes'
-      fullPath: '/pacotes'
-      preLoaderRoute: typeof PacotesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/imprensa': {
-      id: '/imprensa'
-      path: '/imprensa'
-      fullPath: '/imprensa'
-      preLoaderRoute: typeof ImprensaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/entrar': {
-      id: '/entrar'
-      path: '/entrar'
-      fullPath: '/entrar'
-      preLoaderRoute: typeof EntrarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/duostudio': {
-      id: '/duostudio'
-      path: '/duostudio'
-      fullPath: '/duostudio'
-      preLoaderRoute: typeof DuostudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/duomidia': {
-      id: '/duomidia'
-      path: '/duomidia'
-      fullPath: '/duomidia'
-      preLoaderRoute: typeof DuomidiaRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -205,11 +163,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/duomidia': {
+      id: '/duomidia'
+      path: '/duomidia'
+      fullPath: '/duomidia'
+      preLoaderRoute: typeof DuomidiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/duostudio': {
+      id: '/duostudio'
+      path: '/duostudio'
+      fullPath: '/duostudio'
+      preLoaderRoute: typeof DuostudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imprensa': {
+      id: '/imprensa'
+      path: '/imprensa'
+      fullPath: '/imprensa'
+      preLoaderRoute: typeof ImprensaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pacotes': {
+      id: '/pacotes'
+      path: '/pacotes'
+      fullPath: '/pacotes'
+      preLoaderRoute: typeof PacotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/painel-cliente': {
+      id: '/painel-cliente'
+      path: '/painel-cliente'
+      fullPath: '/painel-cliente'
+      preLoaderRoute: typeof PainelClienteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
