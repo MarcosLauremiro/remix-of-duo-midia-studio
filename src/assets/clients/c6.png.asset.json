@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "cc70705c-59c6-47d9-b760-7252c5bb2470",
-  "project_id": "b8c70938-7619-4bb5-9403-9663f6755d2b",
-  "url": "/__l5e/assets-v1/cc70705c-59c6-47d9-b760-7252c5bb2470/client-kasa-nossa.png",
-  "r2_key": "a/v1/b8c70938-7619-4bb5-9403-9663f6755d2b/cc70705c-59c6-47d9-b760-7252c5bb2470/client-kasa-nossa.png",
-  "original_filename": "client-kasa-nossa.png",
-  "size": 281185,
   "content_type": "image/png",
-  "created_at": "2026-07-21T21:04:36Z"
+  "created_at": "2026-07-21T21:04:36Z",
+  "original_filename": "client-kasa-nossa.png",
+  "project_id": "0a108f44-8052-4d84-84e3-8a626dd5a027",
+  "r2_key": "a/v1/0a108f44-8052-4d84-84e3-8a626dd5a027/cc70705c-59c6-47d9-b760-7252c5bb2470/client-kasa-nossa.png",
+  "size": 281185,
+  "url": "/__l5e/assets-v1/cc70705c-59c6-47d9-b760-7252c5bb2470/client-kasa-nossa.png",
+  "version": 1
 }

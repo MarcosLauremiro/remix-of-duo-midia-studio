@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "0793bc19-39c3-44b8-89f6-a2ea72d650e3",
-  "project_id": "b8c70938-7619-4bb5-9403-9663f6755d2b",
-  "url": "/__l5e/assets-v1/0793bc19-39c3-44b8-89f6-a2ea72d650e3/logo-duo-midia.png",
-  "r2_key": "a/v1/b8c70938-7619-4bb5-9403-9663f6755d2b/0793bc19-39c3-44b8-89f6-a2ea72d650e3/logo-duo-midia.png",
-  "original_filename": "logo-duo-midia.png",
-  "size": 26951,
   "content_type": "image/png",
-  "created_at": "2026-09-01T02:38:03Z"
+  "created_at": "2026-09-01T02:38:03Z",
+  "original_filename": "logo-duo-midia.png",
+  "project_id": "0a108f44-8052-4d84-84e3-8a626dd5a027",
+  "r2_key": "a/v1/0a108f44-8052-4d84-84e3-8a626dd5a027/0793bc19-39c3-44b8-89f6-a2ea72d650e3/logo-duo-midia.png",
+  "size": 26951,
+  "url": "/__l5e/assets-v1/0793bc19-39c3-44b8-89f6-a2ea72d650e3/logo-duo-midia.png",
+  "version": 1
 }
