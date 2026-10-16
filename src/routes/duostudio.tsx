@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
+import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
 import reelImg from "@/assets/service-reel.jpg";
 import podcast1Img from "@/assets/podcast-1.jpg";
 import podcast2Img from "@/assets/podcast-2.jpg";
@@ -69,20 +70,44 @@ const frentes = [
 function DuoStudioPage() {
   return (
     <PageShell
-      eyebrow="Uma agência, várias soluções."
+      eyebrow="Campanha 2026 · Uma Agência. Várias soluções."
       title={
         <>
           DUO <span className="font-light text-ink-muted">|</span>{" "}
           <span className="text-ochre">Studio</span>
         </>
       }
-      intro="A frente de produção da agência: imagem, som e movimento para contar a história da sua marca com qualidade de estúdio."
+      intro="Uma solução integrada para marcas que precisam de estratégia + criação + produção. No DuoStudio entregamos imagem, som e movimento com qualidade de estúdio — do roteiro à entrega final."
     >
+      <div className="mt-8 flex flex-wrap gap-3">
+        <WhatsAppCta label="Falar com o DuoStudio no WhatsApp" />
+        <Link
+          to="/"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-strong"
+        >
+          Voltar ao início
+        </Link>
+      </div>
+      {!WHATSAPP_URL && (
+        <p className="mt-3 text-xs text-ink-muted">WhatsApp será ativado assim que o número for informado.</p>
+      )}
+
       <CardGrid>
         {frentes.map((f) => (
-          <InfoCard key={f.title} {...f} />
+          <InfoCard key={f.title} {...f} tagTone="ochre" />
         ))}
       </CardGrid>
+
+      <section className="mt-12 rounded-[1.75rem] border border-ochre/20 bg-ochre/10 p-6 sm:p-8">
+        <h2 className="font-display text-xl text-ink sm:text-2xl">Quer gravar com o DuoStudio?</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+          Estúdio equipado, direção de cena e cortes prontos para suas redes. Fale com a equipe e agende sua
+          gravação.
+        </p>
+        <div className="mt-6">
+          <WhatsAppCta label="Falar com o DuoStudio" />
+        </div>
+      </section>
     </PageShell>
   );
 }

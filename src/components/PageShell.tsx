@@ -36,13 +36,19 @@ export function InfoCard({
   text,
   tag,
   href,
+  tagTone = "terracotta",
 }: {
   image?: string;
   title: string;
   text: string;
   tag?: string;
   href?: string;
+  tagTone?: "terracotta" | "ochre";
 }) {
+  const tagClass =
+    tagTone === "ochre"
+      ? "bg-ochre/15 text-ochre"
+      : "bg-terracotta-soft text-terracotta";
   const inner = (
     <>
       {image && (
@@ -52,7 +58,9 @@ export function InfoCard({
       )}
       <div className={image ? "mt-4" : ""}>
         {tag && (
-          <span className="inline-flex rounded-full bg-terracotta-soft px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-terracotta">
+          <span
+            className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider ${tagClass}`}
+          >
             {tag}
           </span>
         )}

@@ -1,29 +1,26 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
-  Search,
-  Home,
-  PlusCircle,
-  ListChecks,
-  Layers,
-  Coins,
-  FolderOpen,
-  LifeBuoy,
   Sparkles,
   ArrowUpRight,
-  Eye,
+  ArrowRight,
   Play,
   Youtube,
   Instagram,
   Quote,
   Calendar,
-  Newspaper,
   ExternalLink,
-  ArrowRight,
   Mic,
   Headphones,
   Images,
   Star,
+  MessageCircle,
+  MonitorSmartphone,
+  TrendingUp,
+  BarChart3,
+  Palette,
+  Mail,
+  User,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -33,18 +30,9 @@ import {
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@DuoMidia";
 const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 
-import postImg from "@/assets/service-post.jpg";
-import storyImg from "@/assets/service-story.jpg";
-import carrosselImg from "@/assets/service-carrossel.jpg";
-import reelImg from "@/assets/service-reel.jpg";
-import bannerImg from "@/assets/service-banner.jpg";
-import emailImg from "@/assets/service-email.jpg";
-import crachaCredencialAsset from "@/assets/cracha-credencial.png.asset.json";
-import figurinhaImg from "@/assets/service-figurinha.jpg";
-const crachaCredencialImg = crachaCredencialAsset.url;
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
 
 import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
 import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
@@ -55,15 +43,6 @@ const eventPhotoLady = eventPhotoLadyAsset.url;
 const eventPhotoCrowd = eventPhotoCrowdAsset.url;
 const eventPhotoBand = eventPhotoBandAsset.url;
 
-import blog1Img from "@/assets/blog-1.jpg";
-import blog2Img from "@/assets/blog-2.jpg";
-import blog3Img from "@/assets/blog-3.jpg";
-import blog4Img from "@/assets/blog-4.jpg";
-
-import media1Img from "@/assets/media-1.jpg";
-import media2Img from "@/assets/media-2.jpg";
-import media3Img from "@/assets/media-3.jpg";
-import media4Img from "@/assets/media-4.jpg";
 
 import podcast1Img from "@/assets/podcast-1.jpg";
 import podcast2Img from "@/assets/podcast-2.jpg";
@@ -78,271 +57,131 @@ import founder2Asset from "@/assets/founder-anna.png.asset.json";
 const founder1Img = founder1Asset.url;
 const founder2Img = founder2Asset.url;
 
-import clientLogo1Asset from "@/assets/clients/c1.png.asset.json";
-import clientLogo2Asset from "@/assets/clients/c2.png.asset.json";
-import clientLogo3Asset from "@/assets/clients/c3.png.asset.json";
-import clientLogo4Asset from "@/assets/clients/c4.png.asset.json";
-import clientLogo5Asset from "@/assets/clients/c5.png.asset.json";
-import clientLogo6Asset from "@/assets/clients/c6.png.asset.json";
-import clientLogo7Asset from "@/assets/clients/c7.png.asset.json";
-import clientLogo8Asset from "@/assets/clients/c8.png.asset.json";
-const clientLogo1 = clientLogo1Asset.url;
-const clientLogo2 = clientLogo2Asset.url;
-const clientLogo3 = clientLogo3Asset.url;
-const clientLogo4 = clientLogo4Asset.url;
-const clientLogo5 = clientLogo5Asset.url;
-const clientLogo6 = clientLogo6Asset.url;
-const clientLogo7 = clientLogo7Asset.url;
-const clientLogo8 = clientLogo8Asset.url;
+import aciiLogo from "@/assets/clients/ACII.png";
+import bengessoLogo from "@/assets/clients/BENGESSO.png";
+import cdaLogo from "@/assets/clients/CDA Distribuidora.png";
+import dismarolLogo from "@/assets/clients/Dismarol.png";
+import imperialShoppingLogo from "@/assets/clients/imperial shopping.png";
+import kasaNossaLogo from "@/assets/clients/KASA NOSSA.png";
+import maraisaSampaioLogo from "@/assets/clients/Maraisa Sampaio.png";
 
 export const Route = createFileRoute("/")({
   component: Home_,
 });
 
-type Billing = "plano" | "creditos";
-
-type Service = {
-  name: string;
+type DuoServiceGroup = {
+  title: string;
+  subtitle: string;
+  accent: "terracotta" | "ochre";
+  icon: typeof MonitorSmartphone;
+  items: string[];
   description: string;
-  category: string;
-  image: string;
-  billing: Billing;
-  credits?: number;
+  href: string;
 };
 
-const services: Service[] = [
+const duoServiceGroups: DuoServiceGroup[] = [
   {
-    name: "Post para redes sociais",
-    description: "Uma arte estática pensada para o seu feed engajar mais.",
-    category: "Redes Sociais",
-    image: postImg,
-    billing: "plano",
+    title: "DUOMÍDIA",
+    subtitle: "Estratégia, conteúdo e mídia",
+    accent: "terracotta",
+    icon: TrendingUp,
+    description: "Planejamento, criação e divulgação para sua marca crescer com consistência.",
+    href: "/duomidia",
+    items: [
+      "Estratégia & Branding",
+      "Assessoria de Comunicação",
+      "Social Media",
+      "Criação & Comunicação Visual",
+      "Tráfego Pago",
+      "Campanhas & Mídia",
+    ],
   },
   {
-    name: "Story",
-    description: "Conteúdo vertical rápido para avisos, novidades e interação.",
-    category: "Redes Sociais",
-    image: storyImg,
-    billing: "plano",
-  },
-  {
-    name: "Carrossel",
-    description: "Sequência de artes para explicar, ensinar ou apresentar.",
-    category: "Redes Sociais",
-    image: carrosselImg,
-    billing: "creditos",
-    credits: 2,
-  },
-  {
-    name: "Reel",
-    description: "Vídeo curto editado com trilha e legendas dinâmicas.",
-    category: "Audiovisual",
-    image: reelImg,
-    billing: "creditos",
-    credits: 5,
-  },
-  {
-    name: "Banner",
-    description: "Peça horizontal para sites, e-mails e portais parceiros.",
-    category: "Design e Materiais",
-    image: bannerImg,
-    billing: "plano",
-  },
-  {
-    name: "Assinatura de e-mail",
-    description: "Comunicação padronizada e elegante para o seu time.",
-    category: "Comunicação",
-    image: emailImg,
-    billing: "plano",
-  },
-  {
-    name: "Crachás e credenciais",
-    description: "Identificação personalizada para equipe, eventos, visitantes e acessos.",
-    category: "Design e Materiais",
-    image: crachaCredencialImg,
-    billing: "plano",
-  },
-  {
-    name: "Figurinha para WhatsApp",
-    description: "Pacote de adesivos com a personalidade da sua marca.",
-    category: "Comunicação",
-    image: figurinhaImg,
-    billing: "creditos",
-    credits: 1,
+    title: "DUOSTUDIO",
+    subtitle: "Imagem, som e movimento",
+    accent: "ochre",
+    icon: MonitorSmartphone,
+    description: "Produção audiovisual completa: do roteiro à entrega final.",
+    href: "/duostudio",
+    items: [
+      "Produção de Vídeo",
+      "Conteúdo para Redes",
+      "Cobertura de Eventos",
+      "Fotografia",
+      "Estúdio & Podcast",
+      "Motion & Pós-produção",
+    ],
   },
 ];
 
-const categories = [
-  "Todos",
-  "Redes Sociais",
-  "Design e Materiais",
-  "Audiovisual",
-  "Campanhas",
-  "Comunicação",
-  "Sites e Digital",
-  "Coberturas",
-  "Outros",
-];
+const duoServiceMeta: Record<string, { icon: typeof MonitorSmartphone; hint: string }> = {
+  "Estratégia & Branding": { icon: Palette, hint: "Branding" },
+  "Assessoria de Comunicação": { icon: Mail, hint: "Comunicação" },
+  "Social Media": { icon: Images, hint: "Social" },
+  "Criação & Comunicação Visual": { icon: Palette, hint: "Criação" },
+  "Tráfego Pago": { icon: TrendingUp, hint: "Mídia paga" },
+  "Campanhas & Mídia": { icon: BarChart3, hint: "Campanhas" },
+  "Produção de Vídeo": { icon: Play, hint: "Vídeo" },
+  "Conteúdo para Redes": { icon: Images, hint: "Conteúdo" },
+  "Cobertura de Eventos": { icon: Calendar, hint: "Coberturas" },
+  Fotografia: { icon: Images, hint: "Foto" },
+  "Estúdio & Podcast": { icon: Mic, hint: "Podcast" },
+  "Motion & Pós-produção": { icon: MonitorSmartphone, hint: "Motion" },
+};
 
-function BillingBadge({ billing, credits }: { billing: Billing; credits?: number }) {
-  if (billing === "plano") {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-terracotta-soft px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-terracotta">
-        <span className="size-1.5 rounded-full bg-terracotta" />
-        Incluído no plano
-      </span>
-    );
-  }
+function DuoServiceCards() {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-ink/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-ink">
-      <Coins className="size-3" />
-      {credits} {credits === 1 ? "crédito" : "créditos"}
-    </span>
-  );
-}
-
-function ServiceCard({ service, compact = false }: { service: Service; compact?: boolean }) {
-  return (
-    <article
-      className={`group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 ${
-        compact ? "rounded-2xl" : "rounded-3xl"
-      }`}
-    >
-      <div className={`relative overflow-hidden bg-surface-strong ${compact ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
-        <img
-          src={service.image}
-          alt={service.name}
-          loading="lazy"
-          width={800}
-          height={600}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute left-3 top-3">
-          <span className="eyebrow rounded-full bg-surface/85 px-2.5 py-1 text-ink/80 backdrop-blur">
-            {service.category}
-          </span>
-        </div>
-      </div>
-
-      <div className={`flex flex-1 flex-col ${compact ? "gap-2 p-3.5" : "gap-4 p-5"}`}>
-        <div className="flex items-start justify-between gap-3">
-          <h3 className={`font-semibold leading-tight text-ink ${compact ? "text-sm" : "text-lg"}`}>
-            {service.name}
-          </h3>
-        </div>
-        <p className={`leading-relaxed text-ink-muted text-pretty ${compact ? "text-xs" : "text-sm"}`}>
-          {service.description}
-        </p>
-
-        <div className="mt-auto flex flex-col gap-2.5">
-          <BillingBadge billing={service.billing} credits={service.credits} />
-          <div className="flex gap-2">
-            <button
-              className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-ink/10 bg-surface font-medium text-ink transition-colors hover:bg-surface-strong ${
-                compact ? "px-2.5 py-2 text-xs" : "px-3 py-2.5 text-sm"
-              }`}
-            >
-              <Eye className={compact ? "size-3" : "size-4"} />
-              Ver exemplo
-            </button>
-            <button
-              className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-terracotta font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110 ${
-                compact ? "px-2.5 py-2 text-xs" : "px-3 py-2.5 text-sm"
-              }`}
-            >
-              Solicitar
-              <ArrowUpRight className={compact ? "size-3" : "size-4"} />
-            </button>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Services strip — same exposure as the events gallery                */
-/* ------------------------------------------------------------------ */
-
-function ServicesStrip({ services, intervalMs = 5000 }: { services: Service[]; intervalMs?: number }) {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const step = 3;
-
-  useEffect(() => {
-    setIndex(0);
-  }, [services]);
-
-  useEffect(() => {
-    if (paused || services.length <= step) return;
-    const pages = Math.ceil(services.length / step);
-    const id = setInterval(() => setIndex((i) => (i + 1) % pages), intervalMs);
-    return () => clearInterval(id);
-  }, [services.length, intervalMs, paused]);
-
-  const pages = Math.ceil(services.length / step) || 1;
-  const currentPage = Math.min(index, pages - 1);
-  const visible = Array.from({ length: step }, (_, i) => services[currentPage * step + i]).filter(Boolean);
-
-  return (
-    <div
-      className="flex flex-col gap-5"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Header of the current group */}
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
-            <Sparkles className="size-3.5 text-terracotta" />
-            Serviços mais solicitados
-          </div>
-          <h3 key={currentPage} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
-            Página {currentPage + 1} de {pages}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">
-            Três soluções por vez. Clique em "Solicitar" para pedir qualquer uma delas.
-          </p>
-        </div>
-        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-          Ver todos os serviços
-          <ArrowUpRight className="size-4" />
-        </button>
-      </div>
-
-      {/* Strip with 3 service cards side by side */}
-      <div key={`strip-${currentPage}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {visible.map((s, i) => (
-          <div
-            key={`${s.name}-${currentPage}-${i}`}
-            className="animate-fade-in"
-            style={{ animationDelay: `${i * 90}ms` }}
+    <div className="grid gap-5 lg:grid-cols-2">
+      {duoServiceGroups.map((group) => {
+        const GroupIcon = group.icon;
+        const isTerracotta = group.accent === "terracotta";
+        return (
+          <Link
+            key={group.title}
+            to={group.href}
+            className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-ink/10 bg-surface p-6 text-left shadow-sm shadow-black/10 transition-all hover:-translate-y-1 hover:border-ink/20 hover:shadow-xl hover:shadow-black/20 sm:p-7"
           >
-            <ServiceCard service={s} compact />
-          </div>
-        ))}
-      </div>
-
-      {/* Controls: dots + page buttons */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <ProgressDots count={pages} index={currentPage} />
-        <ul className="flex flex-wrap items-center gap-2">
-          {Array.from({ length: pages }).map((_, i) => (
-            <li key={i}>
-              <button
-                onClick={() => setIndex(i)}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
-                  i === currentPage
-                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
-                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
-                }`}
+            <div
+              className={`pointer-events-none absolute -right-10 -top-10 size-40 rounded-full blur-3xl ${isTerracotta ? "bg-terracotta/15" : "bg-ochre/15"}`}
+            />
+            <div className="relative flex items-start justify-between gap-4">
+              <span
+                className={`grid size-10 place-items-center rounded-xl ${isTerracotta ? "bg-terracotta/15 text-terracotta" : "bg-ochre/15 text-ochre"}`}
               >
-                Página {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <GroupIcon className="size-5" />
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-background px-3 py-1 text-[11px] font-medium text-ink-muted ring-1 ring-ink/10">
+                {group.subtitle}
+              </span>
+            </div>
+            <h3 className="relative mt-5 font-display text-2xl leading-tight text-ink sm:text-[1.7rem]">
+              {group.title}
+            </h3>
+            <p className="relative mt-2 text-sm leading-relaxed text-ink-muted text-pretty">
+              {group.description}
+            </p>
+            <ul className="relative mt-6 flex flex-wrap gap-2">
+              {group.items.map((item) => {
+                const meta = duoServiceMeta[item];
+                const ItemIcon = meta?.icon ?? Sparkles;
+                return (
+                  <li
+                    key={item}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10"
+                  >
+                    <ItemIcon className="size-3.5 text-ink-muted" />
+                    {item}
+                  </li>
+                );
+              })}
+            </ul>
+            <span className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta">
+              Conhecer {group.title}
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -364,14 +203,14 @@ const founders: Founder[] = [
   {
     name: "Fabia Homobono",
     role: "Sócia · CEO",
-    bio: "Fábia Homobono é publicitária, estrategista de marketing e CEO da Duomídia. Com mais de 20 anos de experiência no mercado da comunicação, reúne sólida formação em Marketing, especializações em Comunicação e Marketing Digital e uma trajetória marcada pela criação de estratégias que fortalecem marcas, impulsionam negócios e geram resultados. Sua expertise alia visão estratégica, criatividade e inovação para desenvolver soluções de marketing que conectam empresas ao crescimento e ao posicionamento de mercado.",
+    bio: "Publicitária e estrategista de marketing com mais de 20 anos de experiência. Especialista em Comunicação e Marketing Digital, cria estratégias que fortalecem marcas e impulsionam negócios com visão, criatividade e foco em resultado.",
     image: founder1Img,
     accent: "terracotta",
   },
   {
     name: "Anna Valeria Oliveira",
     role: "Sócia · Gestora de Contas",
-    bio: "Anna Valéria Oliveira é publicitária, especialista em marketing e Gestora de Contas da Duomídia. Com mais de 15 anos de experiência no mercado de comunicação e publicidade, possui sólida atuação no relacionamento estratégico com clientes, planejamento de ações de marketing e desenvolvimento de projetos que conectam marcas e públicos. Sua trajetória é marcada pela criatividade, organização e visão estratégica, contribuindo para transformar objetivos de negócios em soluções de comunicação eficientes e resultados concretos.",
+    bio: "Publicitária com mais de 15 anos de experiência em publicidade e gestão de contas. Cuida do relacionamento com clientes, do planejamento e da execução de projetos que conectam marcas e públicos com organização e sensibilidade criativa.",
     image: founder2Img,
     accent: "ochre",
   },
@@ -379,20 +218,20 @@ const founders: Founder[] = [
 
 function AboutSection() {
   return (
-    <section id="quem-somos" className="mt-16 lg:mt-24">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-        <div>
+    <section id="quem-somos" className="scroll-mt-24 mt-16 lg:mt-24">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)] lg:items-start">
+        <div className="lg:sticky lg:top-24">
           <p className="eyebrow mb-3">Quem somos</p>
-          <h2 className="font-display text-3xl leading-[1.1] text-ink text-balance sm:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl leading-[1.05] text-ink text-balance sm:text-4xl lg:text-[2.75rem]">
             Duas sócias, uma agência <span className="text-terracotta">com alma</span> e um{" "}
             <span className="text-ochre">Studio</span> que respira criação.
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted text-pretty">
-            A DUO nasceu do encontro entre estratégia e sensibilidade. Cuidamos de cada marca como
-            se fosse a nossa: com escuta, curiosidade e mão na massa. Aqui, cliente vira parceiro
-            e ideia vira resultado.
+          <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-ink-muted text-pretty">
+            A DUO nasceu do encontro entre estratégia e sensibilidade. Cuidamos de cada marca como se
+            fosse a nossa: com escuta, curiosidade e mão na massa. Aqui, cliente vira parceiro e ideia
+            vira resultado.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-ink-muted">
+          <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs text-ink-muted">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 ring-1 ring-ink/10">
               <span className="size-1.5 rounded-full bg-terracotta" />
               Fundada em 2014
@@ -411,22 +250,31 @@ function AboutSection() {
             return (
               <article
                 key={f.name}
-                className="group relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 transition-transform hover:-translate-y-1"
+                className="group relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-surface-strong">
-                  <div className={`absolute -inset-6 -z-0 bg-gradient-to-br ${accentBg} via-transparent to-transparent blur-2xl`} />
+                  <div
+                    className={`absolute -inset-6 -z-0 bg-gradient-to-br ${accentBg} via-transparent to-transparent blur-2xl`}
+                  />
                   <img
                     src={f.image}
                     alt={f.name}
                     loading="lazy"
-                    className="relative h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    width={600}
+                    height={750}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                    className="relative h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                   <div className="absolute inset-x-4 bottom-4">
                     <p className={`text-[10px] font-mono uppercase tracking-[0.2em] ${accentText}`}>
                       {f.role}
                     </p>
-                    <h3 className="mt-1 font-display text-xl text-ink sm:text-2xl">{f.name}</h3>
+                    <h3 className="mt-1 font-display text-xl leading-tight text-white sm:text-2xl">
+                      {f.name}
+                    </h3>
                   </div>
                 </div>
                 <p className="p-5 text-sm leading-relaxed text-ink-muted text-pretty">{f.bio}</p>
@@ -443,59 +291,76 @@ function AboutSection() {
 /* Client logos — faixa rotativa 3 a 3, aplicação branca              */
 /* ------------------------------------------------------------------ */
 
-const clientLogos = [
-  { name: "Imperial Shopping", src: clientLogo5 },
-  { name: "Kasa Nossa Restaurante", src: clientLogo6 },
-  { name: "CDA", src: clientLogo2 },
-  { name: "Equipamentos e EPI", src: clientLogo3 },
-  { name: "MJ", src: clientLogo8 },
-  { name: "FO", src: clientLogo4 },
-  { name: "Cliente Duo", src: clientLogo1 },
-  { name: "Parceiro Duo", src: clientLogo7 },
+const clientLogos: Array<{ name: string; src: string; tone: "light" | "dark" }> = [
+  { name: "ACII", src: aciiLogo, tone: "light" },
+  { name: "BENGESSO", src: bengessoLogo, tone: "light" },
+  { name: "CDA Distribuidora", src: cdaLogo, tone: "light" },
+  { name: "Dismarol", src: dismarolLogo, tone: "dark" },
+  { name: "Imperial Shopping", src: imperialShoppingLogo, tone: "light" },
+  { name: "KASA NOSSA", src: kasaNossaLogo, tone: "dark" },
+  { name: "Maraisa Sampaio", src: maraisaSampaioLogo, tone: "dark" },
 ];
 
 function ClientLogosStrip() {
+  const stepDesktop = 4;
+  const stepMobile = 2;
   const [offset, setOffset] = useState(0);
-  const step = 3;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 639px)");
+    const onChange = () => setIsMobile(mql.matches);
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
+  const step = isMobile ? stepMobile : stepDesktop;
 
   useEffect(() => {
     const id = setInterval(() => {
       setOffset((o) => (o + step) % clientLogos.length);
-    }, 3500);
+    }, 4000);
     return () => clearInterval(id);
-  }, []);
+  }, [step]);
 
   const visible = Array.from({ length: step }, (_, i) => clientLogos[(offset + i) % clientLogos.length]);
 
   return (
     <section className="mt-16 lg:mt-20">
-      <div className="relative overflow-hidden rounded-[2rem] border border-ink/10 bg-gradient-to-r from-surface via-surface-strong to-surface px-6 py-8 sm:px-10 sm:py-10">
-        <div className="absolute -left-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-terracotta/15 blur-3xl" />
-        <div className="absolute -right-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-ochre/15 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-ink/10 bg-surface px-6 py-8 sm:px-8 sm:py-9">
+        <div className="absolute -left-10 top-1/2 hidden size-40 -translate-y-1/2 rounded-full bg-terracotta/10 blur-3xl sm:block" />
+        <div className="absolute -right-10 top-1/2 hidden size-40 -translate-y-1/2 rounded-full bg-ochre/10 blur-3xl sm:block" />
 
-        <div className="relative grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] md:items-center">
+        <div className="relative grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,2fr)] md:items-center">
           <div>
             <p className="eyebrow mb-2">Marcas que confiam na DUO</p>
             <h2 className="font-display text-xl leading-tight text-ink sm:text-2xl">
-              Uma seleção rotativa dos <span className="text-terracotta">nossos clientes</span>.
+              Uma seleção dos <span className="text-terracotta">nossos clientes</span>.
             </h2>
+            <p className="mt-2 text-sm text-ink-muted">Logotipos em proporção original, sem distorção.</p>
           </div>
 
           <div
-            key={offset}
-            className="grid animate-fade-in grid-cols-3 items-center gap-6 sm:gap-10"
+            key={`${offset}-${step}`}
+            className="grid animate-fade-in grid-cols-2 items-center gap-3 sm:gap-4 sm:grid-cols-4"
           >
             {visible.map((logo) => (
               <div
                 key={`${logo.name}-${offset}`}
-                className="flex h-24 items-center justify-center sm:h-32 md:h-36"
+                className={`flex h-20 items-center justify-center rounded-2xl p-3 ring-1 ring-ink/10 sm:h-24 sm:p-4 ${logo.tone === "light" ? "bg-white" : "bg-background"}`}
               >
                 <img
                   src={logo.src}
                   alt={logo.name}
                   loading="lazy"
-                  className="max-h-full max-w-full object-contain opacity-90 transition-opacity hover:opacity-100"
-                  style={{ filter: "brightness(0) invert(1)" }}
+                  width={220}
+                  height={96}
+                  decoding="async"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
             ))}
@@ -612,101 +477,6 @@ function ProgressDots({ count, index }: { count: number; index: number }) {
   );
 }
 
-function FeaturedRotator({ services }: { services: Service[] }) {
-  const { index, setIndex, featured, others, pause, resume } = useRotator(services);
-
-  return (
-    <div
-      className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"
-      onMouseEnter={pause}
-      onMouseLeave={resume}
-    >
-      {/* Featured card */}
-      <article
-        key={featured.name}
-        className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
-      >
-        <div className="relative aspect-[16/10] overflow-hidden bg-surface-strong sm:aspect-[16/9]">
-          <img
-            src={featured.image}
-            alt={featured.name}
-            className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-          <div className="absolute left-5 top-5 flex items-center gap-2">
-            <span className="eyebrow rounded-full bg-surface/90 px-2.5 py-1 text-ink/80 backdrop-blur">
-              {featured.category}
-            </span>
-            <span className="rounded-full bg-terracotta px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
-              Destaque
-            </span>
-          </div>
-          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-ink">
-            <div>
-              <h3 className="font-display text-2xl leading-tight sm:text-3xl">{featured.name}</h3>
-              <p className="mt-2 max-w-md text-sm text-ink/85 text-pretty">{featured.description}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 p-5">
-          <BillingBadge billing={featured.billing} credits={featured.credits} />
-          <div className="flex gap-2">
-            <button className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-surface px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface-strong">
-              <Eye className="size-4" />
-              Ver exemplo
-            </button>
-            <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-              Solicitar
-              <ArrowUpRight className="size-4" />
-            </button>
-          </div>
-        </div>
-
-        <div className="px-5 pb-5">
-          <ProgressDots count={services.length} index={index} />
-        </div>
-      </article>
-
-      {/* Thumbnail rail */}
-      <div className="flex flex-col gap-3">
-        <p className="eyebrow">Também disponíveis</p>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
-          {others.map((s) => {
-            const originalIndex = services.findIndex((x) => x.name === s.name);
-            return (
-              <li key={s.name}>
-                <button
-                  onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full flex-col gap-2 rounded-2xl bg-surface p-2 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-strong">
-                    <img
-                      src={s.image}
-                      alt={s.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    {s.billing === "creditos" && (
-                      <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-surface/90 px-1.5 py-0.5 text-[9px] font-semibold text-ink backdrop-blur">
-                        <Coins className="size-2.5" />
-                        {s.credits}
-                      </span>
-                    )}
-                  </div>
-                  <div className="px-1 pb-1">
-                    <p className="line-clamp-1 text-sm font-medium text-ink">{s.name}</p>
-                    <p className="text-[11px] text-ink-muted">{s.category}</p>
-                  </div>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /* Testimonials                                                       */
@@ -729,6 +499,61 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+function getInitials(name: string) {
+  const parts = name.replace(/\(.*?\)/g, "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function ReviewerAvatar({
+  name,
+  image,
+  size,
+}: {
+  name: string;
+  image: string | null;
+  size: "featured" | "list";
+}) {
+  const [failed, setFailed] = useState(false);
+  const showImage = Boolean(image) && !failed;
+  const cls =
+    size === "featured"
+      ? "relative grid size-24 place-items-center rounded-full ring-4 ring-surface-strong sm:size-28"
+      : "grid size-12 shrink-0 place-items-center rounded-full ring-2 ring-surface-strong sm:size-14";
+  const fallbackCls =
+    size === "featured"
+      ? "bg-surface-strong text-ink-muted"
+      : "bg-surface-strong text-ink-muted";
+  if (showImage) {
+    return (
+      <img
+        src={image!}
+        alt={name}
+        width={size === "featured" ? 160 : 64}
+        height={size === "featured" ? 160 : 64}
+        onError={() => setFailed(true)}
+        className={
+          size === "featured"
+            ? "relative size-24 rounded-full object-cover ring-4 ring-surface-strong sm:size-28"
+            : "size-12 shrink-0 rounded-full object-cover ring-2 ring-surface-strong sm:size-14"
+        }
+      />
+    );
+  }
+  return (
+    <span aria-hidden className={`${cls} ${fallbackCls}`}>
+      {getInitials(name).length <= 2 && getInitials(name) !== "?" ? (
+        <span className={size === "featured" ? "text-lg font-semibold tracking-wide" : "text-xs font-semibold tracking-wide"}>
+          {getInitials(name)}
+        </span>
+      ) : (
+        <User className={size === "featured" ? "size-8" : "size-5"} />
+      )}
+    </span>
+  );
+}
+
 function TestimonialRotator({ items }: { items: Testimonial[] }) {
   const { index, setIndex, featured, others, pause, resume } = useRotator(items);
 
@@ -740,27 +565,23 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
     >
       <article
         key={featured.name}
-        className="group relative flex flex-col justify-between overflow-hidden rounded-[2rem] bg-surface p-6 ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in sm:p-10"
+        className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-[2rem] bg-surface p-6 ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in sm:min-h-[360px] sm:p-8"
       >
-        <div className="absolute right-6 top-6 text-terracotta/20">
-          <Quote className="size-16 fill-current" />
+        <div className="absolute right-6 top-6 text-terracotta/15">
+          <Quote className="size-14 fill-current sm:size-16" />
         </div>
 
-        <div className="relative z-10 flex flex-col gap-8 sm:flex-row sm:items-center">
-          <div className="shrink-0">
+        <div className="relative z-10 flex flex-1 flex-col gap-6 sm:flex-row sm:items-start sm:gap-7">
+          <div className="shrink-0 self-center sm:self-start">
             <div className="relative">
-              <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-terracotta/30 to-ochre/20 blur-lg" />
-              <img
-                src={featured.image}
-                alt={featured.name}
-                width={160}
-                height={160}
-                className="relative size-28 rounded-full object-cover ring-4 ring-surface-strong sm:size-40"
-              />
+              <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-terracotta/25 to-ochre/15 blur-lg" />
+              <div className="relative">
+                <ReviewerAvatar name={featured.name} image={featured.image} size="featured" />
+              </div>
             </div>
           </div>
-          <div className="flex-1">
-            <div className="mb-4 flex items-center gap-3">
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex flex-wrap items-center gap-2">
               <Stars rating={featured.rating} />
               <span className="text-xs text-ink-muted">{featured.date}</span>
               <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-ink/5 px-2.5 py-1 text-[11px] font-medium text-ink-muted ring-1 ring-ink/10">
@@ -773,19 +594,19 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
                 Google
               </span>
             </div>
-            <p className="font-display text-xl leading-relaxed text-ink text-pretty sm:text-2xl">
+            <p className="mt-4 line-clamp-4 font-display text-lg leading-relaxed text-ink text-pretty sm:text-xl">
               “{featured.quote}”
             </p>
-            <div className="mt-6">
-              <p className="font-semibold text-ink">{featured.name}</p>
+            <div className="mt-4">
+              <p className="line-clamp-1 text-sm font-semibold text-ink">{featured.name}</p>
               {featured.role ? (
-                <p className="text-sm text-ink-muted">{featured.role}</p>
+                <p className="line-clamp-1 text-xs text-ink-muted">{featured.role}</p>
               ) : null}
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 flex items-center justify-between gap-4">
+        <div className="relative z-10 mt-6 flex items-center justify-between gap-4 border-t border-ink/10 pt-4">
           <ProgressDots count={items.length} index={index} />
           <a
             href={featured.googleUrl ?? GOOGLE_REVIEWS_URL}
@@ -807,18 +628,12 @@ function TestimonialRotator({ items }: { items: Testimonial[] }) {
               <li key={t.name}>
                 <button
                   onClick={() => setIndex(originalIndex)}
-                  className="group flex w-full items-center gap-4 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
+                  className="group flex w-full items-center gap-3 rounded-2xl bg-surface p-3 text-left ring-1 ring-ink/10 transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10 hover:ring-terracotta/30"
                 >
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    width={64}
-                    height={64}
-                    className="size-14 rounded-full object-cover ring-2 ring-surface-strong"
-                  />
+                  <ReviewerAvatar name={t.name} image={t.image} size="list" />
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-1 text-sm font-semibold text-ink">{t.name}</p>
-                    <div className="mt-0.5 flex items-center gap-1.5">
+                    <p className="line-clamp-1 text-sm font-semibold leading-tight text-ink">{t.name}</p>
+                    <div className="mt-1 flex items-center gap-1.5">
                       <Stars rating={t.rating} />
                       <span className="text-[10px] text-ink-muted">{t.date}</span>
                     </div>
@@ -939,322 +754,8 @@ function EventRotator({ items, intervalMs = 5500 }: { items: EventItem[]; interv
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Blog                                                               */
-/* ------------------------------------------------------------------ */
-
-type BlogPost = {
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  image: string;
-};
-
-const blogPosts: BlogPost[] = [
-  {
-    title: "5 tendências de conteúdo para 2026",
-    excerpt:
-      "O que está em alta nas redes sociais e como sua marca pode aproveitar cada formato sem perder a essência.",
-    date: "08 Jul 2026",
-    readTime: "4 min",
-    image: blog1Img,
-  },
-  {
-    title: "Como criar artes que convertem",
-    excerpt:
-      "Do primeiro rascunho à publicação: elementos visuais que realmente movem o público a agir.",
-    date: "22 Jun 2026",
-    readTime: "6 min",
-    image: blog2Img,
-  },
-  {
-    title: "Métricas que importam no digital",
-    excerpt:
-      "Engajamento, alcance, conversão: entenda quais números acompanhar e por quê.",
-    date: "10 Jun 2026",
-    readTime: "5 min",
-    image: blog3Img,
-  },
-  {
-    title: "O poder da cocriação com clientes",
-    excerpt:
-      "Por que os melhores resultados saem quando marca e agência caminham juntas desde o início.",
-    date: "01 Jun 2026",
-    readTime: "3 min",
-    image: blog4Img,
-  },
-  {
-    title: "Storytelling: a alma das campanhas duradouras",
-    excerpt:
-      "Como boas histórias sustentam marcas por anos e transformam campanhas em memórias afetivas.",
-    date: "20 Mai 2026",
-    readTime: "5 min",
-    image: blog1Img,
-  },
-  {
-    title: "Design que respira: menos é mais",
-    excerpt:
-      "Espaço em branco, tipografia e ritmo visual — os detalhes que separam o bonito do memorável.",
-    date: "08 Mai 2026",
-    readTime: "4 min",
-    image: blog2Img,
-  },
-];
-
-function BlogRotator({ items, intervalMs = 5500 }: { items: BlogPost[]; intervalMs?: number }) {
-  const pageSize = 3;
-  const pages = Math.max(1, Math.ceil(items.length / pageSize));
-  const [page, setPage] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused || pages <= 1) return;
-    const id = setInterval(() => setPage((p) => (p + 1) % pages), intervalMs);
-    return () => clearInterval(id);
-  }, [pages, intervalMs, paused]);
-
-  const start = page * pageSize;
-  const visible = items.slice(start, start + pageSize);
-  const lead = visible[0] ?? items[0];
-
-  return (
-    <div
-      className="flex flex-col gap-5"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Cabeçalho da leva em destaque */}
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
-            <Newspaper className="size-3.5 text-terracotta" />
-            {lead.date} · {lead.readTime}
-          </div>
-          <h3 key={lead.title} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
-            {lead.title}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">{lead.excerpt}</p>
-        </div>
-        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-          Ver todos os artigos
-          <ArrowRight className="size-4" />
-        </button>
-      </div>
-
-      {/* Faixa com 3 publicações da mesma leva */}
-      <div key={`blog-strip-${page}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {visible.map((b, i) => (
-          <article
-            key={`${b.title}-${page}`}
-            className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface ring-1 ring-ink/10 shadow-md shadow-black/10 animate-fade-in transition-all hover:-translate-y-0.5 hover:ring-terracotta/30"
-            style={{ animationDelay: `${i * 90}ms` }}
-          >
-            <div className="aspect-[4/3] overflow-hidden bg-surface-strong">
-              <img
-                src={b.image}
-                alt={b.title}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-2 p-4">
-              <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-ink-muted">
-                {b.date} · {b.readTime}
-              </p>
-              <h4 className="font-display text-lg leading-snug text-ink">{b.title}</h4>
-              <p className="line-clamp-2 text-xs leading-relaxed text-ink-muted text-pretty">{b.excerpt}</p>
-              <button className="mt-auto inline-flex w-fit items-center gap-1 text-xs font-semibold text-terracotta transition-all hover:gap-1.5">
-                Ler artigo
-                <ArrowRight className="size-3.5" />
-              </button>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      {/* Controles: pontinhos + páginas */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <ProgressDots count={pages} index={page} />
-        <ul className="flex flex-wrap items-center gap-2">
-          {Array.from({ length: pages }).map((_, i) => (
-            <li key={i}>
-              <button
-                onClick={() => setPage(i)}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
-                  i === page
-                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
-                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
-                }`}
-              >
-                Página {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-
-/* ------------------------------------------------------------------ */
-/* Media / press clips                                                */
-/* ------------------------------------------------------------------ */
-
-type MediaClip = {
-  title: string;
-  outlet: string;
-  type: string;
-  image: string;
-  url: string;
-};
-
-const mediaClips: MediaClip[] = [
-  {
-    title: "Como marcas pequenas conquistam grandes audiências",
-    outlet: "Exame",
-    type: "Reportagem",
-    image: media1Img,
-    url: "https://exame.com",
-  },
-  {
-    title: "Campanha viral da DuoMídia alcança milhões nas redes",
-    outlet: "Meio & Mensagem",
-    type: "Mídia",
-    image: media2Img,
-    url: "https://meioemensagem.com.br",
-  },
-  {
-    title: "A nova era da comunicação integrada",
-    outlet: "Revista Propaganda",
-    type: "Matéria",
-    image: media3Img,
-    url: "https://revistapropaganda.com.br",
-  },
-  {
-    title: "Entrevista: o futuro do marketing no Brasil",
-    outlet: "Band News",
-    type: "TV",
-    image: media4Img,
-    url: "https://bandnews.com.br",
-  },
-  {
-    title: "Case DuoMídia é destaque em prêmio nacional",
-    outlet: "Portal da Comunicação",
-    type: "Notícia",
-    image: media1Img,
-    url: "https://portalcomunicacao.com.br",
-  },
-  {
-    title: "Agências independentes que fazem a diferença",
-    outlet: "AdNews",
-    type: "Reportagem",
-    image: media2Img,
-    url: "https://adnews.com.br",
-  },
-];
-
-function MediaRotator({ items, intervalMs = 5500 }: { items: MediaClip[]; intervalMs?: number }) {
-  const pageSize = 3;
-  const pages = Math.max(1, Math.ceil(items.length / pageSize));
-  const [page, setPage] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused || pages <= 1) return;
-    const id = setInterval(() => setPage((p) => (p + 1) % pages), intervalMs);
-    return () => clearInterval(id);
-  }, [pages, intervalMs, paused]);
-
-  const start = page * pageSize;
-  const visible = items.slice(start, start + pageSize);
-  const lead = visible[0] ?? items[0];
-
-  return (
-    <div
-      className="flex flex-col gap-5"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Cabeçalho da leva em destaque */}
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/10">
-            <ExternalLink className="size-3.5 text-terracotta" />
-            {lead.outlet} · {lead.type}
-          </div>
-          <h3 key={lead.title} className="mt-3 font-display text-2xl leading-tight text-ink animate-fade-in sm:text-3xl">
-            {lead.title}
-          </h3>
-        </div>
-        <a
-          href={lead.url}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110"
-        >
-          Ver todas as matérias
-          <ExternalLink className="size-4" />
-        </a>
-      </div>
-
-      {/* Faixa com 3 matérias da mesma leva */}
-      <div key={`media-strip-${page}`} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {visible.map((m, i) => (
-          <a
-            key={`${m.title}-${page}`}
-            href={m.url}
-            target="_blank"
-            rel="noreferrer"
-            className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface ring-1 ring-ink/10 shadow-md shadow-black/10 animate-fade-in transition-all hover:-translate-y-0.5 hover:ring-terracotta/30"
-            style={{ animationDelay: `${i * 90}ms` }}
-          >
-            <div className="aspect-[4/3] overflow-hidden bg-surface-strong">
-              <img
-                src={m.image}
-                alt={m.title}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-2 p-4">
-              <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-ink-muted">
-                {m.outlet} · {m.type}
-              </p>
-              <h4 className="font-display text-lg leading-snug text-ink">{m.title}</h4>
-              <span className="mt-auto inline-flex w-fit items-center gap-1 text-xs font-semibold text-terracotta transition-all group-hover:gap-1.5">
-                Abrir matéria
-                <ExternalLink className="size-3.5" />
-              </span>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      {/* Controles: pontinhos + páginas */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <ProgressDots count={pages} index={page} />
-        <ul className="flex flex-wrap items-center gap-2">
-          {Array.from({ length: pages }).map((_, i) => (
-            <li key={i}>
-              <button
-                onClick={() => setPage(i)}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition-all ${
-                  i === page
-                    ? "bg-terracotta text-primary-foreground ring-terracotta/40"
-                    : "bg-surface text-ink-muted ring-ink/10 hover:ring-terracotta/30 hover:text-ink"
-                }`}
-              >
-                Página {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
+/* Blog removido da home nesta etapa; o conteúdo segue disponível em /blog */
+/* Mídia removida da home; segue em /imprensa */
 
 /* ------------------------------------------------------------------ */
 /* Podcasts                                                           */
@@ -1328,13 +829,11 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
-      {/* Featured podcast — vertical reel + gallery + description */}
       <article
         key={featured.title}
         className="relative overflow-hidden rounded-[2rem] bg-surface ring-1 ring-ink/10 shadow-lg shadow-black/10 animate-fade-in"
       >
-        <div className="grid gap-0 sm:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
-          {/* Vertical reel */}
+        <div className="grid gap-0 sm:grid-cols-[minmax(0,0.78fr)_minmax(0,1fr)]">
           <div className="relative bg-background">
             <div className="absolute -inset-6 -z-0 rounded-[3rem] bg-gradient-to-br from-terracotta/20 via-ochre/10 to-transparent blur-3xl" />
             <div className="relative m-4 overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10 sm:m-5">
@@ -1360,26 +859,21 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
             </div>
           </div>
 
-          {/* Description + gallery */}
-          <div className="flex flex-col gap-5 p-5 sm:pl-2 sm:pr-6 sm:py-6">
+          <div className="flex flex-col gap-4 p-5 sm:pl-2 sm:pr-6 sm:py-6">
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-ochre/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ochre">
                 <Mic className="size-3" />
-                Podcast DuoCast
+                DuoCast
               </span>
               <span className="eyebrow">{featured.episode}</span>
             </div>
 
             <div>
-              <h3 className="font-display text-2xl leading-tight text-ink sm:text-[28px]">
-                {featured.title}
-              </h3>
+              <h3 className="font-display text-2xl leading-tight text-ink sm:text-[26px]">{featured.title}</h3>
               <p className="mt-1 text-sm text-ink-muted">{featured.guest}</p>
             </div>
 
-            <p className="text-sm leading-relaxed text-ink-muted text-pretty">
-              {featured.description}
-            </p>
+            <p className="text-sm leading-relaxed text-ink-muted text-pretty">{featured.description}</p>
 
             <div>
               <div className="mb-2 flex items-center justify-between">
@@ -1399,6 +893,8 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                       src={src}
                       alt={`Foto ${i + 1} do episódio ${featured.title}`}
                       loading="lazy"
+                      width={200}
+                      height={250}
                       className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
                   </div>
@@ -1408,16 +904,14 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
 
             <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2">
               <ProgressDots count={items.length} index={index} />
-              <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-                <Play className="size-3.5 fill-current" />
-                Ouvir episódio
-              </button>
+              <div className="flex gap-2">
+                <WhatsAppCta label="Quero gravar meu episódio" />
+              </div>
             </div>
           </div>
         </div>
       </article>
 
-      {/* Side rail — 3 smaller podcasts */}
       <div className="flex flex-col gap-3">
         <p className="eyebrow inline-flex items-center gap-1.5">
           <Headphones className="size-3" />
@@ -1437,6 +931,8 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                       src={p.cover}
                       alt={p.title}
                       loading="lazy"
+                      width={160}
+                      height={160}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 grid place-items-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
@@ -1455,9 +951,7 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
                           <span className="text-[10px] text-ink-muted">· {p.duration}</span>
                         ) : null}
                       </div>
-                      <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-ink">
-                        {p.title}
-                      </p>
+                      <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-ink">{p.title}</p>
                     </div>
                     <p className="line-clamp-1 text-[11px] text-ink-muted">{p.guest}</p>
                   </div>
@@ -1466,6 +960,16 @@ function PodcastRotator({ items }: { items: Podcast[] }) {
             );
           })}
         </ul>
+        <a
+          href={INSTAGRAM_REELS_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/10 bg-surface px-4 py-2.5 text-sm font-medium text-ink hover:bg-surface-strong"
+        >
+          <Instagram className="size-4" />
+          Ver Reels no Instagram
+          <ExternalLink className="size-3.5" />
+        </a>
       </div>
     </div>
   );
@@ -1499,22 +1003,12 @@ function SectionHeader({
 }
 
 function Home_() {
-  const [activeCategory, setActiveCategory] = useState("Todos");
-  const [query, setQuery] = useState("");
-
-  const filtered = services.filter((s) => {
-    const matchCat = activeCategory === "Todos" || s.category === activeCategory;
-    const matchQuery = !query || s.name.toLowerCase().includes(query.toLowerCase());
-    return matchCat && matchQuery;
-  });
-
   return (
     <div className="min-h-screen bg-background text-ink">
       <SiteHeader />
 
-
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
-        {/* Hero + Video */}
+        {/* Hero — apresentação + vídeo + CTAs */}
         <section className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
           <div className="flex flex-col">
             <p className="eyebrow mb-4">Bem-vindo à DUO | Mídia & Studio</p>
@@ -1522,32 +1016,43 @@ function Home_() {
               DUO <span className="text-ink-muted font-light">|</span> <span className="text-terracotta">Mídia</span>{" "}
               <span className="text-ink-muted font-light">&</span> <span className="text-ochre">Studio</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
-              Uma agência, várias soluções.
+            <p className="eyebrow">Campanha 2026 · Uma Agência. Várias soluções.</p>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
+              Uma solução integrada para marcas que precisam de estratégia + criação + produção.
             </p>
 
-            <div className="mt-8 max-w-2xl">
-              <label className="relative block">
-                <span className="sr-only">Buscar serviço</span>
-                <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-ink-muted" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Do que você precisa?"
-                  className="h-16 w-full rounded-2xl border border-ink/10 bg-surface pl-14 pr-6 text-base text-ink shadow-sm shadow-black/20 outline-none transition-all placeholder:text-ink-muted focus:border-terracotta/40 focus:ring-4 focus:ring-terracotta/10"
-                />
-                <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded-lg border border-ink/10 bg-background px-2 py-1 text-[10px] font-mono text-ink-muted sm:inline-flex">
-                  ⌘ K
-                </span>
-              </label>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <WhatsAppCta label="Solicitar um orçamento" />
+              <Link
+                to="/servicos"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-strong"
+              >
+                Quero conhecer os serviços
+                <ArrowRight className="size-4" />
+              </Link>
             </div>
+            <p className="mt-3 text-xs text-ink-muted">
+              Sem jargão técnico. Você conta o que precisa e a DUO cuida do resto.
+            </p>
           </div>
 
-          {/* Video hero — aligned to the right of the title on desktop */}
-          <div className="lg:pt-2">
+          <div className="lg:pt-2 lg:sticky lg:top-24">
             <VideoHero />
           </div>
+        </section>
+
+        {/* Serviços — DUOMÍDIA e DUOSTUDIO no estilo da referência */}
+        <section className="mt-16 lg:mt-20">
+          <SectionHeader
+            eyebrow="Uma Agência. Várias soluções. — Campanha 2026"
+            title="Duas frentes, uma entrega completa"
+            count={duoServiceGroups.reduce((n, g) => n + g.items.length, 0)}
+          />
+          <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ink-muted text-pretty">
+            Uma solução integrada para marcas que precisam de estratégia + criação + produção. Escolha a
+            frente que mais combina com o seu momento — ou combine as duas.
+          </p>
+          <DuoServiceCards />
         </section>
 
         {/* Quem somos */}
@@ -1555,51 +1060,6 @@ function Home_() {
 
         {/* Client logos strip */}
         <ClientLogosStrip />
-
-        {/* Categories */}
-        <section className="mt-14">
-          <div className="mb-4 flex items-baseline justify-between">
-            <h2 className="eyebrow">Categorias</h2>
-            <span className="text-xs text-ink-muted">{filtered.length} serviços</span>
-          </div>
-          <div className="-mx-5 overflow-x-auto px-5 lg:mx-0 lg:px-0">
-            <div className="flex gap-2 pb-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                    activeCategory === cat
-                      ? "bg-surface-strong text-ink"
-                      : "border border-ink/10 bg-surface text-ink-muted hover:border-ink/20 hover:text-ink"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Services strip — same exposure as events gallery */}
-        <section className="mt-12">
-          <SectionHeader
-            eyebrow="Trabalhos mais recentes em rotação"
-            title="Serviços mais solicitados"
-            count={filtered.length}
-          />
-
-          {filtered.length > 0 ? (
-            <ServicesStrip services={filtered} />
-          ) : (
-            <div className="rounded-3xl border border-dashed border-ink/15 bg-surface p-10 text-center">
-              <p className="text-ink">Nenhum serviço encontrado por aqui.</p>
-              <p className="mt-1 text-sm text-ink-muted">
-                Tente outra palavra ou fale com a gente logo abaixo.
-              </p>
-            </div>
-          )}
-        </section>
 
 
         {/* Testimonials */}
@@ -1644,48 +1104,39 @@ function Home_() {
           <PodcastRotator items={podcasts} />
         </section>
 
-        {/* Blog */}
+        {/* Featured "não encontrou" + WhatsApp */}
         <section className="mt-16">
-          <SectionHeader
-            eyebrow="Conteúdo da DuoMídia"
-            title="Blog da empresa"
-            count={blogPosts.length}
-          />
-          <BlogRotator items={blogPosts} />
-        </section>
-
-        {/* Media / press */}
-        <section className="mt-16">
-          <SectionHeader
-            eyebrow="DuoMídia na imprensa"
-            title="Mídia e links"
-            count={mediaClips.length}
-          />
-          <MediaRotator items={mediaClips} />
-        </section>
-
-        {/* Featured "não encontrou" card */}
-        <section className="mt-16">
-          <div className="relative overflow-hidden rounded-[2rem] bg-surface-strong p-8 text-ink sm:p-14">
-            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/25 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-surface-strong p-8 text-ink sm:p-10 lg:p-12">
+            <div className="absolute -right-16 -top-16 size-72 rounded-full bg-terracotta/20 blur-3xl" />
             <div className="absolute -bottom-24 -left-10 size-64 rounded-full bg-ochre/15 blur-3xl" />
 
-            <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
               <div className="max-w-xl">
                 <p className="eyebrow mb-3 text-ink-muted">Projeto sob medida</p>
                 <h3 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
                   Não encontrou o que precisa?
                 </h3>
-                <p className="mt-3 text-base leading-relaxed text-ink-muted">
-                  Conte pra gente o que você imagina — nossa equipe monta uma proposta
-                  personalizada para o seu momento, sem complicação.
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-muted text-pretty">
+                  Conte pra gente o que você imagina — nossa equipe monta uma proposta personalizada
+                  para o seu momento, sem complicação.
                 </p>
               </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-terracotta px-6 py-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-terracotta/20 transition-transform hover:-translate-y-0.5">
-                Conte para a gente
-                <ArrowUpRight className="size-4" />
-              </button>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+                <WhatsAppCta label="Falar com a Duo" />
+                <Link
+                  to="/servicos"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 bg-surface px-6 py-4 text-sm font-semibold text-ink hover:bg-background"
+                >
+                  Ver serviços
+                  <ArrowRight className="size-4" />
+                </Link>
+              </div>
             </div>
+            {!WHATSAPP_URL && (
+              <p className="relative mt-6 text-xs text-ink-muted">
+                WhatsApp pendente: informe o número para ativar os botões.
+              </p>
+            )}
           </div>
         </section>
 
