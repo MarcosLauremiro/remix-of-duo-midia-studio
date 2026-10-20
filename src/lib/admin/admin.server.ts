@@ -8,6 +8,8 @@ import {
   upsertClient,
   listClients,
   dashboardStats,
+  listAdmins,
+  upsertAdmin,
   newId,
   nowIso,
   normalizeEmail,
@@ -50,16 +52,10 @@ function toClientError(e: unknown): never {
 
 // Seed opcional do primeiro admin via env (só se ainda não houver nenhum admin)
 function ensureSeedAdminIfNeeded() {
-  const existing = findAdminById("__seed_check__"); // dummy to load store
-  void existing;
-  // we need to know if there is any admin
-  const { listAdmins } = require("./db") as typeof import("./db");
-  const admins = listAdmins();
-  if (admins.length > 0) return;
+  if (listAdmins().length > 0) return;
   const email = process.env.ADMIN_EMAIL;
   const pwd = process.env.ADMIN_PASSWORD;
   if (!email || !pwd) return;
-  const { upsertAdmin } = require("./db") as typeof import("./db");
   const id = newId();
   upsertAdmin({
     id,

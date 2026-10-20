@@ -34,14 +34,15 @@ const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 import { SiteHeader, SiteFooter, WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
 
-import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
-import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
-import eventPhotoCrowdAsset from "@/assets/events/duo00598.jpg.asset.json";
-import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
-const eventPhotoTeam = eventPhotoTeamAsset.url;
-const eventPhotoLady = eventPhotoLadyAsset.url;
-const eventPhotoCrowd = eventPhotoCrowdAsset.url;
-const eventPhotoBand = eventPhotoBandAsset.url;
+import balsas1 from "@/assets/events/balsas-motofest/1.jpg";
+import balsas2 from "@/assets/events/balsas-motofest/2.jpg";
+import balsas3 from "@/assets/events/balsas-motofest/3.jpg";
+import fecoimp1 from "@/assets/events/fecoimp-2026/1.jpg";
+import fecoimp2 from "@/assets/events/fecoimp-2026/2.jpg";
+import fecoimp3 from "@/assets/events/fecoimp-2026/3.jpg";
+import motoimp1 from "@/assets/events/motoimp/1.jpg";
+import motoimp2 from "@/assets/events/motoimp/2.jpg";
+import motoimp3 from "@/assets/events/motoimp/3.jpg";
 
 
 import podcast1Img from "@/assets/podcast-1.jpg";
@@ -659,16 +660,25 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
-    title: "Motoshow — Palco Principal",
-    date: "15 Mar 2026",
-    description: "Show da Lady Velvet iluminando a noite com uma multidão vibrante.",
-    photos: [eventPhotoLady, eventPhotoCrowd, eventPhotoBand],
+    title: "Balsas Motofest",
+    date: "Balsas · MA",
+    description:
+      "Reconhecida pela excelência na comunicação de eventos do segmento motociclístico, a DuoMídia chega ao Balsas Motofest pela primeira vez, levando sua experiência em planejamento, cobertura e comunicação de grandes eventos.",
+    photos: [balsas1, balsas2, balsas3],
   },
   {
-    title: "Bastidores com a Equipe DUO",
-    date: "15 Mar 2026",
-    description: "Nossa equipe ao lado dos parceiros e artistas nos bastidores do evento.",
-    photos: [eventPhotoTeam, eventPhotoBand, eventPhotoLady],
+    title: "Fecoimp 2026",
+    date: "Imperatriz · MA",
+    description:
+      "Há 3 anos, a DuoMídia planeja, organiza e executa a comunicação da Fecoimp, consolidada como uma das maiores feiras de negócios do Maranhão. Estratégia e comunicação conectando marcas, negócios e oportunidades.",
+    photos: [fecoimp1, fecoimp2, fecoimp3],
+  },
+  {
+    title: "MotoImp",
+    date: "Imperatriz · MA",
+    description:
+      "Há 3 anos, a DuoMídia integra a realização do MotoImp, o maior evento de Moto Rock do Maranhão, com planejamento, comunicação e assessoria estratégica para transformar cada edição em uma grande experiência.",
+    photos: [motoimp1, motoimp2, motoimp3],
   },
 ];
 
@@ -702,10 +712,15 @@ function EventRotator({ items, intervalMs = 5500 }: { items: EventItem[]; interv
           </h3>
           <p className="mt-1 max-w-2xl text-sm text-ink-muted text-pretty">{current.description}</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110">
-          Ver galeria completa
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-terracotta px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-terracotta/20 transition-all hover:brightness-110"
+        >
+          Organizar meu próprio evento
           <ArrowUpRight className="size-4" />
-        </button>
+        </a>
       </div>
 
       {/* Faixa com 3 fotos do mesmo evento */}
