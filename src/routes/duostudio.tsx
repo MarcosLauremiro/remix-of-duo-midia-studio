@@ -11,13 +11,13 @@ import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
 export const Route = createFileRoute("/duostudio")({
   head: () => ({
     meta: [
-      { title: "DUOSTUDIO — Audiovisual, foto e podcast" },
+      { title: "DUOSTUDIO | Audiovisual, foto e podcast" },
       {
         name: "description",
         content:
           "O estúdio da DUO: vídeos, fotografia, gravação de podcast e coberturas de eventos com produção completa.",
       },
-      { property: "og:title", content: "DUOSTUDIO — Audiovisual, foto e podcast" },
+      { property: "og:title", content: "DUOSTUDIO | Audiovisual, foto e podcast" },
       {
         property: "og:description",
         content:
@@ -77,7 +77,7 @@ function DuoStudioPage() {
           <span className="text-ochre">Studio</span>
         </>
       }
-      intro="Uma solução integrada para marcas que precisam de estratégia + criação + produção. No DuoStudio entregamos imagem, som e movimento com qualidade de estúdio — do roteiro à entrega final."
+      intro="Uma solução integrada para marcas que precisam de estratégia + criação + produção. No DuoStudio entregamos imagem, som e movimento com qualidade de estúdio, do roteiro à entrega final."
     >
       <div className="mt-8 flex flex-wrap gap-3">
         <WhatsAppCta label="Falar com o DuoStudio no WhatsApp" />

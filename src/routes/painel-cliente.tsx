@@ -22,13 +22,13 @@ import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 export const Route = createFileRoute("/painel-cliente")({
   head: () => ({
     meta: [
-      { title: "Painel do cliente — DUO | Mídia & Studio" },
+      { title: "Painel do cliente | DUO | Mídia & Studio" },
       {
         name: "description",
         content:
           "Solicite serviços, acompanhe pedidos, veja seus créditos e baixe seus arquivos em um só lugar.",
       },
-      { property: "og:title", content: "Painel do cliente — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Painel do cliente | DUO | Mídia & Studio" },
       {
         property: "og:description",
         content:
@@ -87,7 +87,7 @@ const meusServicos = [
 ];
 
 const arquivos = [
-  { nome: "Campanha de verão — artes finais", tipo: "Imagens", icon: ImageIcon, data: "12 jul" },
+  { nome: "Campanha de verão: artes finais", tipo: "Imagens", icon: ImageIcon, data: "12 jul" },
   { nome: "Reel bastidores Motoshow", tipo: "Vídeo", icon: Video, data: "04 jul" },
   { nome: "Manual da marca", tipo: "Documento", icon: FileText, data: "22 jun" },
   { nome: "Fotos do evento Lady Velvet", tipo: "Imagens", icon: ImageIcon, data: "15 jun" },
@@ -108,7 +108,7 @@ const perguntas = [
   },
   {
     q: "Posso pedir ajustes?",
-    a: "Sim. Cada entrega tem uma rodada de ajustes inclusa — é só responder na própria solicitação.",
+    a: "Sim. Cada entrega tem uma rodada de ajustes inclusa, é só responder na própria solicitação.",
   },
 ];
 
@@ -369,7 +369,7 @@ function PainelCliente() {
               <div className="max-w-xl">
                 <h3 className="font-display text-3xl text-ink">Não encontrou o que precisa?</h3>
                 <p className="mt-3 text-ink-muted">
-                  Conte pra gente o que você imagina — montamos uma proposta sob medida.
+                  Conte pra gente o que você imagina, montamos uma proposta sob medida.
                 </p>
               </div>
               <Link

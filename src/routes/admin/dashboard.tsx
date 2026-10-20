@@ -33,7 +33,7 @@ function DashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl text-ink">Dashboard</h1>
-          <p className="text-sm text-ink-muted">Indicadores calculados a partir do banco — sem valores fixos.</p>
+          <p className="text-sm text-ink-muted">Indicadores calculados a partir do banco, sem valores fixos.</p>
         </div>
         <Link
           to="/admin/clientes/novo"
@@ -74,7 +74,7 @@ function DashboardPage() {
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-ink">{c.nome}</p>
                   <p className="truncate text-xs text-ink-muted">
-                    {[c.empresa, c.email].filter(Boolean).join(" · ") || "—"}
+                    {[c.empresa, c.email].filter(Boolean).join(" · ") || "-"}
                   </p>
                 </div>
                 <span className="shrink-0 rounded-full bg-background px-2.5 py-1 text-xs ring-1 ring-ink/10">{c.status}</span>

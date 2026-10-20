@@ -93,7 +93,7 @@ function ClienteDetalhePage() {
   };
 
   const onDelete = async () => {
-    if (!confirm(`Excluir "${data?.nome}"? Exclusão lógica — poderá ser restaurado pelo admin.`)) return;
+    if (!confirm(`Excluir "${data?.nome}"? Exclusão lógica, poderá ser restaurado pelo admin.`)) return;
     try {
       await deleteClientFn({ data: { id } });
       navigate({ to: "/admin/clientes" });
@@ -135,23 +135,23 @@ function ClienteDetalhePage() {
           </div>
           <div>
             <dt className="text-ink-muted">Contato</dt>
-            <dd>{data.contato ?? "—"}</dd>
+            <dd>{data.contato ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-ink-muted">E-mail</dt>
-            <dd>{data.email ?? "—"}</dd>
+            <dd>{data.email ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-ink-muted">Telefone</dt>
-            <dd>{data.telefone ?? "—"}</dd>
+            <dd>{data.telefone ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-ink-muted">Empresa</dt>
-            <dd>{data.empresa ?? "—"}</dd>
+            <dd>{data.empresa ?? "-"}</dd>
           </div>
           <div>
             <dt className="text-ink-muted">Serviços</dt>
-            <dd>{data.servicos.length ? data.servicos.join(", ") : "—"}</dd>
+            <dd>{data.servicos.length ? data.servicos.join(", ") : "-"}</dd>
           </div>
           <div>
             <dt className="text-ink-muted">Cadastro</dt>

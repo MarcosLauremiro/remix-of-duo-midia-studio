@@ -185,11 +185,6 @@ function DuoServiceCards() {
   );
 }
 
-
-/* ------------------------------------------------------------------ */
-/* About section — as duas fundadoras                                  */
-/* ------------------------------------------------------------------ */
-
 type Founder = {
   name: string;
   role: string;
@@ -285,10 +280,6 @@ function AboutSection() {
     </section>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* Client logos — faixa rotativa 3 a 3, aplicação branca              */
-/* ------------------------------------------------------------------ */
 
 const clientLogos: Array<{ name: string; src: string; tone: "light" | "dark" }> = [
   { name: "ACII", src: aciiLogo, tone: "light" },
@@ -734,7 +725,7 @@ function EventRotator({ items, intervalMs = 5500 }: { items: EventItem[]; interv
             <div className="aspect-[4/3] overflow-hidden">
               <img
                 src={src}
-                alt={`${current.title} — foto ${i + 1}`}
+                alt={`${current.title} foto ${i + 1}`}
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
               />
@@ -787,7 +778,7 @@ type Podcast = {
 
 const podcasts: Podcast[] = [
   {
-    title: "Reels — Apresentação Bia HS",
+    title: "Reels: Apresentação Bia HS",
     guest: "Produção DUO | Mídia & Studio",
     episode: "Reels",
     duration: "",
@@ -798,7 +789,7 @@ const podcasts: Podcast[] = [
     gallery: [podcastGallery1, podcastGallery2, podcastGallery3],
   },
   {
-    title: "Doce Sedução — Black Friday 01",
+    title: "Doce Sedução: Black Friday 01",
     guest: "Cliente Doce Sedução",
     episode: "Reels",
     duration: "",
@@ -809,7 +800,7 @@ const podcasts: Podcast[] = [
     gallery: [podcastGallery2, podcastGallery3, podcastGallery1],
   },
   {
-    title: "Doce Sedução — Black Friday 02",
+    title: "Doce Sedução: Black Friday 02",
     guest: "Cliente Doce Sedução",
     episode: "Reels",
     duration: "",
@@ -820,7 +811,7 @@ const podcasts: Podcast[] = [
     gallery: [podcastGallery3, podcastGallery1, podcastGallery2],
   },
   {
-    title: "Doce Sedução — Black Friday 03",
+    title: "Doce Sedução: Black Friday 03",
     guest: "Cliente Doce Sedução",
     episode: "Reels",
     duration: "",
@@ -1021,7 +1012,6 @@ function Home_() {
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
-        {/* Hero — apresentação + vídeo + CTAs */}
         <section className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
           <div className="flex flex-col">
             <p className="eyebrow mb-4">Bem-vindo à DUO | Mídia & Studio</p>
@@ -1054,16 +1044,16 @@ function Home_() {
           </div>
         </section>
 
-        {/* Serviços — DUOMÍDIA e DUOSTUDIO no estilo da referência */}
+        {/* Serviços DUOMÍDIA e DUOSTUDIO no estilo da referência */}
         <section className="mt-16 lg:mt-20">
           <SectionHeader
-            eyebrow="Uma Agência. Várias soluções. — Campanha 2026"
+            eyebrow="Uma Agência. Várias soluções. Campanha 2026"
             title="Duas frentes, uma entrega completa"
             count={duoServiceGroups.reduce((n, g) => n + g.items.length, 0)}
           />
           <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ink-muted text-pretty">
             Uma solução integrada para marcas que precisam de estratégia + criação + produção. Escolha a
-            frente que mais combina com o seu momento — ou combine as duas.
+            frente que mais combina com o seu momento, ou combine as duas.
           </p>
           <DuoServiceCards />
         </section>
@@ -1130,7 +1120,7 @@ function Home_() {
                   Não encontrou o que precisa?
                 </h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-ink-muted text-pretty">
-                  Conte pra gente o que você imagina — nossa equipe monta uma proposta personalizada
+                  Conte pra gente o que você imagina, nossa equipe monta uma proposta personalizada
                   para o seu momento, sem complicação.
                 </p>
               </div>

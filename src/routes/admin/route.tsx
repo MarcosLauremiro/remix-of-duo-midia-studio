@@ -71,7 +71,7 @@ function AdminLayout() {
               <span className="grid size-8 place-items-center rounded-xl bg-terracotta text-white">
                 <Building2 className="size-4" />
               </span>
-              <span className="font-display text-sm font-bold">DUO — Admin</span>
+              <span className="font-display text-sm font-bold">DUO, Admin</span>
             </Link>
             <span className="hidden text-xs text-ink-muted lg:inline">Gerenciamento de clientes</span>
           </div>
@@ -110,7 +110,7 @@ function AdminLayout() {
             })}
           </nav>
           <div className="mt-6 rounded-xl bg-surface p-3 text-xs leading-relaxed text-ink-muted ring-1 ring-ink/10">
-            Dados reais do banco. Exclusão é lógica — registros não aparecem nas listagens.
+            Dados reais do banco. Exclusão é lógica, registros não aparecem nas listagens.
           </div>
         </aside>
 

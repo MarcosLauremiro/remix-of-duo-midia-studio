@@ -11,13 +11,13 @@ import media1Img from "@/assets/media-1.jpg";
 export const Route = createFileRoute("/duomidia")({
   head: () => ({
     meta: [
-      { title: "DUOMÍDIA — Estratégia, conteúdo e campanhas" },
+      { title: "DUOMÍDIA | Estratégia, conteúdo e campanhas" },
       {
         name: "description",
         content:
           "A frente de mídia da DUO: planejamento, redes sociais, campanhas e comunicação que aproxima marcas e pessoas.",
       },
-      { property: "og:title", content: "DUOMÍDIA — Estratégia, conteúdo e campanhas" },
+      { property: "og:title", content: "DUOMÍDIA | Estratégia, conteúdo e campanhas" },
       {
         property: "og:description",
         content:
@@ -103,7 +103,7 @@ function DuoMidiaPage() {
           Quer levar a DuoMídia para a sua marca?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
-          Conte o que você precisa e a equipe monta um plano sob medida — sem jargão técnico.
+          Conte o que você precisa e a equipe monta um plano sob medida, sem jargão técnico.
         </p>
         <div className="mt-6">
           <WhatsAppCta label="Solicitar proposta da DuoMídia" />

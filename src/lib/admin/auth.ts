@@ -78,7 +78,7 @@ function verifyJwt(token: string, secret: string): Record<string, unknown> | nul
 function getSecret(): string {
   const s = process.env.SESSION_SECRET;
   if (!s || s.length < 16) {
-    // Em dev sem env, usa fallback mas avisa — nunca em produção
+    // Em dev sem env, usa fallback mas avisa, nunca em produção
     if (process.env.NODE_ENV === "production") throw new Error("SESSION_SECRET ausente ou fraco");
     return "dev-only-session-secret-trocar-em-producao-32chars";
   }

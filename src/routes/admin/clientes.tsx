@@ -144,7 +144,7 @@ function ClientesPage() {
                       </Link>
                       {c.email ? <p className="text-xs text-ink-muted">{c.email}</p> : null}
                     </td>
-                    <td className="px-4 py-3 text-ink-muted">{c.empresa ?? "—"}</td>
+                    <td className="px-4 py-3 text-ink-muted">{c.empresa ?? "-"}</td>
                     <td className="px-4 py-3">
                       <span className="rounded-full bg-background px-2.5 py-1 text-xs ring-1 ring-ink/10">{c.status}</span>
                     </td>

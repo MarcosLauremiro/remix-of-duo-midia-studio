@@ -1,4 +1,4 @@
-// Persistência simples — funciona sem Mongo e migra para Mongo sem mudar a interface.
+// Persistência simples, funciona sem Mongo e migra para Mongo sem mudar a interface.
 // Em produção com Mongo: substitua getStore() por conexão real e mantenha a mesma API.
 
 import { randomUUID } from "node:crypto";

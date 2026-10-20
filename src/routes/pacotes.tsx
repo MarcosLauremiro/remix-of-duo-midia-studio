@@ -6,9 +6,9 @@ import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 export const Route = createFileRoute("/pacotes")({
   head: () => ({
     meta: [
-      { title: "Pacotes de créditos — DUO | Mídia & Studio" },
+      { title: "Pacotes de créditos | DUO | Mídia & Studio" },
       { name: "description", content: "Compre pacotes de créditos e serviços avulsos da DUO | Mídia & Studio." },
-      { property: "og:title", content: "Pacotes de créditos — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Pacotes de créditos | DUO | Mídia & Studio" },
       { property: "og:description", content: "Compre pacotes de créditos e serviços avulsos da DUO | Mídia & Studio." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -101,7 +101,7 @@ function Pacotes() {
                   ))}
                 </div>
                 <button onClick={pagar} className="mt-6 w-full rounded-full bg-terracotta px-5 py-3 text-sm font-semibold text-primary-foreground">Pagar {brl(sel.preco)}</button>
-                <p className="mt-3 text-center text-xs text-ink-muted">Demonstração — nenhum valor é cobrado.</p>
+                <p className="mt-3 text-center text-xs text-ink-muted">Demonstração: nenhum valor é cobrado.</p>
               </>
             ) : (
               <div className="text-center">

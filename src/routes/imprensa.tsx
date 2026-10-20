@@ -11,13 +11,13 @@ const INSTAGRAM_URL = "https://www.instagram.com/duomidia/";
 export const Route = createFileRoute("/imprensa")({
   head: () => ({
     meta: [
-      { title: "Imprensa — DUO | Mídia & Studio" },
+      { title: "Imprensa | DUO | Mídia & Studio" },
       {
         name: "description",
         content:
           "Materiais publicados sobre a DUO em veículos, portais e redes: links, entrevistas e participações.",
       },
-      { property: "og:title", content: "Imprensa — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Imprensa | DUO | Mídia & Studio" },
       {
         property: "og:description",
         content:

@@ -6,9 +6,9 @@ import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 export const Route = createFileRoute("/entrar")({
   head: () => ({
     meta: [
-      { title: "Entrar — DUO | Mídia & Studio" },
+      { title: "Entrar | DUO | Mídia & Studio" },
       { name: "description", content: "Acesse sua área de cliente da DUO | Mídia & Studio." },
-      { property: "og:title", content: "Entrar — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Entrar | DUO | Mídia & Studio" },
       { property: "og:description", content: "Acesse sua área de cliente da DUO | Mídia & Studio." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

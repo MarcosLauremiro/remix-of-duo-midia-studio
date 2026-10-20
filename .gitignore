@@ -20,7 +20,7 @@ dist-ssr
 .wrangler/
 .dev.vars
 
-# Env / secrets — nunca versionar
+# Env / secrets, nunca versionar
 .env
 
 # Dados locais do admin (store file)

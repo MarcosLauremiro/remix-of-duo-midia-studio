@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * DuoHub — Dark dashboard design system.
+ * DuoHub, Dark dashboard design system.
  * Deep black-blue background, crisp white type, red details and blue accents.
  * Manrope for display, Inter for body, JetBrains Mono for eyebrows/badges.
  */
@@ -57,7 +57,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* DUO | Mídia & Studio — dark dashboard, red details, blue accents */
+  /* DUO | Mídia & Studio, dark dashboard, red details, blue accents */
   --background: oklch(0.12 0.02 260);
   --foreground: oklch(0.99 0.005 250);
 
@@ -66,10 +66,10 @@
   --ink: oklch(0.99 0.005 250);
   --ink-muted: oklch(0.68 0.02 260);
 
-  /* Brand red — DUO | Mídia */
+  /* Brand red, DUO | Mídia */
   --terracotta: oklch(0.55 0.2 25);
   --terracotta-soft: oklch(0.55 0.2 25 / 0.12);
-  /* Blue accent — DUO | Studio */
+  /* Blue accent, DUO | Studio */
   --ochre: oklch(0.6 0.16 255);
 
   --card: oklch(0.17 0.03 260);

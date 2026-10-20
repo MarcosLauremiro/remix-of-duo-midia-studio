@@ -24,13 +24,13 @@ const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 export const Route = createFileRoute("/servicos")({
   head: () => ({
     meta: [
-      { title: "Serviços — DUO | Mídia & Studio" },
+      { title: "Serviços | DUO | Mídia & Studio" },
       {
         name: "description",
         content:
           "Serviços da DUO: posts, stories, carrosséis, reels, banners, crachás, coberturas de eventos e podcasts.",
       },
-      { property: "og:title", content: "Serviços — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Serviços | DUO | Mídia & Studio" },
       {
         property: "og:description",
         content:
@@ -130,7 +130,7 @@ const episodios = [
   },
   {
     image: podcast2Img,
-    title: "Doce Sedução — Black Friday",
+    title: "Doce Sedução: Black Friday",
     text: "Série de conteúdos verticais para a campanha da marca.",
     tag: "Série",
   },
@@ -194,7 +194,7 @@ function ServicosPage() {
       <SectionTitle
         eyebrow="Momentos que construímos juntos"
         title="Coberturas"
-        intro="Fotos e vídeos dos eventos que a DUO acompanhou de perto — do palco aos bastidores."
+        intro="Fotos e vídeos dos eventos que a DUO acompanhou de perto, do palco aos bastidores."
       />
       <CardGrid>
         {coberturas.map((c) => (

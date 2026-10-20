@@ -42,7 +42,7 @@ function LoginPage() {
             <Building2 className="size-4" />
           </span>
           <div>
-            <p className="font-display text-sm font-bold leading-none text-ink">DUO — Admin</p>
+            <p className="font-display text-sm font-bold leading-none text-ink">DUO, Admin</p>
             <p className="text-xs text-ink-muted">Acesso restrito</p>
           </div>
         </div>

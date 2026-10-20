@@ -8,13 +8,13 @@ import blog4Img from "@/assets/blog-4.jpg";
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "Blog — DUO | Mídia & Studio" },
+      { title: "Blog | DUO | Mídia & Studio" },
       {
         name: "description",
         content:
           "Conteúdos da DUO sobre marca, redes sociais, produção de vídeo e comunicação em linguagem simples.",
       },
-      { property: "og:title", content: "Blog — DUO | Mídia & Studio" },
+      { property: "og:title", content: "Blog | DUO | Mídia & Studio" },
       {
         property: "og:description",
         content:
@@ -40,7 +40,7 @@ const posts = [
   },
   {
     image: blog3Img,
-    title: "Sua marca tem uma voz — e ela precisa ser reconhecível",
+    title: "Sua marca tem uma voz e ela precisa ser reconhecível",
     text: "Como manter o mesmo jeito de falar em todos os canais.",
     tag: "Marca",
   },
