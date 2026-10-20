@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "admin:create": "node scripts/create-admin.mjs",
+    "health": "node -e \"console.log('ok')\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

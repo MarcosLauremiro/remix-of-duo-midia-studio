@@ -20,6 +20,12 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Env / secrets — nunca versionar
+.env
+
+# Dados locais do admin (store file)
+.data/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -30,3 +36,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# fuse NFS stale handles
+.fuse_hidden*
+.fuse_hidden*

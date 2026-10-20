@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as DuomidiaRouteImport } from './routes/duomidia'
 import { Route as DuostudioRouteImport } from './routes/duostudio'
@@ -18,10 +19,22 @@ import { Route as ImprensaRouteImport } from './routes/imprensa'
 import { Route as PacotesRouteImport } from './routes/pacotes'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
+import { Route as AdminConfiguracoesRouteImport } from './routes/admin/configuracoes'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as ApiHealthRouteImport } from './routes/api.health'
+import { Route as AdminClientesIdRouteImport } from './routes/admin/clientes.$id'
+import { Route as AdminClientesNovoRouteImport } from './routes/admin/clientes.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -64,9 +77,45 @@ const ServicosRoute = ServicosRouteImport.update({
   path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminConfiguracoesRoute = AdminConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminClientesIdRoute = AdminClientesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminClientesRoute,
+} as any)
+const AdminClientesNovoRoute = AdminClientesNovoRouteImport.update({
+  id: '/novo',
+  path: '/novo',
+  getParentRoute: () => AdminClientesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
@@ -75,9 +124,17 @@ export interface FileRoutesByFullPath {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/admin/clientes': typeof AdminClientesRouteWithChildren
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/api/health': typeof ApiHealthRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
+  '/admin/clientes/novo': typeof AdminClientesNovoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
@@ -86,10 +143,18 @@ export interface FileRoutesByTo {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/admin/clientes': typeof AdminClientesRouteWithChildren
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/api/health': typeof ApiHealthRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
+  '/admin/clientes/novo': typeof AdminClientesNovoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/blog': typeof BlogRoute
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
@@ -98,11 +163,19 @@ export interface FileRoutesById {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/admin/clientes': typeof AdminClientesRouteWithChildren
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/api/health': typeof ApiHealthRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
+  '/admin/clientes/novo': typeof AdminClientesNovoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/blog'
     | '/duomidia'
     | '/duostudio'
@@ -111,9 +184,17 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/api/health'
+    | '/admin/clientes/$id'
+    | '/admin/clientes/novo'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/blog'
     | '/duomidia'
     | '/duostudio'
@@ -122,9 +203,17 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/api/health'
+    | '/admin/clientes/$id'
+    | '/admin/clientes/novo'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/blog'
     | '/duomidia'
     | '/duostudio'
@@ -133,10 +222,18 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/login'
+    | '/api/health'
+    | '/admin/clientes/$id'
+    | '/admin/clientes/novo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   BlogRoute: typeof BlogRoute
   DuomidiaRoute: typeof DuomidiaRoute
   DuostudioRoute: typeof DuostudioRoute
@@ -145,6 +242,7 @@ export interface RootRouteChildren {
   PacotesRoute: typeof PacotesRoute
   PainelClienteRoute: typeof PainelClienteRoute
   ServicosRoute: typeof ServicosRoute
+  ApiHealthRoute: typeof ApiHealthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -154,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -212,11 +317,93 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/configuracoes': {
+      id: '/admin/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/admin/configuracoes'
+      preLoaderRoute: typeof AdminConfiguracoesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/clientes/$id': {
+      id: '/admin/clientes/$id'
+      path: '/$id'
+      fullPath: '/admin/clientes/$id'
+      preLoaderRoute: typeof AdminClientesIdRouteImport
+      parentRoute: typeof AdminClientesRoute
+    }
+    '/admin/clientes/novo': {
+      id: '/admin/clientes/novo'
+      path: '/novo'
+      fullPath: '/admin/clientes/novo'
+      preLoaderRoute: typeof AdminClientesNovoRouteImport
+      parentRoute: typeof AdminClientesRoute
+    }
   }
 }
 
+interface AdminClientesRouteChildren {
+  AdminClientesIdRoute: typeof AdminClientesIdRoute
+  AdminClientesNovoRoute: typeof AdminClientesNovoRoute
+}
+
+const AdminClientesRouteChildren: AdminClientesRouteChildren = {
+  AdminClientesIdRoute: AdminClientesIdRoute,
+  AdminClientesNovoRoute: AdminClientesNovoRoute,
+}
+
+const AdminClientesRouteWithChildren = AdminClientesRoute._addFileChildren(
+  AdminClientesRouteChildren,
+)
+
+interface AdminRouteRouteChildren {
+  AdminClientesRoute: typeof AdminClientesRouteWithChildren
+  AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminClientesRoute: AdminClientesRouteWithChildren,
+  AdminConfiguracoesRoute: AdminConfiguracoesRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminLoginRoute: AdminLoginRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   BlogRoute: BlogRoute,
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
@@ -225,6 +412,7 @@ const rootRouteChildren: RootRouteChildren = {
   PacotesRoute: PacotesRoute,
   PainelClienteRoute: PainelClienteRoute,
   ServicosRoute: ServicosRoute,
+  ApiHealthRoute: ApiHealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

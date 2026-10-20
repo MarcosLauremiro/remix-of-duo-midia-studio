@@ -52,10 +52,8 @@ import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
 import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
-import founder1Asset from "@/assets/founder-fabia.png.asset.json";
-import founder2Asset from "@/assets/founder-anna.png.asset.json";
-const founder1Img = founder1Asset.url;
-const founder2Img = founder2Asset.url;
+import founderFabiaImg from "@/assets/founders/fabia.jpg";
+import founderAnnaImg from "@/assets/founders/anna.jpg";
 
 import aciiLogo from "@/assets/clients/ACII.png";
 import bengessoLogo from "@/assets/clients/BENGESSO.png";
@@ -204,14 +202,14 @@ const founders: Founder[] = [
     name: "Fabia Homobono",
     role: "Sócia · CEO",
     bio: "Publicitária e estrategista de marketing com mais de 20 anos de experiência. Especialista em Comunicação e Marketing Digital, cria estratégias que fortalecem marcas e impulsionam negócios com visão, criatividade e foco em resultado.",
-    image: founder1Img,
+    image: founderFabiaImg,
     accent: "terracotta",
   },
   {
     name: "Anna Valeria Oliveira",
     role: "Sócia · Gestora de Contas",
     bio: "Publicitária com mais de 15 anos de experiência em publicidade e gestão de contas. Cuida do relacionamento com clientes, do planejamento e da execução de projetos que conectam marcas e públicos com organização e sensibilidade criativa.",
-    image: founder2Img,
+    image: founderAnnaImg,
     accent: "ochre",
   },
 ];
