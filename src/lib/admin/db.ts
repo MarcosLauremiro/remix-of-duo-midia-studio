@@ -45,14 +45,28 @@ export type ClientDoc = {
   deletedAt?: string | null;
 };
 
-type Store = { admins: AdminDoc[]; clients: ClientDoc[] };
+export type PostDoc = {
+  id: string;
+  title: string;
+  slug: string;
+  coverImage: string | null;
+  excerpt: string;
+  content: string;
+  status: "draft" | "published";
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string | null;
+  deletedAt?: string | null;
+};
+
+type Store = { admins: AdminDoc[]; clients: ClientDoc[]; posts: PostDoc[] };
 
 function dataFilePath(): string {
   return join(projectRoot(), ".data", "store.json");
 }
 
 function defaultStore(): Store {
-  return { admins: [], clients: [] };
+  return { admins: [], clients: [], posts: [] };
 }
 
 let memStore: Store | null = null;
@@ -84,9 +98,11 @@ function getStore(): Store {
   }
   try {
     const raw = readFileSync(file, "utf-8");
-    const parsed = JSON.parse(raw) as Store;
-    if (!Array.isArray(parsed.admins) || !Array.isArray(parsed.clients)) return defaultStore();
-    return parsed;
+    const parsed = JSON.parse(raw) as Partial<Store> & { posts?: unknown };
+    const admins = Array.isArray(parsed.admins) ? parsed.admins : [];
+    const clients = Array.isArray(parsed.clients) ? parsed.clients : [];
+    const posts = Array.isArray(parsed.posts) ? (parsed.posts as PostDoc[]) : [];
+    return { admins, clients, posts };
   } catch {
     return defaultStore();
   }
@@ -195,4 +211,122 @@ export function dashboardStats() {
     emNegociacao: by("em_negociacao"),
     recentes,
   };
+}
+
+// ── Blog helpers ────────────────────────────────────────────────────────────
+
+export function slugify(input: string): string {
+  return (
+    input
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      // Remove diacríticos
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || "artigo"
+  );
+}
+
+export function ensureUniquePostSlug(base: string, excludeId?: string): string {
+  const store = getStore();
+  const existing = new Set(
+    store.posts.filter((p) => p.id !== excludeId && !p.deletedAt).map((p) => p.slug),
+  );
+  if (!existing.has(base)) return base;
+  let i = 2;
+  while (existing.has(`${base}-${i}`)) i += 1;
+  return `${base}-${i}`;
+}
+
+// ── Posts ──────────────────────────────────────────────────────────────────
+
+export function findPostById(id: string, includeDeleted = false): PostDoc | null {
+  const p = getStore().posts.find((x) => x.id === id) ?? null;
+  if (!p) return null;
+  if (!includeDeleted && p.deletedAt) return null;
+  return p;
+}
+
+export function findPostBySlug(slug: string): PostDoc | null {
+  const p = getStore().posts.find((x) => x.slug === slug && !x.deletedAt) ?? null;
+  return p ?? null;
+}
+
+export function findPublishedPostBySlug(slug: string): PostDoc | null {
+  const p = getStore().posts.find((x) => x.slug === slug && x.status === "published" && !x.deletedAt) ?? null;
+  return p ?? null;
+}
+
+export function upsertPost(doc: PostDoc) {
+  const s = getStore();
+  const idx = s.posts.findIndex((p) => p.id === doc.id);
+  if (idx >= 0) s.posts[idx] = doc;
+  else s.posts.push(doc);
+  saveStore(s);
+}
+
+export type PostListParams = {
+  q?: string;
+  status?: string;
+  sortBy?: "publishedAt" | "createdAt" | "title";
+  sortDir?: "asc" | "desc";
+  page: number;
+  limit: number;
+  includeDeleted?: boolean;
+};
+
+export function listPosts(params: PostListParams): { items: PostDoc[]; total: number } {
+  let arr = getStore().posts.filter((p) => (params.includeDeleted ? true : !p.deletedAt));
+  const q = params.q?.trim().toLowerCase();
+  if (q) {
+    arr = arr.filter((p) => {
+      const hay = `${p.title} ${p.excerpt} ${p.slug}`.toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  if (params.status && params.status !== "todos") {
+    arr = arr.filter((p) => p.status === params.status);
+  }
+  const sortBy = params.sortBy ?? "createdAt";
+  const dir = params.sortDir === "asc" ? 1 : -1;
+  arr.sort((a, b) => {
+    if (sortBy === "title") return dir * a.title.localeCompare(b.title, "pt-BR");
+    if (sortBy === "publishedAt") {
+      const av = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const bv = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      if (av !== bv) return dir * (av - bv);
+      return dir * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    }
+    return dir * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  });
+  const total = arr.length;
+  const start = (params.page - 1) * params.limit;
+  const items = arr.slice(start, start + params.limit);
+  return { items, total };
+}
+
+export function listPublishedPosts(params: { q?: string; page: number; limit: number }): {
+  items: PostDoc[];
+  total: number;
+} {
+  let arr = getStore().posts.filter((p) => p.status === "published" && !p.deletedAt);
+  const q = params.q?.trim().toLowerCase();
+  if (q) {
+    arr = arr.filter((p) => `${p.title} ${p.excerpt}`.toLowerCase().includes(q));
+  }
+  arr.sort((a, b) => {
+    const av = a.publishedAt ? new Date(a.publishedAt).getTime() : new Date(a.createdAt).getTime();
+    const bv = b.publishedAt ? new Date(b.publishedAt).getTime() : new Date(b.createdAt).getTime();
+    return bv - av;
+  });
+  const total = arr.length;
+  const start = (params.page - 1) * params.limit;
+  const items = arr.slice(start, start + params.limit);
+  return { items, total };
+}
+
+export function recentPublishedPosts(limit = 6): PostDoc[] {
+  return listPublishedPosts({ page: 1, limit }).items;
 }

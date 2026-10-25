@@ -33,6 +33,7 @@ const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 
 import { testimonials, GOOGLE_REVIEWS_URL, type Testimonial } from "@/data/testimonials";
 import { SiteHeader, SiteFooter, WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
+import { BlogSection } from "@/components/blog/BlogSection";
 
 import balsas1 from "@/assets/events/balsas-motofest/1.jpg";
 import balsas2 from "@/assets/events/balsas-motofest/2.jpg";
@@ -1106,6 +1107,9 @@ function Home_() {
           />
           <PodcastRotator items={podcasts} />
         </section>
+
+        {/* Blog: logo após Podcast */}
+        <BlogSection />
 
         {/* Featured "não encontrou" + WhatsApp */}
         <section className="mt-16">

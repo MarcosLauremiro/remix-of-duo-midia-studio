@@ -37,3 +37,47 @@ export function sanitizeString(s: unknown, max = 4000): string {
   if (typeof s !== "string") return "";
   return s.trim().slice(0, max);
 }
+
+// ── Blog ───────────────────────────────────────────────────────────────────
+
+export const postStatusSchema = z.enum(["draft", "published"]);
+
+export const postCreateSchema = z.object({
+  title: z.string().trim().min(3).max(160),
+  slug: z
+    .string()
+    .trim()
+    .max(80)
+    .optional()
+    .nullable()
+    .or(z.literal("")),
+  coverImage: z.string().trim().max(2048).optional().nullable().or(z.literal("")),
+  excerpt: z.string().trim().min(10).max(320),
+  content: z.string().trim().min(20).max(60_000),
+  status: postStatusSchema.default("draft"),
+});
+
+export const postUpdateSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().trim().min(3).max(160).optional(),
+  slug: z.string().trim().max(80).optional().nullable().or(z.literal("")),
+  coverImage: z.string().trim().max(2048).optional().nullable().or(z.literal("")),
+  excerpt: z.string().trim().min(10).max(320).optional(),
+  content: z.string().trim().min(20).max(60_000).optional(),
+  status: postStatusSchema.optional(),
+});
+
+export const postListQuerySchema = z.object({
+  q: z.string().max(120).optional(),
+  status: z.string().max(30).optional(),
+  sortBy: z.enum(["publishedAt", "createdAt", "title"]).default("createdAt"),
+  sortDir: z.enum(["asc", "desc"]).default("desc"),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+});
+
+export const publishedPostListQuerySchema = z.object({
+  q: z.string().max(120).optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(12),
+});

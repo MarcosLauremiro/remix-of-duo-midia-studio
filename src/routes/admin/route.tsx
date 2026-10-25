@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LayoutDashboard, Users, Settings, LogOut, Menu, X, Building2 } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, Building2 } from "lucide-react";
 import { meFn, logoutFn } from "@/lib/admin/admin.server";
 
 export const Route = createFileRoute("/admin")({
@@ -46,6 +46,7 @@ function AdminLayout() {
   const nav = [
     { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { to: "/admin/clientes", label: "Clientes", icon: Users },
+    { to: "/admin/blog", label: "Blog", icon: FileText },
     { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
   ] as const;
 
