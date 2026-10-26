@@ -205,7 +205,7 @@ const founders: Founder[] = [
   {
     name: "Anna Valeria Oliveira",
     role: "Sócia · Gestora de Contas",
-    bio: "Publicitária com mais de 15 anos de experiência em publicidade e gestão de contas. Cuida do relacionamento com clientes, do planejamento e da execução de projetos que conectam marcas e públicos com organização e sensibilidade criativa.",
+    bio: "Publicitária com mais de 15 anos de experiência em publicidade, gestão de contas e relacionamento com clientes. Possui MBA em Marketing Digital e atua no planejamento e na execução de projetos estratégicos que conectam marcas e públicos, unindo visão de negócio, organização e sensibilidade criativa.",
     image: founderAnnaImg,
     accent: "ochre",
   },
@@ -339,7 +339,7 @@ function ClientLogosStrip() {
             {visible.map((logo) => (
               <div
                 key={`${logo.name}-${offset}`}
-                className={`flex h-20 items-center justify-center rounded-2xl p-3 ring-1 ring-ink/10 sm:h-24 sm:p-4 ${logo.tone === "light" ? "bg-white" : "bg-background"}`}
+                className={`flex h-20 items-center justify-center rounded-2xl p-3 ring-1 ring-ink/10 sm:h-24 sm:p-4 bg-white`}
               >
                 <img
                   src={logo.src}
