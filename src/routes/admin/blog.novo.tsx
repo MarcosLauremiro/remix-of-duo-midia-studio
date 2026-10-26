@@ -48,11 +48,36 @@ async function extractError(ex: unknown): Promise<string> {
   return formatZodError(ex);
 }
 
+const COVER_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const COVER_MAX_BYTES = 2 * 1024 * 1024;
+
 function NovoPostPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [coverImage, setCoverImage] = useState("");
+  const [coverErr, setCoverErr] = useState<string | null>(null);
+
+  const onCoverFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!COVER_TYPES.includes(file.type)) {
+      setCoverErr("Use uma imagem JPG, PNG ou WebP.");
+      return;
+    }
+    if (file.size > COVER_MAX_BYTES) {
+      setCoverErr("A imagem deve ter no máximo 2 MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCoverImage(String(reader.result));
+      setCoverErr(null);
+    };
+    reader.onerror = () => setCoverErr("Não foi possível ler a imagem.");
+    reader.readAsDataURL(file);
+  };
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [status, setStatus] = useState<"draft" | "published">("draft");
@@ -111,8 +136,15 @@ function NovoPostPage() {
           <span className="text-xs text-ink-muted">Apenas letras, números e hífen. Usado em /blog/slug.</span>
         </label>
         <label className="block text-sm">
-          <span className="text-ink">Imagem de capa (URL)</span>
-          <input value={coverImage} onChange={(e) => setCoverImage(e.target.value)} placeholder="https://... ou /assets/..." className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
+          <span className="text-ink">Imagem de capa <span className="font-normal text-ink-muted">(JPG, PNG ou WebP, até 2 MB)</span></span>
+          <input type="file" accept="image/jpeg,image/png,image/webp" onChange={onCoverFile} className="mt-1 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-terracotta/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-terracotta hover:file:brightness-95" />
+          {coverErr && <span className="mt-1 block text-xs text-destructive">{coverErr}</span>}
+          {coverImage && (
+            <span className="mt-3 flex items-start gap-3">
+              <img src={coverImage} alt="Pré-visualização da capa" className="h-28 w-48 rounded-xl object-cover ring-1 ring-ink/10" />
+              <button type="button" onClick={() => setCoverImage("")} className="text-xs text-ink-muted underline hover:text-ink">Remover imagem</button>
+            </span>
+          )}
         </label>
         <label className="block text-sm">
           <span className="text-ink">Resumo * <span className="font-normal text-ink-muted">(mín. 10 caracteres)</span></span>

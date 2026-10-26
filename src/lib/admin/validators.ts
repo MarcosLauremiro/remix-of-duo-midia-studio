@@ -42,6 +42,20 @@ export function sanitizeString(s: unknown, max = 4000): string {
 
 export const postStatusSchema = z.enum(["draft", "published"]);
 
+// Capa: URL comum (até 2048 chars) ou imagem enviada do computador como data URL.
+// Limite da data URL ~2,2MB de imagem após base64.
+export const COVER_IMAGE_DATA_URL_PATTERN = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/;
+const COVER_IMAGE_DATA_URL_MAX = 3_000_000;
+
+const coverImageSchema = z
+  .string()
+  .trim()
+  .max(COVER_IMAGE_DATA_URL_MAX)
+  .refine(
+    (v) => (/^data:/i.test(v) ? COVER_IMAGE_DATA_URL_PATTERN.test(v) : v.length <= 2048),
+    "Imagem de capa inválida",
+  );
+
 export const postCreateSchema = z.object({
   title: z.string().trim().min(3).max(160),
   slug: z
@@ -51,7 +65,7 @@ export const postCreateSchema = z.object({
     .optional()
     .nullable()
     .or(z.literal("")),
-  coverImage: z.string().trim().max(2048).optional().nullable().or(z.literal("")),
+  coverImage: coverImageSchema.optional().nullable().or(z.literal("")),
   excerpt: z.string().trim().min(10).max(320),
   content: z.string().trim().min(20).max(60_000),
   status: postStatusSchema.default("draft"),
@@ -61,7 +75,7 @@ export const postUpdateSchema = z.object({
   id: z.string().min(1),
   title: z.string().trim().min(3).max(160).optional(),
   slug: z.string().trim().max(80).optional().nullable().or(z.literal("")),
-  coverImage: z.string().trim().max(2048).optional().nullable().or(z.literal("")),
+  coverImage: coverImageSchema.optional().nullable().or(z.literal("")),
   excerpt: z.string().trim().min(10).max(320).optional(),
   content: z.string().trim().min(20).max(60_000).optional(),
   status: postStatusSchema.optional(),

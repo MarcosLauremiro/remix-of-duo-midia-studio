@@ -21,6 +21,7 @@ import {
   postListQuerySchema,
   publishedPostListQuerySchema,
   postStatusSchema,
+  COVER_IMAGE_DATA_URL_PATTERN,
 } from "./validators";
 
 function requireAdmin() {
@@ -43,8 +44,10 @@ function normalizeCoverImage(raw: string | null | undefined): string | null {
   if (!raw) return null;
   const t = raw.trim();
   if (!t) return null;
+  // Data URL só de imagem permitida (jpeg/png/webp), já validada no schema
+  if (/^data:/i.test(t)) return COVER_IMAGE_DATA_URL_PATTERN.test(t) ? t : null;
   // Aceita URL absoluta ou caminho /assets; bloqueia javascript: etc
-  if (/^javascript:/i.test(t) || /^data:/i.test(t)) return null;
+  if (/^javascript:/i.test(t)) return null;
   return t.slice(0, 2048);
 }
 
