@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
@@ -21,8 +21,15 @@ export const Route = createFileRoute("/blog")({
       },
     ],
   }),
-  component: BlogPage,
+  component: BlogLayout,
 });
+
+function BlogLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isDetail = pathname !== "/blog" && pathname.startsWith("/blog/");
+  if (isDetail) return <Outlet />;
+  return <BlogPage />;
+}
 
 function BlogPage() {
   const [q, setQ] = useState("");

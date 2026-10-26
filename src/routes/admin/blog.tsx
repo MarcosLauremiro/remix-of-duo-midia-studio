@@ -1,12 +1,19 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { Search, Plus, Trash2, Pencil, Eye, EyeOff } from "lucide-react";
 import { adminListPostsFn, adminDeletePostFn, adminPublishPostFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
 
 export const Route = createFileRoute("/admin/blog")({
-  component: BlogAdminPage,
+  component: BlogAdminLayout,
 });
+
+function BlogAdminLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isChild = pathname === "/admin/blog/novo" || (pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog");
+  if (isChild) return <Outlet />;
+  return <BlogAdminPage />;
+}
 
 const statusOptions = [
   { value: "todos", label: "Todos" },
