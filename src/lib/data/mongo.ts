@@ -39,8 +39,12 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
     if (e instanceof ConfigError || e instanceof DataUnavailableError) throw e;
     if (isDuplicateKeyError(e)) throw e;
     if (e instanceof MongoError) {
-      // Registra só o tipo do erro: a mensagem do driver pode citar o host.
-      console.error("[db] falha de conexão ou consulta:", e.name);
+      // Só o tipo e o código numérico: 18 = AuthenticationFailed; a mensagem pode citar o host.
+      console.error(
+        "[db] falha de conexão ou consulta:",
+        e.name,
+        (e as { code?: unknown }).code ?? "",
+      );
       throw new DataUnavailableError();
     }
     throw e;
