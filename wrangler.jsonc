@@ -1,0 +1,12 @@
+// Configuração do Cloudflare Workers. Segredos e variáveis NÃO ficam aqui:
+// configure-os no painel da Cloudflare ou com `wrangler secret put` (ver docs/API-AND-DATABASE.md).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "duo-midia-studio",
+  "main": "src/server.ts",
+  // nodejs_compat é obrigatório para o driver do MongoDB (node:net, node:tls, node:crypto).
+  // A data >= 2025-04-01 ativa process.env populado com variáveis e segredos.
+  "compatibility_date": "2026-10-26",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+}

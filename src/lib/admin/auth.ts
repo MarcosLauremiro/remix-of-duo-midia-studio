@@ -1,144 +1,78 @@
-import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
+// Cookie de sessão e guarda de autorização das server functions administrativas.
+import {
+  getCookie,
+  getRequestHeader,
+  getRequestHost,
+  setCookie,
+} from "@tanstack/react-start/server";
+import type { Db } from "mongodb";
+import type { AdminDoc } from "./db";
+import { findAdminById } from "../data/admins";
+import { withDb } from "../data/mongo";
+import {
+  readSessionSecret,
+  SESSION_TTL_SEC,
+  verifySession,
+  type SessionClaims,
+  signSession,
+} from "./session";
 
 const COOKIE_NAME = "duo_admin_session";
-const JWT_ALG = "HS256";
-const SESSION_TTL_SEC = 60 * 60 * 12; // 12h
 
-// ── Password: scrypt (Node nativo, sem deps nativas) ──────────────────────────
-// Formato: scrypt$N$r$p$salt$hash  (hex)
+// Cookie sempre Secure: o painel só é servido por HTTPS (inclusive localhost em navegadores modernos).
+const COOKIE_BASE = { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/" };
 
-export function hashPassword(password: string): string {
-  const salt = randomBytes(16).toString("hex");
-  const N = 16384,
-    r = 8,
-    p = 1,
-    keyLen = 32;
-  const hash = scryptSync(password, salt, keyLen, { N, r, p, maxmem: 64 * 1024 * 1024 }).toString("hex");
-  return `scrypt$${N}$${r}$${p}$${salt}$${hash}`;
+export function setSessionCookie(adminId: string, tokenVersion: number): void {
+  const token = signSession({ adminId, tokenVersion }, readSessionSecret());
+  setCookie(COOKIE_NAME, token, { ...COOKIE_BASE, maxAge: SESSION_TTL_SEC });
 }
 
-export function verifyPassword(password: string, stored: string): boolean {
-  try {
-    const parts = stored.split("$");
-    if (parts[0] !== "scrypt" || parts.length !== 6) return false;
-    const N = parseInt(parts[1], 10);
-    const r = parseInt(parts[2], 10);
-    const p = parseInt(parts[3], 10);
-    const salt = parts[4];
-    const expectedHex = parts[5];
-    const keyLen = Buffer.from(expectedHex, "hex").length;
-    const hash = scryptSync(password, salt, keyLen, { N, r, p, maxmem: 64 * 1024 * 1024 });
-    const expected = Buffer.from(expectedHex, "hex");
-    if (hash.length !== expected.length) return false;
-    return timingSafeEqual(hash, expected);
-  } catch {
-    return false;
-  }
+export function clearSessionCookie(): void {
+  setCookie(COOKIE_NAME, "", { ...COOKIE_BASE, maxAge: 0 });
 }
 
-// ── JWT mínimo (HS256, sem libs) ─────────────────────────────────────────────
-
-function b64urlEncode(buf: Buffer | string) {
-  const b = typeof buf === "string" ? Buffer.from(buf) : buf;
-  return b.toString("base64url");
-}
-function b64urlDecode(s: string): Buffer {
-  return Buffer.from(s, "base64url");
-}
-
-function signJwt(payload: Record<string, unknown>, secret: string, ttlSec: number): string {
-  const header = { alg: JWT_ALG, typ: "JWT" };
-  const now = Math.floor(Date.now() / 1000);
-  const body = { ...payload, iat: now, exp: now + ttlSec };
-  const h = b64urlEncode(JSON.stringify(header));
-  const p = b64urlEncode(JSON.stringify(body));
-  const sig = createHmac("sha256", secret).update(`${h}.${p}`).digest("base64url");
-  return `${h}.${p}.${sig}`;
-}
-
-function verifyJwt(token: string, secret: string): Record<string, unknown> | null {
-  const parts = token.split(".");
-  if (parts.length !== 3) return null;
-  const [h, p, sig] = parts;
-  const expected = createHmac("sha256", secret).update(`${h}.${p}`).digest("base64url");
-  const a = Buffer.from(sig);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
-  try {
-    const payload = JSON.parse(b64urlDecode(p).toString("utf-8")) as Record<string, unknown>;
-    const exp = payload.exp as number | undefined;
-    if (typeof exp === "number" && Math.floor(Date.now() / 1000) > exp) return null;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
-function getSecret(): string {
-  const s = process.env.SESSION_SECRET;
-  if (!s || s.length < 16) {
-    // Em dev sem env, usa fallback mas avisa, nunca em produção
-    if (process.env.NODE_ENV === "production") throw new Error("SESSION_SECRET ausente ou fraco");
-    return "dev-only-session-secret-trocar-em-producao-32chars";
-  }
-  return s;
-}
-
-export function createSessionToken(adminId: string): string {
-  return signJwt({ sub: adminId }, getSecret(), SESSION_TTL_SEC);
-}
-
-export function verifySessionToken(token: string): string | null {
-  const payload = verifyJwt(token, getSecret());
-  if (!payload || typeof payload.sub !== "string") return null;
-  return payload.sub;
-}
-
-// ── Cookie ───────────────────────────────────────────────────────────────────
-
-export function setSessionCookie(token: string) {
-  const isProd = process.env.NODE_ENV === "production";
-  setCookie(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_TTL_SEC,
-  });
-}
-
-export function clearSessionCookie() {
-  setCookie(COOKIE_NAME, "", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0,
-  });
-}
-
-export function getSessionAdminIdFromCookie(): string | null {
+/** Claims da sessão atual, sem consultar o banco. Null se não houver cookie ou se ele for inválido. */
+export function readSessionClaims(): SessionClaims | null {
   const token = getCookie(COOKIE_NAME);
   if (!token) return null;
-  return verifySessionToken(token);
+  return verifySession(token, readSessionSecret());
 }
 
-export const SESSION_COOKIE_NAME = COOKIE_NAME;
+/** Confere se o admin da sessão ainda existe, está ativo e a sessão não foi invalidada. */
+export async function loadActiveAdmin(db: Db, claims: SessionClaims): Promise<AdminDoc | null> {
+  const admin = await findAdminById(db, claims.adminId);
+  if (!admin || admin.status !== "active") return null;
+  if ((admin.tokenVersion ?? 0) !== claims.tokenVersion) return null;
+  return admin;
+}
 
-// ── Rate limit em memória (por IP/email) ─────────────────────────────────────
-
-type Bucket = { count: number; resetAt: number };
-const buckets = new Map<string, Bucket>();
-
-export function checkRateLimit(key: string, max = 8, windowMs = 60_000): boolean {
-  const now = Date.now();
-  const b = buckets.get(key);
-  if (!b || now > b.resetAt) {
-    buckets.set(key, { count: 1, resetAt: now + windowMs });
-    return true;
+/**
+ * Proteção CSRF: quando o navegador envia Origin, ele precisa ser o próprio host.
+ * Sem Origin (clientes não navegadores), o cookie SameSite=Lax continua exigido pela autenticação.
+ */
+function assertSameOrigin(): void {
+  const origin = getRequestHeader("origin");
+  if (!origin) return;
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host;
+  } catch {
+    throw new Error("FORBIDDEN");
   }
-  if (b.count >= max) return false;
-  b.count += 1;
-  return true;
+  if (originHost !== getRequestHost()) throw new Error("FORBIDDEN");
+}
+
+/**
+ * Executa `fn` com o admin autenticado e uma conexão aberta.
+ * Requisições sem sessão válida nem chegam a abrir conexão com o banco.
+ */
+export async function withAdmin<T>(fn: (db: Db, admin: AdminDoc) => Promise<T>): Promise<T> {
+  assertSameOrigin();
+  const claims = readSessionClaims();
+  if (!claims) throw new Error("UNAUTHORIZED");
+  return withDb(async (db) => {
+    const admin = await loadActiveAdmin(db, claims);
+    if (!admin) throw new Error("UNAUTHORIZED");
+    return fn(db, admin);
+  });
 }

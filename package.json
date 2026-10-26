@@ -5,12 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && node scripts/remove-dev-vars.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "admin:create": "node scripts/create-admin.mjs",
+    "admin:create": "node --env-file-if-exists=.env scripts/create-admin.mjs",
+    "db:setup": "node --env-file-if-exists=.env scripts/db-setup.mjs",
+    "db:import": "node --env-file-if-exists=.env scripts/import-store-to-mongo.mjs",
+    "typecheck": "tsc --noEmit",
+    "deploy": "vite build && node scripts/remove-dev-vars.mjs && wrangler deploy -c dist/server/wrangler.json",
+    "test": "vitest run",
     "health": "node -e \"console.log('ok')\""
   },
   "dependencies": {
@@ -53,6 +58,7 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.575.0",
+    "mongodb": "^7.7.0",
     "react": "^19.2.0",
     "react-day-picker": "^9.14.0",
     "react-dom": "^19.2.0",
@@ -68,6 +74,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.65.0",
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "2.25.3",
     "@types/node": "^22.16.5",
@@ -84,6 +91,8 @@
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.152.0"
   }
 }

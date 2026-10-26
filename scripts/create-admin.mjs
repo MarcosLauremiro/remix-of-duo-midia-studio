@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-// Uso: ADMIN_EMAIL=... ADMIN_PASSWORD=... SESSION_SECRET=... node scripts/create-admin.mjs
-// Cria ou reativa o admin inicial sem expor rota em produção.
-import { randomBytes, scryptSync } from "node:crypto";
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+// Cria ou atualiza um admin no MongoDB. Idempotente pelo e-mail.
+// Trocar a senha de um admin existente invalida as sessões dele.
+//
+// Uso (senha e e-mail vêm do ambiente, nunca de argumentos):
+//   ADMIN_EMAIL=... ADMIN_PASSWORD=... npm run admin:create
+// ADMIN_NAME é opcional (padrão "Admin").
+import { randomBytes, randomUUID, scryptSync } from "node:crypto";
+import { withScriptDb } from "./lib/mongo-connect.mjs";
 
 const email = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
 const password = process.env.ADMIN_PASSWORD || "";
@@ -18,44 +21,32 @@ if (password.length < 8) {
   process.exit(1);
 }
 
+// Mesmo formato de src/lib/admin/session.ts: scrypt$N$r$p$salt$hash
 function hashPassword(pwd) {
   const salt = randomBytes(16).toString("hex");
-  const N = 16384, r = 8, p = 1, keyLen = 32;
-  const hash = scryptSync(pwd, salt, keyLen, { N, r, p, maxmem: 64 * 1024 * 1024 }).toString("hex");
+  const N = 16384;
+  const r = 8;
+  const p = 1;
+  const hash = scryptSync(pwd, salt, 32, { N, r, p, maxmem: 64 * 1024 * 1024 }).toString("hex");
   return `scrypt$${N}$${r}$${p}$${salt}$${hash}`;
 }
 
-const dataFile = join(process.cwd(), ".data", "store.json");
-let store = { admins: [], clients: [] };
-if (existsSync(dataFile)) {
-  try { store = JSON.parse(readFileSync(dataFile, "utf-8")); } catch {}
-  if (!Array.isArray(store.admins)) store.admins = [];
-  if (!Array.isArray(store.clients)) store.clients = [];
-}
-
-const existing = store.admins.find((a) => String(a.email).toLowerCase() === email);
-if (existing) {
-  existing.passwordHash = hashPassword(password);
-  existing.name = name;
-  existing.status = "active";
-  existing.updatedAt = new Date().toISOString();
-  console.log(`Admin atualizado: ${email} (${existing.id})`);
-} else {
-  const id = (await import("node:crypto")).randomUUID();
-  store.admins.push({
-    id,
-    name,
-    email,
-    passwordHash: hashPassword(password),
-    role: "admin",
-    status: "active",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  });
-  console.log(`Admin criado: ${email} (${id})`);
-}
-
-mkdirSync(join(process.cwd(), ".data"), { recursive: true });
-writeFileSync(dataFile, JSON.stringify(store, null, 2), "utf-8");
-console.log(`Store salvo em ${dataFile}`);
-console.log("Para Mongo futuro: este script será substituído por inserção direta no banco.");
+await withScriptDb(async (db) => {
+  const now = new Date().toISOString();
+  const result = await db.collection("admins").findOneAndUpdate(
+    { email },
+    {
+      $set: {
+        name,
+        passwordHash: hashPassword(password),
+        status: "active",
+        role: "admin",
+        updatedAt: now,
+      },
+      $inc: { tokenVersion: 1 },
+      $setOnInsert: { id: randomUUID(), email, createdAt: now },
+    },
+    { upsert: true, returnDocument: "after", projection: { _id: 0, id: 1 } },
+  );
+  console.log(`Admin pronto (id ${result.id}). Sessões anteriores deste admin foram invalidadas.`);
+});

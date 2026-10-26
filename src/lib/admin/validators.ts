@@ -47,24 +47,40 @@ export const postStatusSchema = z.enum(["draft", "published"]);
 export const COVER_IMAGE_DATA_URL_PATTERN = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/;
 const COVER_IMAGE_DATA_URL_MAX = 3_000_000;
 
+/** Confere a assinatura binária (magic bytes) do conteúdo com o MIME declarado. */
+export function hasImageSignature(dataUrl: string): boolean {
+  const comma = dataUrl.indexOf(",");
+  if (comma < 0) return false;
+  const mime = dataUrl.slice(5, dataUrl.indexOf(";")); // após "data:"
+  // 24 caracteres base64 = 18 bytes, suficiente para os cabeçalhos
+  let bytes: number[];
+  try {
+    bytes = Array.from(atob(dataUrl.slice(comma + 1, comma + 25)), (c) => c.charCodeAt(0));
+  } catch {
+    return false;
+  }
+  const startsWith = (sig: number[], at = 0) => sig.every((b, i) => bytes[at + i] === b);
+  if (mime === "image/jpeg") return startsWith([0xff, 0xd8, 0xff]);
+  if (mime === "image/png") return startsWith([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  if (mime === "image/webp") {
+    // "RIFF" <tamanho> "WEBP"
+    return startsWith([0x52, 0x49, 0x46, 0x46]) && startsWith([0x57, 0x45, 0x42, 0x50], 8);
+  }
+  return false;
+}
+
 const coverImageSchema = z
   .string()
   .trim()
   .max(COVER_IMAGE_DATA_URL_MAX)
-  .refine(
-    (v) => (/^data:/i.test(v) ? COVER_IMAGE_DATA_URL_PATTERN.test(v) : v.length <= 2048),
-    "Imagem de capa inválida",
-  );
+  .refine((v) => {
+    if (!/^data:/i.test(v)) return v.length <= 2048;
+    return COVER_IMAGE_DATA_URL_PATTERN.test(v) && hasImageSignature(v);
+  }, "Imagem de capa inválida");
 
 export const postCreateSchema = z.object({
   title: z.string().trim().min(3).max(160),
-  slug: z
-    .string()
-    .trim()
-    .max(80)
-    .optional()
-    .nullable()
-    .or(z.literal("")),
+  slug: z.string().trim().max(80).optional().nullable().or(z.literal("")),
   coverImage: coverImageSchema.optional().nullable().or(z.literal("")),
   excerpt: z.string().trim().min(10).max(320),
   content: z.string().trim().min(20).max(60_000),
