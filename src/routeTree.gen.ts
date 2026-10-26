@@ -103,8 +103,8 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBlogRoute = AdminBlogRouteImport.update({
   id: '/admin/blog',
@@ -113,13 +113,13 @@ const AdminBlogRoute = AdminBlogRouteImport.update({
 } as any)
 const AdminBlogNovoRoute = AdminBlogNovoRouteImport.update({
   id: '/admin/blog/novo',
-  path: '/novo',
-  getParentRoute: () => AdminBlogRoute,
+  path: '/blog/novo',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminBlogSlugRoute = AdminBlogSlugRouteImport.update({
   id: '/admin/blog/$slug',
-  path: '/$slug',
-  getParentRoute: () => AdminBlogRoute,
+  path: '/blog/$slug',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
@@ -148,7 +148,6 @@ export interface FileRoutesByFullPath {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
-  '/blog': typeof BlogRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -158,10 +157,6 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/health': typeof ApiHealthRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/admin/blog': typeof AdminBlogRouteWithChildren
-  '/admin/blog/$slug': typeof AdminBlogSlugRoute
-  '/admin/blog/novo': typeof AdminBlogNovoRoute
   '/admin/clientes/$id': typeof AdminClientesIdRoute
   '/admin/clientes/novo': typeof AdminClientesNovoRoute
 }
@@ -176,11 +171,6 @@ export interface FileRoutesByTo {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/admin/blog': typeof AdminBlogRouteWithChildren
-  '/admin/blog/$slug': typeof AdminBlogSlugRoute
-  '/admin/blog/novo': typeof AdminBlogNovoRoute
-  '/blog': typeof BlogRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -205,7 +195,6 @@ export interface FileRoutesById {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
-  '/blog': typeof BlogRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -259,10 +248,6 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/api/health'
-    | '/blog/$slug'
-    | '/admin/blog'
-    | '/admin/blog/$slug'
-    | '/admin/blog/novo'
     | '/blog/$slug'
     | '/admin/blog'
     | '/admin/blog/$slug'
@@ -431,10 +416,10 @@ declare module '@tanstack/react-router' {
     }
     '/blog/$slug': {
       id: '/blog/$slug'
-      path: '/$slug'
+      path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/blog': {
       id: '/admin/blog'
@@ -445,17 +430,17 @@ declare module '@tanstack/react-router' {
     }
     '/admin/blog/$slug': {
       id: '/admin/blog/$slug'
-      path: '/$slug'
+      path: '/blog/$slug'
       fullPath: '/admin/blog/$slug'
       preLoaderRoute: typeof AdminBlogSlugRouteImport
-      parentRoute: typeof AdminBlogRoute
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/blog/novo': {
       id: '/admin/blog/novo'
-      path: '/novo'
+      path: '/blog/novo'
       fullPath: '/admin/blog/novo'
       preLoaderRoute: typeof AdminBlogNovoRouteImport
-      parentRoute: typeof AdminBlogRoute
+      parentRoute: typeof AdminRouteRoute
     }
   }
 }
@@ -468,7 +453,7 @@ const BlogRouteChildren: BlogRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
 }
 
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+const BlogRouteWithChildren = BlogRoute // leaf: no Outlet, children flattened to siblings
 
 interface AdminClientesRouteChildren {
   AdminClientesIdRoute: typeof AdminClientesIdRoute
@@ -494,11 +479,13 @@ const AdminBlogRouteChildren: AdminBlogRouteChildren = {
   AdminBlogSlugRoute: AdminBlogSlugRoute,
 }
 
-const AdminBlogRouteWithChildren = AdminBlogRoute._addFileChildren(AdminBlogRouteChildren)
+const AdminBlogRouteWithChildren = AdminBlogRoute // leaf: children flattened to siblings
 
 interface AdminRouteRouteChildren {
   AdminClientesRoute: typeof AdminClientesRouteWithChildren
-  AdminBlogRoute: typeof AdminBlogRouteWithChildren
+  AdminBlogRoute: typeof AdminBlogRoute
+  AdminBlogNovoRoute: typeof AdminBlogNovoRoute
+  AdminBlogSlugRoute: typeof AdminBlogSlugRoute
   AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -506,6 +493,9 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminClientesRoute: AdminClientesRouteWithChildren,
+  AdminBlogRoute: AdminBlogRoute,
+  AdminBlogNovoRoute: AdminBlogNovoRoute,
+  AdminBlogSlugRoute: AdminBlogSlugRoute,
   AdminConfiguracoesRoute: AdminConfiguracoesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
@@ -519,6 +509,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   BlogRoute: BlogRoute,
+  BlogSlugRoute: BlogSlugRoute,
   DuomidiaRoute: DuomidiaRoute,
   DuostudioRoute: DuostudioRoute,
   EntrarRoute: EntrarRoute,
