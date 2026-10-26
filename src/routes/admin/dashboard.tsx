@@ -13,19 +13,49 @@ function DashboardPage() {
 
   useEffect(() => {
     dashboardFn()
-      .then(setData)
-      .catch((e) => setErr(e instanceof Response ? "Não autenticado" : String(e)));
+      .then((d) => {
+        console.log("[dashboard] dados carregados");
+        setData(d);
+      })
+      .catch(async (e) => {
+        if (e instanceof Response) {
+          // Mostra a mensagem real da API (401, 503, etc.), não um texto fixo.
+          const body = (await e
+            .clone()
+            .json()
+            .catch(() => null)) as {
+            error?: string;
+            debug?: unknown;
+          } | null;
+          console.log("[dashboard] dashboardFn falhou", { status: e.status, body });
+          setErr(body?.error ?? `Erro ${e.status}`);
+        } else {
+          console.log("[dashboard] erro inesperado", e);
+          setErr(String(e));
+        }
+      });
   }, []);
 
-  if (err) return <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>;
+  if (err)
+    return <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>;
   if (!data) return <p className="text-sm text-ink-muted">Carregando…</p>;
 
   const cards = [
     { label: "Total", value: data.total, icon: Users, tone: "bg-surface" },
-    { label: "Ativos", value: data.ativos, icon: UserCheck, tone: "bg-emerald-500/10 text-emerald-600" },
+    {
+      label: "Ativos",
+      value: data.ativos,
+      icon: UserCheck,
+      tone: "bg-emerald-500/10 text-emerald-600",
+    },
     { label: "Inativos", value: data.inativos, icon: UserX, tone: "bg-zinc-500/10 text-zinc-600" },
     { label: "Leads", value: data.leads, icon: Target, tone: "bg-amber-500/10 text-amber-600" },
-    { label: "Em negociação", value: data.emNegociacao, icon: ShoppingBag, tone: "bg-sky-500/10 text-sky-600" },
+    {
+      label: "Em negociação",
+      value: data.emNegociacao,
+      icon: ShoppingBag,
+      tone: "bg-sky-500/10 text-sky-600",
+    },
   ];
 
   return (
@@ -33,7 +63,9 @@ function DashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl text-ink">Dashboard</h1>
-          <p className="text-sm text-ink-muted">Indicadores calculados a partir do banco, sem valores fixos.</p>
+          <p className="text-sm text-ink-muted">
+            Indicadores calculados a partir do banco, sem valores fixos.
+          </p>
         </div>
         <Link
           to="/admin/clientes/novo"
@@ -53,7 +85,9 @@ function DashboardPage() {
               </span>
               <span className="text-2xl font-bold text-ink">{c.value}</span>
             </div>
-            <p className="mt-2 text-xs font-medium uppercase tracking-wide text-ink-muted">{c.label}</p>
+            <p className="mt-2 text-xs font-medium uppercase tracking-wide text-ink-muted">
+              {c.label}
+            </p>
           </div>
         ))}
       </div>
@@ -61,7 +95,10 @@ function DashboardPage() {
       <div className="rounded-2xl bg-surface p-4 ring-1 ring-ink/10 sm:p-5">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-lg text-ink">Cadastrados recentemente</h2>
-          <Link to="/admin/clientes" className="inline-flex items-center gap-1 text-sm text-terracotta hover:underline">
+          <Link
+            to="/admin/clientes"
+            className="inline-flex items-center gap-1 text-sm text-terracotta hover:underline"
+          >
             Ver todos <ArrowRight className="size-4" />
           </Link>
         </div>
@@ -77,7 +114,9 @@ function DashboardPage() {
                     {[c.empresa, c.email].filter(Boolean).join(" · ") || "-"}
                   </p>
                 </div>
-                <span className="shrink-0 rounded-full bg-background px-2.5 py-1 text-xs ring-1 ring-ink/10">{c.status}</span>
+                <span className="shrink-0 rounded-full bg-background px-2.5 py-1 text-xs ring-1 ring-ink/10">
+                  {c.status}
+                </span>
               </li>
             ))}
           </ul>

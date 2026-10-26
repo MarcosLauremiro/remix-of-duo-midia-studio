@@ -15,6 +15,7 @@ import { newId, nowIso, normalizeEmail } from "./db";
 import { verifyPassword } from "./session";
 import { clearSessionCookie, readSessionClaims, setSessionCookie, withAdmin } from "./auth";
 import { handleErrors } from "./http-errors";
+import { configPresence, trace, withReason } from "./diagnostics";
 import {
   loginSchema,
   clientCreateSchema,
@@ -33,6 +34,7 @@ export const loginFn = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => loginSchema.parse(d))
   .handler(async ({ data }) =>
     handleErrors(async () => {
+      trace("login: início", configPresence());
       const ip = (await getRequestIP()) ?? "unknown";
       const limitKey = `login:${ip}:${normalizeEmail(data.email)}`;
 
@@ -46,16 +48,28 @@ export const loginFn = createServerFn({ method: "POST" })
         if (!allowed) throw new Error("RATE_LIMIT");
 
         const admin = await findAdminByEmail(db, data.email);
-        if (!admin || admin.status !== "active") {
+        trace("login: busca do admin", {
+          emailDomain: data.email.split("@")[1] ?? "(inválido)",
+          encontrado: Boolean(admin),
+          status: admin?.status ?? null,
+        });
+        if (!admin) {
           // Atraso para não revelar se o e-mail existe.
           await new Promise((r) => setTimeout(r, UNKNOWN_USER_DELAY_MS));
-          throw new Error(`VALIDATION:${LOGIN_GENERIC_ERROR}`);
+          throw withReason(new Error(`VALIDATION:${LOGIN_GENERIC_ERROR}`), "no_admin");
         }
-        if (!verifyPassword(data.password, admin.passwordHash)) {
-          throw new Error(`VALIDATION:${LOGIN_GENERIC_ERROR}`);
+        if (admin.status !== "active") {
+          await new Promise((r) => setTimeout(r, UNKNOWN_USER_DELAY_MS));
+          throw withReason(new Error(`VALIDATION:${LOGIN_GENERIC_ERROR}`), "admin_inactive");
+        }
+        const senhaOk = verifyPassword(data.password, admin.passwordHash);
+        trace("login: senha conferida", { senhaOk });
+        if (!senhaOk) {
+          throw withReason(new Error(`VALIDATION:${LOGIN_GENERIC_ERROR}`), "bad_password");
         }
 
         setSessionCookie(admin.id, admin.tokenVersion ?? 0);
+        trace("login: sucesso, cookie emitido", { tokenVersion: admin.tokenVersion ?? 0 });
         return { ok: true as const, admin: { id: admin.id, name: admin.name, email: admin.email } };
       });
     }),

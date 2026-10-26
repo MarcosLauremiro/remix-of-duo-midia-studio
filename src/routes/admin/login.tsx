@@ -18,16 +18,31 @@ function LoginPage() {
     e.preventDefault();
     setErr(null);
     setLoading(true);
+    // Diagnóstico: só o domínio do e-mail, nunca a senha.
+    console.log("[login] enviando formulário", {
+      emailDomain: email.split("@")[1] ?? "(inválido)",
+    });
     try {
-      await loginFn({ data: { email, password } });
+      const res = await loginFn({ data: { email, password } });
+      console.log("[login] sucesso", { ok: res.ok, adminId: res.admin.id });
       navigate({ to: "/admin/dashboard" });
     } catch (ex) {
-      const msg =
-        ex instanceof Response
-          ? ((await ex.json().catch(() => null)) as { error?: string } | null)?.error ?? "Falha no login"
-          : ex instanceof Error
-            ? ex.message
-            : "Falha no login";
+      let msg = "Falha no login";
+      if (ex instanceof Response) {
+        const body = (await ex
+          .clone()
+          .json()
+          .catch(() => null)) as {
+          error?: string;
+          debug?: unknown;
+        } | null;
+        console.log("[login] falhou", { status: ex.status, body });
+        msg = body?.error ?? `Erro ${ex.status}`;
+        if (body?.debug) msg += " (detalhes no console)";
+      } else {
+        console.log("[login] erro inesperado", ex);
+        if (ex instanceof Error) msg = ex.message;
+      }
       setErr(msg);
     } finally {
       setLoading(false);
@@ -36,7 +51,10 @@ function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
-      <form onSubmit={onSubmit} className="w-full max-w-sm rounded-[1.5rem] bg-surface p-6 shadow-xl ring-1 ring-ink/10 sm:p-8">
+      <form
+        onSubmit={onSubmit}
+        className="w-full max-w-sm rounded-[1.5rem] bg-surface p-6 shadow-xl ring-1 ring-ink/10 sm:p-8"
+      >
         <div className="flex items-center gap-2.5">
           <span className="grid size-9 place-items-center rounded-xl bg-terracotta text-white">
             <Building2 className="size-4" />
@@ -49,7 +67,11 @@ function LoginPage() {
         <h1 className="mt-6 font-display text-2xl text-ink">Entrar</h1>
         <p className="mt-1 text-sm text-ink-muted">Use o e-mail e senha do administrador.</p>
 
-        {err && <p className="mt-4 rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</p>}
+        {err && (
+          <p className="mt-4 rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {err}
+          </p>
+        )}
 
         <label className="mt-6 block text-sm">
           <span className="text-ink">E-mail</span>

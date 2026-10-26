@@ -45,7 +45,7 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
         e.name,
         (e as { code?: unknown }).code ?? "",
       );
-      throw new DataUnavailableError();
+      throw new DataUnavailableError((e as { code?: unknown }).code);
     }
     throw e;
   } finally {

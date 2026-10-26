@@ -8,10 +8,16 @@ export class ConfigError extends Error {
   }
 }
 
-/** Banco de dados inacessível (timeout, rede, autenticação do driver). */
+/**
+ * Banco de dados inacessível (timeout, rede, autenticação do driver).
+ * `code` é o código numérico do MongoDB (ex.: 18 = AuthenticationFailed), sem mensagem do driver.
+ */
 export class DataUnavailableError extends Error {
-  constructor() {
+  readonly code: unknown;
+
+  constructor(code?: unknown) {
     super("DB_UNAVAILABLE");
     this.name = "DataUnavailableError";
+    this.code = code;
   }
 }
