@@ -11,7 +11,7 @@
   "observability": { "enabled": true },
   "vars": {
     "MONGODB_DB": "mongo",
-    "MONGODB_URI": "mongodb://duomidia_app:<senha>@shinkansen.proxy.rlwy.net:38428/mongo?authSource=mongo",
+    "MONGODB_URI": "mongodb://mongo:IuNARojnXeepDUcZYTeEyZwJPUXNTADE@mongodb.railway.internal:27017",
     "SESSION_SECRET": "testandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaqui"
   },
 }
