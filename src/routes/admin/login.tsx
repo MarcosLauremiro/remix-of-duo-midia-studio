@@ -24,6 +24,13 @@ function LoginPage() {
     });
     try {
       const res = await loginFn({ data: { email, password } });
+      // O cliente pode resolver (sem lançar) mesmo quando o servidor respondeu erro:
+      // valide o formato antes de usar. Veja o objeto bruto no console.
+      if (!res || !res.admin) {
+        console.log("[login] resposta sem admin (provável erro do servidor)", res);
+        setErr("Falha no login: resposta inesperada do servidor (veja o console).");
+        return;
+      }
       console.log("[login] sucesso", { ok: res.ok, adminId: res.admin.id });
       navigate({ to: "/admin/dashboard" });
     } catch (ex) {
