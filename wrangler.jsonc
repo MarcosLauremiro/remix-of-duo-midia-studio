@@ -11,4 +11,5 @@
   "observability": { "enabled": true },
   "vars": {
     "MONGODB_DB": "mongo",
+  }
 }
