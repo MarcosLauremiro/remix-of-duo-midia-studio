@@ -11,6 +11,4 @@
   "observability": { "enabled": true },
   "vars": {
     "MONGODB_DB": "mongo",
-    "SESSION_SECRET": "testandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaquitestandoessetextoparatestando32caracteresparaarquivosaqui"
-  },
 }
