@@ -99,7 +99,13 @@ function NovoPostPage() {
     setLoading(true);
     try {
       const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage: coverImage || undefined, excerpt, content, status } });
-      navigate({ to: "/admin/blog/$slug", params: { slug: (res.post as { slug: string }).slug } });
+      // O cliente pode resolver mesmo quando o servidor respondeu erro (ex.: 503): valida antes de usar.
+      if (!res?.post) {
+        console.log("[blog.novo] resposta sem post (provável erro do servidor)", res);
+        setErr("Não foi possível salvar o artigo. Veja o console para detalhes.");
+        return;
+      }
+      navigate({ to: "/admin/blog/$slug", params: { slug: res.post.slug } });
     } catch (ex) {
       const msg = await extractError(ex);
       // Mapeia para campos se for erro de tamanho
