@@ -6,6 +6,8 @@ import type { PostDoc } from "@/lib/admin/db";
 
 export const Route = createFileRoute("/admin/blog")({
   component: BlogAdminLayout,
+  validateSearch: (search: Record<string, unknown>): { status?: "published" | "draft" } =>
+    search.status === "published" || search.status === "draft" ? { status: search.status } : {},
 });
 
 function BlogAdminLayout() {
@@ -23,7 +25,8 @@ const statusOptions = [
 
 function BlogAdminPage() {
   const [q, setQ] = useState("");
-  const [status, setStatus] = useState("todos");
+  const search = Route.useSearch();
+  const [status, setStatus] = useState<string>(search.status ?? "todos");
   const [sortBy, setSortBy] = useState<"publishedAt" | "createdAt" | "title">("createdAt");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
@@ -55,7 +58,15 @@ function BlogAdminPage() {
     if (!confirm(`Excluir "${title}"?`)) return;
     try {
       await adminDeletePostFn({ data: { id } });
-      await fetchData();
+      // Remove da tela sem recarregar a lista inteira. Se a página ficou vazia, volta uma página.
+      if (data && data.items.length === 1 && page > 1) setPage(page - 1);
+      setData((prev) =>
+        prev && {
+          items: prev.items.filter((p) => p.id !== id),
+          total: prev.total - 1,
+          totalPages: Math.max(1, Math.ceil((prev.total - 1) / 10)),
+        },
+      );
     } catch (e) {
       alert(e instanceof Response ? ((await e.json().catch(() => null)) as { error?: string } | null)?.error ?? "Erro" : String(e));
     }

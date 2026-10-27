@@ -50,7 +50,15 @@ function ClientesPage() {
     if (!confirm(`Excluir "${nome}"? O registro será arquivado (exclusão lógica) e não aparecerá nas listagens.`)) return;
     try {
       await deleteClientFn({ data: { id } });
-      await fetchData();
+      // Remove da tela sem recarregar a lista inteira. Se a página ficou vazia, volta uma página.
+      if (data && data.items.length === 1 && page > 1) setPage(page - 1);
+      setData((prev) =>
+        prev && {
+          items: prev.items.filter((c) => c.id !== id),
+          total: prev.total - 1,
+          totalPages: Math.max(1, Math.ceil((prev.total - 1) / 10)),
+        },
+      );
     } catch (e) {
       alert(e instanceof Response ? ((await e.json().catch(() => null)) as { error?: string } | null)?.error ?? "Erro" : String(e));
     }
