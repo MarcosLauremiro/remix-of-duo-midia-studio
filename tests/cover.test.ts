@@ -1,6 +1,11 @@
 import { createHash } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { coverDeliveryUrl, validateCoverFile, COVER_UPLOAD_MAX_BYTES } from "../src/lib/cover";
+import {
+  coverDeliveryUrl,
+  isCloudinaryCoverUrl,
+  validateCoverFile,
+  COVER_UPLOAD_MAX_BYTES,
+} from "../src/lib/cover";
 import { coverUploadSchema } from "../src/lib/admin/validators";
 import { buildSignature, uploadCover, COVER_FOLDER } from "../src/lib/cloudinary.server";
 
@@ -120,5 +125,16 @@ describe("uploadCover (fetch simulado)", () => {
     const err = await uploadCover(PNG_DATA_URL).catch((e: unknown) => e);
     expect((err as Error).message).toContain("CLOUDINARY_API_SECRET");
     expect((err as Error).message).not.toContain("chave");
+  });
+});
+
+describe("isCloudinaryCoverUrl", () => {
+  it("aceita só URL de imagem entregue pelo Cloudinary", () => {
+    expect(
+      isCloudinaryCoverUrl("https://res.cloudinary.com/duomidea/image/upload/v1/x.png"),
+    ).toBe(true);
+    expect(isCloudinaryCoverUrl("https://www.duomidia.net/_serverFn/abc")).toBe(false);
+    expect(isCloudinaryCoverUrl(undefined)).toBe(false);
+    expect(isCloudinaryCoverUrl({ url: "x" })).toBe(false);
   });
 });

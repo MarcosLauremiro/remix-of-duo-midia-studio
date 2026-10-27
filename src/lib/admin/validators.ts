@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { COVER_UPLOAD_MAX_BYTES } from "../cover";
+import { COVER_UPLOAD_MAX_BYTES, isCloudinaryCoverUrl } from "../cover";
 
 export const loginSchema = z.object({
   email: z.string().trim().email().max(254),
@@ -71,11 +71,11 @@ export function hasImageSignature(dataUrl: string): boolean {
   return false;
 }
 
+// Escrita aceita só URL do Cloudinary (produzida por adminUploadCoverFn). Qualquer outro valor é recusado.
 const coverImageSchema = z
   .string()
   .trim()
-  .max(2048)
-  .refine((v) => !/^data:/i.test(v), "Envie a imagem pelo upload de capa");
+  .refine(isCloudinaryCoverUrl, "Capa inválida: envie a imagem pelo upload de capa");
 
 /** Upload de capa: data URL de JPG/PNG/WebP com assinatura binária conferida e tamanho limitado. */
 export const coverUploadSchema = z.object({

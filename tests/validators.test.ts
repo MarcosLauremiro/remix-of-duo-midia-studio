@@ -17,9 +17,11 @@ function coverOk(coverImage: string): boolean {
 }
 
 describe("capa de post", () => {
-  it("aceita URL comum", () => {
-    expect(coverOk("https://exemplo.com/capa.jpg")).toBe(true);
-    expect(coverOk("/assets/capa.png")).toBe(true);
+  it("aceita só URL de imagem do Cloudinary na escrita do post", () => {
+    expect(coverOk("https://res.cloudinary.com/duomidea/image/upload/v1/duo-midia/blog/capas/x.png")).toBe(true);
+    expect(coverOk("https://exemplo.com/capa.jpg")).toBe(false);
+    expect(coverOk("/assets/capa.png")).toBe(false);
+    expect(coverOk("https://www.duomidia.net/_serverFn/abc")).toBe(false);
   });
 
   it("não aceita data URL na escrita do post (imagens entram pelo upload do Cloudinary)", () => {

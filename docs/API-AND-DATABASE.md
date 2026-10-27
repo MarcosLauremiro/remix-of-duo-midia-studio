@@ -127,6 +127,8 @@ Novas capas vão ao Cloudinary; o post guarda só a URL segura. O MongoDB não r
 
 **Entrega**: `coverDeliveryUrl` (`src/lib/cover.ts`) adiciona `f_auto,q_auto,c_limit,w_1280` à URL de exibição. O arquivo original fica intacto no Cloudinary.
 
+**Validação da URL**: `coverImage` na escrita do post só aceita URL do Cloudinary (`isCloudinaryCoverUrl` em `src/lib/cover.ts`). O cliente também confere a resposta do upload (`src/lib/admin/cover-upload.ts`) e não cria o post se ela não trouxer essa URL.
+
 **Edição**: sem nova imagem nem pedido de remoção, a capa atual é mantida (`coverImage` não vai na requisição). "Remover capa" grava `null`.
 
 **Posts antigos com data URL**: continuam sendo exibidos. Não são migrados automaticamente. Os endpoints de escrita agora recusam data URL, então trocar a capa de um post antigo grava uma URL do Cloudinary.

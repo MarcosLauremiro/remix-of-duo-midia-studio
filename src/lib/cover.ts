@@ -9,6 +9,18 @@ export const COVER_UPLOAD_MAX_BYTES = 8 * 1024 * 1024;
 const COVER_DELIVERY_TRANSFORMATION = "f_auto,q_auto,c_limit,w_1280";
 const CLOUDINARY_UPLOAD_SEGMENT = "/image/upload/";
 
+const CLOUDINARY_PREFIX = "https://res.cloudinary.com/";
+
+/** True só para URLs de imagem entregues pelo Cloudinary (o único destino de capas novas). */
+export function isCloudinaryCoverUrl(url: unknown): url is string {
+  return (
+    typeof url === "string" &&
+    url.startsWith(CLOUDINARY_PREFIX) &&
+    url.includes(CLOUDINARY_UPLOAD_SEGMENT) &&
+    url.length <= 2048
+  );
+}
+
 /** Mensagem de erro para um arquivo que não pode ser enviado como capa, ou null se estiver ok. */
 export function validateCoverFile(file: { type: string; size: number }): string | null {
   if (!COVER_INPUT_TYPES.includes(file.type)) return "Use uma imagem JPG, PNG ou WebP.";
@@ -22,7 +34,7 @@ export function validateCoverFile(file: { type: string; size: number }): string 
  */
 export function coverDeliveryUrl(url: string | null | undefined): string | null {
   if (!url) return null;
-  if (!url.startsWith("https://res.cloudinary.com/") || !url.includes(CLOUDINARY_UPLOAD_SEGMENT)) {
+  if (!isCloudinaryCoverUrl(url)) {
     return url;
   }
   return url.replace(

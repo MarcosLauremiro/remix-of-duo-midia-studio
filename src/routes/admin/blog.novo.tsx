@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { adminCreatePostFn, adminUploadCoverFn } from "@/lib/admin/blog.server";
+import { adminCreatePostFn } from "@/lib/admin/blog.server";
+import { uploadCoverFile } from "@/lib/admin/cover-upload";
 import { CoverImageField } from "@/components/blog/CoverImageField";
-import { readFileAsDataUrl } from "@/lib/cover";
 
 export const Route = createFileRoute("/admin/blog/novo")({
   component: NovoPostPage,
@@ -95,8 +95,7 @@ function NovoPostPage() {
         setUploading(true);
         // DIAGNÓSTICO TEMPORÁRIO
         console.log("[capa] enviando arquivo", { type: coverFile.type, bytes: coverFile.size });
-        ({ url: coverImage } = await adminUploadCoverFn({ data: { dataUrl: await readFileAsDataUrl(coverFile) } }));
-        console.log("[capa] upload concluído, URL recebida", { url: coverImage });
+        coverImage = await uploadCoverFile(coverFile);
         setUploading(false);
       }
       const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage, excerpt, content, status } });

@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { adminGetPostFn, adminUpdatePostFn, adminDeletePostFn, adminPublishPostFn, adminUploadCoverFn } from "@/lib/admin/blog.server";
+import { adminGetPostFn, adminUpdatePostFn, adminDeletePostFn, adminPublishPostFn } from "@/lib/admin/blog.server";
+import { uploadCoverFile } from "@/lib/admin/cover-upload";
 import type { PostDoc } from "@/lib/admin/db";
 import { CoverImageField } from "@/components/blog/CoverImageField";
-import { readFileAsDataUrl } from "@/lib/cover";
 
 export const Route = createFileRoute("/admin/blog/$slug")({
   component: EditPostPage,
@@ -64,7 +64,7 @@ function EditPostPage() {
         setUploading(true);
         // DIAGNÓSTICO TEMPORÁRIO
         console.log("[capa] enviando arquivo", { type: coverFile.type, bytes: coverFile.size });
-        ({ url: coverImage } = await adminUploadCoverFn({ data: { dataUrl: await readFileAsDataUrl(coverFile) } }));
+        coverImage = await uploadCoverFile(coverFile);
         console.log("[capa] upload concluído, URL recebida", { url: coverImage });
         setUploading(false);
       } else if (coverRemoved) {
