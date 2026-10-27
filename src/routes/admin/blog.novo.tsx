@@ -133,12 +133,17 @@ function NovoPostPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink">Novo artigo</h1>
-        <Link to="/admin/blog" className="text-sm text-ink-muted hover:text-ink">Voltar</Link>
+        <div className="flex items-center gap-3">
+          <Link to="/admin/blog" className="text-sm text-ink-muted hover:text-ink">Voltar</Link>
+          <button type="submit" form="novo-artigo" disabled={loading} className="inline-flex items-center justify-center rounded-full bg-terracotta px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
+            {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Publicar artigo"}
+          </button>
+        </div>
       </div>
       {err && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>}
-      <form onSubmit={onSubmit} className="space-y-4 rounded-2xl bg-surface p-6 ring-1 ring-ink/10">
+      <form id="novo-artigo" onSubmit={onSubmit} className="space-y-4 rounded-2xl bg-surface p-5 ring-1 ring-ink/10 sm:p-6">
         <label className="block text-sm">
           <span className="text-ink">Título *</span>
           <input value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} placeholder="Ex: Como planejar conteúdo sem sufoco" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
@@ -152,12 +157,9 @@ function NovoPostPage() {
         </label>
         <label className="block text-sm">
           <span className="text-ink">Conteúdo * <span className="font-normal text-ink-muted">(mín. 20 caracteres)</span></span>
-          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={14} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
+          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={10} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
           <span className={`text-xs ${fieldErrs.content ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.content ?? `${content.length} caracteres`}</span>
         </label>
-        <button type="submit" disabled={loading} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
-          {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Criar artigo"}
-        </button>
       </form>
     </div>
   );

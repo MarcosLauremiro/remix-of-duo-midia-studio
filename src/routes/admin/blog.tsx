@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
-import { Search, Plus, Trash2, Pencil, Eye, EyeOff } from "lucide-react";
-import { adminListPostsFn, adminDeletePostFn, adminPublishPostFn } from "@/lib/admin/blog.server";
+import { Search, Plus, Trash2, Pencil } from "lucide-react";
+import { adminListPostsFn, adminDeletePostFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
 
 export const Route = createFileRoute("/admin/blog")({
@@ -67,15 +67,6 @@ function BlogAdminPage() {
           totalPages: Math.max(1, Math.ceil((prev.total - 1) / 10)),
         },
       );
-    } catch (e) {
-      alert(e instanceof Response ? ((await e.json().catch(() => null)) as { error?: string } | null)?.error ?? "Erro" : String(e));
-    }
-  };
-  const onTogglePublish = async (p: PostDoc) => {
-    const next = p.status === "published" ? "draft" : "published";
-    try {
-      await adminPublishPostFn({ data: { id: p.id, status: next } });
-      await fetchData();
     } catch (e) {
       alert(e instanceof Response ? ((await e.json().catch(() => null)) as { error?: string } | null)?.error ?? "Erro" : String(e));
     }
@@ -151,7 +142,6 @@ function BlogAdminPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
                         <Link to="/admin/blog/$slug" params={{ slug: p.slug }} className="inline-flex size-8 place-items-center justify-center rounded-xl border border-ink/10 hover:bg-background" aria-label="Editar"><Pencil className="size-3.5" /></Link>
-                        <button onClick={() => onTogglePublish(p)} className="inline-flex size-8 place-items-center justify-center rounded-xl border border-ink/10 hover:bg-background" aria-label={p.status === "published" ? "Despublicar" : "Publicar"}>{p.status === "published" ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}</button>
                         <button onClick={() => onDelete(p.id, p.title)} className="inline-flex size-8 place-items-center justify-center rounded-xl border border-ink/10 text-destructive hover:bg-destructive/10" aria-label="Excluir"><Trash2 className="size-3.5" /></button>
                       </div>
                     </td>
