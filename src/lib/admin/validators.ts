@@ -97,6 +97,24 @@ export const postUpdateSchema = z.object({
   status: postStatusSchema.optional(),
 });
 
+/**
+ * Valida a entrada de uma server function. Erro de validação vira 400 com a mensagem do campo.
+ * Sem isso, o ZodError escapa do handler e o cliente só recebe um 500 "Seroval Error".
+ */
+export function validateOr400<T extends z.ZodTypeAny>(schema: T) {
+  return (d: unknown): z.output<T> => {
+    const result = schema.safeParse(d);
+    if (result.success) return result.data;
+    const issue = result.error.issues[0];
+    const field = issue?.path.join(".") || "dados";
+    const message = `${field}: ${issue?.message ?? "inválido"}`;
+    throw new Response(JSON.stringify({ error: message }), {
+      status: 400,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  };
+}
+
 export const postListQuerySchema = z.object({
   q: z.string().max(120).optional(),
   status: z.string().max(30).optional(),

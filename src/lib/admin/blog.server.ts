@@ -22,6 +22,7 @@ import {
   postListQuerySchema,
   publishedPostListQuerySchema,
   postStatusSchema,
+  validateOr400,
 } from "./validators";
 
 function normalizeCoverImage(raw: string | null | undefined): string | null {
@@ -136,7 +137,7 @@ export const adminGetPostFn = createServerFn({ method: "GET" })
   );
 
 export const adminCreatePostFn = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => postCreateSchema.parse(d))
+  .inputValidator(validateOr400(postCreateSchema))
   .handler(async ({ data }) =>
     handleErrors(() =>
       withAdmin(async (db) => {
@@ -164,7 +165,7 @@ export const adminCreatePostFn = createServerFn({ method: "POST" })
   );
 
 export const adminUpdatePostFn = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => postUpdateSchema.parse(d))
+  .inputValidator(validateOr400(postUpdateSchema))
   .handler(async ({ data }) =>
     handleErrors(() =>
       withAdmin(async (db) => {
