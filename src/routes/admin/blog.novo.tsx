@@ -93,7 +93,10 @@ function NovoPostPage() {
       let coverImage: string | undefined;
       if (coverFile) {
         setUploading(true);
+        // DIAGNÓSTICO TEMPORÁRIO
+        console.log("[capa] enviando arquivo", { type: coverFile.type, bytes: coverFile.size });
         ({ url: coverImage } = await adminUploadCoverFn({ data: { dataUrl: await readFileAsDataUrl(coverFile) } }));
+        console.log("[capa] upload concluído, URL recebida", { url: coverImage });
         setUploading(false);
       }
       const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage, excerpt, content, status } });

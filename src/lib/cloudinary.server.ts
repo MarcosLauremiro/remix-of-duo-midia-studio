@@ -48,6 +48,8 @@ export async function uploadCover(dataUrl: string): Promise<UploadedCover> {
   const timestamp = Math.floor(Date.now() / 1000);
   const signed = { folder: COVER_FOLDER, public_id: publicId, timestamp };
   const signature = buildSignature(signed, config.apiSecret);
+  // DIAGNÓSTICO TEMPORÁRIO: sem segredo, assinatura nem conteúdo do arquivo.
+  console.log("[cloudinary] enviando capa", { cloud: config.cloudName, folder: COVER_FOLDER, publicId, dataUrlChars: dataUrl.length });
 
   const body = new FormData();
   body.set("file", dataUrl);
@@ -80,5 +82,7 @@ export async function uploadCover(dataUrl: string): Promise<UploadedCover> {
     console.error("[cloudinary] resposta sem secure_url");
     throw new Error("UPSTREAM:Não foi possível enviar a imagem. Tente novamente.");
   }
+  // DIAGNÓSTICO TEMPORÁRIO
+  console.log("[cloudinary] upload concluído", { status: res.status, publicId: json.public_id, url: json.secure_url });
   return { url: json.secure_url, publicId: json.public_id };
 }

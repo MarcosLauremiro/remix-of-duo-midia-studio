@@ -31,6 +31,17 @@ export function coverDeliveryUrl(url: string | null | undefined): string | null 
   );
 }
 
+/**
+ * DIAGNÓSTICO TEMPORÁRIO: loga no console se a imagem da capa carregou ou falhou.
+ * Remover depois de resolver o problema de renderização.
+ */
+export function coverLoadLogger(label: string, src: string) {
+  return {
+    onLoad: () => console.log(`[capa:${label}] imagem carregada`, { src }),
+    onError: () => console.error(`[capa:${label}] falha ao carregar a imagem`, { src }),
+  };
+}
+
 /** Lê o arquivo como data URL (base64) para enviá-lo à server function de upload. Só no navegador. */
 export function readFileAsDataUrl(file: Blob): Promise<string> {
   return new Promise((resolve, reject) => {

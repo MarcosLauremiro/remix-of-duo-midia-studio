@@ -4,7 +4,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { getPublishedPostBySlugFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
-import { coverDeliveryUrl } from "@/lib/cover";
+import { coverDeliveryUrl, coverLoadLogger } from "@/lib/cover";
 
 export const Route = createFileRoute("/blog/$slug")({
   component: BlogPostPage,
@@ -116,7 +116,7 @@ function BlogPostPage() {
 
         {coverDeliveryUrl(post.coverImage) && (
           <div className="mt-6 overflow-hidden rounded-2xl border border-ink/10">
-            <img src={coverDeliveryUrl(post.coverImage) ?? undefined} alt={post.title} className="w-full object-cover" />
+            <img src={coverDeliveryUrl(post.coverImage) ?? undefined} {...coverLoadLogger("publico", coverDeliveryUrl(post.coverImage) ?? "")} alt={post.title} className="w-full object-cover" />
           </div>
         )}
 

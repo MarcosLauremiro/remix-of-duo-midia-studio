@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { COVER_INPUT_TYPES, validateCoverFile } from "@/lib/cover";
+import { COVER_INPUT_TYPES, coverLoadLogger, validateCoverFile } from "@/lib/cover";
 
 type Props = {
   /** Capa já salva no post (URL ou data URL antiga). */
@@ -58,6 +58,7 @@ export function CoverImageField({ savedUrl, pendingFile, disabled, onChange }: P
         <span className="mt-3 flex items-start gap-3">
           <img
             src={preview}
+            {...coverLoadLogger(pendingFile ? "preview-novo" : "preview-salvo", preview)}
             alt="Pré-visualização da capa"
             className="h-28 w-48 rounded-xl object-cover ring-1 ring-ink/10"
           />

@@ -144,7 +144,10 @@ export const adminUploadCoverFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) =>
     handleErrors(() =>
       withAdmin(async () => {
+        // DIAGNÓSTICO TEMPORÁRIO
+        console.log("[blog] upload de capa recebido", { dataUrlChars: data.dataUrl.length });
         const { url } = await uploadCover(data.dataUrl);
+        console.log("[blog] upload de capa devolvido ao cliente", { url });
         return { url };
       }),
     ),
