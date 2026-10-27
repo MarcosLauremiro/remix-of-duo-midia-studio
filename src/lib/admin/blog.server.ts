@@ -141,6 +141,12 @@ export const adminCreatePostFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) =>
     handleErrors(() =>
       withAdmin(async (db) => {
+        console.log("[blog] criar post: entrada validada", {
+          titleLen: data.title.length,
+          slugInformado: Boolean(data.slug),
+          coverChars: data.coverImage ? String(data.coverImage).length : 0,
+          status: data.status,
+        });
         const rawSlug = data.slug?.trim() ? data.slug.trim() : slugify(data.title);
         const slug = await ensureUniquePostSlug(db, slugify(rawSlug));
         const status = postStatusSchema.parse(data.status ?? "draft");
@@ -159,6 +165,7 @@ export const adminCreatePostFn = createServerFn({ method: "POST" })
           deletedAt: null,
         };
         await insertPost(db, doc);
+        console.log("[blog] criar post: gravado no banco", { slug: doc.slug, status: doc.status });
         return { post: doc };
       }),
     ),

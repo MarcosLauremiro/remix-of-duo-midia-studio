@@ -49,6 +49,11 @@ export function toErrorResponse(e: unknown): Response {
     return json(503, "Serviço temporariamente indisponível", debug);
   }
   if (isDuplicateKeyError(e)) return json(400, "Já existe um registro com esses dados.", debug);
+  // Erro sem tipo conhecido: registra nome e mensagem (não é erro do driver do MongoDB).
+  console.error("[admin] erro sem tipo conhecido:", {
+    name: e instanceof Error ? e.name : typeof e,
+    message: e instanceof Error ? e.message.slice(0, 300) : String(e).slice(0, 300),
+  });
 
   if (e instanceof ConfigError) {
     console.error("[config] ", e.message);

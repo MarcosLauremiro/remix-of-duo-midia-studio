@@ -97,8 +97,18 @@ function NovoPostPage() {
     if (Object.keys(fe).length > 0) return;
 
     setLoading(true);
+    // Diagnóstico: tamanhos e flags, nunca o conteúdo nem a imagem.
+    console.log("[blog.novo] enviando", {
+      titleLen: title.length,
+      slugInformado: Boolean(slug),
+      excerptLen: excerpt.length,
+      contentLen: content.length,
+      status,
+      coverChars: coverImage.length,
+    });
     try {
       const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage: coverImage || undefined, excerpt, content, status } });
+      console.log("[blog.novo] resposta", { temPost: Boolean(res?.post), slug: res?.post?.slug });
       // O cliente pode resolver mesmo quando o servidor respondeu erro (ex.: 503): valida antes de usar.
       if (!res?.post) {
         console.log("[blog.novo] resposta sem post (provável erro do servidor)", res);
@@ -107,14 +117,22 @@ function NovoPostPage() {
       }
       navigate({ to: "/admin/blog/$slug", params: { slug: res.post.slug } });
     } catch (ex) {
+      if (ex instanceof Response) {
+        const body = await ex.clone().json().catch(() => null);
+        console.log("[blog.novo] falhou (HTTP)", { status: ex.status, body });
+      } else {
+        console.log("[blog.novo] erro inesperado", ex);
+      }
       const msg = await extractError(ex);
+      console.log("[blog.novo] mensagem mostrada", msg);
       // Mapeia para campos se for erro de tamanho
       if (msg.includes("excerpt")) setFieldErrs((s) => ({ ...s, excerpt: "Resumo deve ter pelo menos 10 caracteres." }));
       if (msg.includes("content")) setFieldErrs((s) => ({ ...s, content: "Conteúdo deve ter pelo menos 20 caracteres." }));
       if (msg.includes("title")) setFieldErrs((s) => ({ ...s, title: "Título deve ter pelo menos 3 caracteres." }));
       if (msg.includes("String must contain") || msg.includes("too_small")) {
-        // fallback: se ainda for Zod cru, já mapeamos acima
-        setErr(null);
+        // Antes esta linha limpava o erro e escondia a falha. Agora a mensagem aparece.
+        console.log("[blog.novo] erro de validação do schema", msg);
+        setErr(msg);
         return;
       }
       setErr(msg);

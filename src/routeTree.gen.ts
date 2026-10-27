@@ -24,6 +24,7 @@ import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin/configuracoes'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminTesteClienteRouteImport } from './routes/admin/teste-cliente'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminBlogSlugRouteImport } from './routes/admin/blog.$slug'
@@ -106,6 +107,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminTesteClienteRoute = AdminTesteClienteRouteImport.update({
+  id: '/teste-cliente',
+  path: '/teste-cliente',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
   path: '/api/health',
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/dashboard'
     | '/admin/login'
+    | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
     | '/admin/blog/$slug'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/dashboard'
     | '/admin/login'
+    | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
     | '/admin/blog/$slug'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/dashboard'
     | '/admin/login'
+    | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
     | '/admin/blog/$slug'
@@ -400,6 +412,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/teste-cliente': {
+      id: '/admin/teste-cliente'
+      path: '/teste-cliente'
+      fullPath: '/admin/teste-cliente'
+      preLoaderRoute: typeof AdminTesteClienteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/api/health': {
       id: '/api/health'
       path: '/api/health'
@@ -479,6 +498,7 @@ interface AdminRouteRouteChildren {
   AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminTesteClienteRoute: typeof AdminTesteClienteRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -487,6 +507,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminConfiguracoesRoute: AdminConfiguracoesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminTesteClienteRoute: AdminTesteClienteRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
