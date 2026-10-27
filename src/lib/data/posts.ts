@@ -30,7 +30,9 @@ export async function findPublishedPostBySlug(db: Db, slug: string): Promise<Pos
 }
 
 export async function insertPost(db: Db, doc: PostDoc): Promise<void> {
-  await col(db).insertOne(doc);
+  // Cópia: o driver acrescenta _id (ObjectId) ao objeto inserido, e esse objeto volta ao navegador
+  // pela server function, onde o ObjectId não serializa ("Seroval Error").
+  await col(db).insertOne({ ...doc });
 }
 
 /** Substitui o documento inteiro pelo id. */

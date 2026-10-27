@@ -19,7 +19,8 @@ export async function findClientById(
 }
 
 export async function insertClient(db: Db, doc: ClientDoc): Promise<void> {
-  await col(db).insertOne(doc);
+  // Cópia: o driver acrescenta _id (ObjectId) ao objeto inserido (ver insertPost).
+  await col(db).insertOne({ ...doc });
 }
 
 /** Substitui o documento inteiro pelo id (usado em edição, exclusão lógica e restauração). */
