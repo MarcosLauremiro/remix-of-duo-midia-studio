@@ -15,8 +15,9 @@ import { withDb } from "../data/mongo";
 import { newId, nowIso, slugify, type PostDoc } from "./db";
 import { withAdmin } from "./auth";
 import { handleErrors } from "./http-errors";
+import { uploadCover } from "../cloudinary.server";
 import {
-  COVER_IMAGE_DATA_URL_PATTERN,
+  coverUploadSchema,
   postCreateSchema,
   postUpdateSchema,
   postListQuerySchema,
@@ -29,8 +30,6 @@ function normalizeCoverImage(raw: string | null | undefined): string | null {
   if (!raw) return null;
   const t = raw.trim();
   if (!t) return null;
-  // Data URL só de imagem permitida (jpeg/png/webp), já validada no schema
-  if (/^data:/i.test(t)) return COVER_IMAGE_DATA_URL_PATTERN.test(t) ? t : null;
   // Aceita URL absoluta ou caminho /assets; bloqueia javascript: etc
   if (/^javascript:/i.test(t)) return null;
   return t.slice(0, 2048);
@@ -136,6 +135,21 @@ export const adminGetPostFn = createServerFn({ method: "GET" })
     ),
   );
 
+/**
+ * Envia a capa ao Cloudinary e devolve a URL. O post só guarda a URL depois que este passo
+ * termina com sucesso (o formulário chama adminCreatePostFn/adminUpdatePostFn em seguida).
+ */
+export const adminUploadCoverFn = createServerFn({ method: "POST" })
+  .inputValidator(validateOr400(coverUploadSchema))
+  .handler(async ({ data }) =>
+    handleErrors(() =>
+      withAdmin(async () => {
+        const { url } = await uploadCover(data.dataUrl);
+        return { url };
+      }),
+    ),
+  );
+
 export const adminCreatePostFn = createServerFn({ method: "POST" })
   .inputValidator(validateOr400(postCreateSchema))
   .handler(async ({ data }) =>
@@ -144,7 +158,7 @@ export const adminCreatePostFn = createServerFn({ method: "POST" })
         console.log("[blog] criar post: entrada validada", {
           titleLen: data.title.length,
           slugInformado: Boolean(data.slug),
-          coverChars: data.coverImage ? String(data.coverImage).length : 0,
+          temCapa: Boolean(data.coverImage),
           status: data.status,
         });
         const rawSlug = data.slug?.trim() ? data.slug.trim() : slugify(data.title);

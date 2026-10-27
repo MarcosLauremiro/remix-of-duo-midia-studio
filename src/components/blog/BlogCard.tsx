@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import type { PostDoc } from "@/lib/admin/db";
+import { coverDeliveryUrl } from "@/lib/cover";
 
 function formatDate(iso: string | null) {
   if (!iso) return null;
@@ -14,6 +15,7 @@ function formatDate(iso: string | null) {
 export function BlogCard({ post }: { post: PostDoc }) {
   const href = `/blog/${post.slug}`;
   const date = formatDate(post.publishedAt ?? post.createdAt);
+  const cover = coverDeliveryUrl(post.coverImage);
   return (
     <Link
       to="/blog/$slug"
@@ -21,8 +23,8 @@ export function BlogCard({ post }: { post: PostDoc }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-surface transition-all hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-lg"
     >
       <div className="aspect-[16/10] w-full overflow-hidden bg-surface-strong">
-        {post.coverImage ? (
-          <img src={post.coverImage} alt={post.title} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+        {cover ? (
+          <img src={cover} alt={post.title} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
         ) : (
           <div className="flex size-full items-center justify-center bg-gradient-to-br from-terracotta/20 to-ochre/20 p-6">
             <span className="text-center text-sm font-medium text-ink-muted">{post.title.slice(0, 80)}</span>

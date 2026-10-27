@@ -19,6 +19,7 @@ import { Route as ImprensaRouteImport } from './routes/imprensa'
 import { Route as PacotesRouteImport } from './routes/pacotes'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminBlogRouteImport } from './routes/admin/blog'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin/configuracoes'
@@ -81,6 +82,11 @@ const ServicosRoute = ServicosRouteImport.update({
   id: '/servicos',
   path: '/servicos',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminBlogRoute = AdminBlogRouteImport.update({
   id: '/blog',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
   '/admin/blog/novo': typeof AdminBlogNovoRoute
   '/admin/clientes/$id': typeof AdminClientesIdRoute
@@ -169,7 +176,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/duomidia': typeof DuomidiaRoute
   '/duostudio': typeof DuostudioRoute
@@ -186,6 +192,7 @@ export interface FileRoutesByTo {
   '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
   '/admin/blog/novo': typeof AdminBlogNovoRoute
   '/admin/clientes/$id': typeof AdminClientesIdRoute
@@ -211,6 +218,7 @@ export interface FileRoutesById {
   '/admin/teste-cliente': typeof AdminTesteClienteRoute
   '/api/health': typeof ApiHealthRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/admin/blog/$slug': typeof AdminBlogSlugRoute
   '/admin/blog/novo': typeof AdminBlogNovoRoute
   '/admin/clientes/$id': typeof AdminClientesIdRoute
@@ -237,6 +245,7 @@ export interface FileRouteTypes {
     | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
+    | '/admin/'
     | '/admin/blog/$slug'
     | '/admin/blog/novo'
     | '/admin/clientes/$id'
@@ -244,7 +253,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/blog'
     | '/duomidia'
     | '/duostudio'
@@ -261,6 +269,7 @@ export interface FileRouteTypes {
     | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
+    | '/admin'
     | '/admin/blog/$slug'
     | '/admin/blog/novo'
     | '/admin/clientes/$id'
@@ -285,6 +294,7 @@ export interface FileRouteTypes {
     | '/admin/teste-cliente'
     | '/api/health'
     | '/blog/$slug'
+    | '/admin/'
     | '/admin/blog/$slug'
     | '/admin/blog/novo'
     | '/admin/clientes/$id'
@@ -376,6 +386,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/servicos'
       preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/blog': {
       id: '/admin/blog'
@@ -499,6 +516,7 @@ interface AdminRouteRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminTesteClienteRoute: typeof AdminTesteClienteRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -508,6 +526,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminTesteClienteRoute: AdminTesteClienteRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

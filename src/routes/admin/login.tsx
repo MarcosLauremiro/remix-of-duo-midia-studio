@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Building2, Loader2 } from "lucide-react";
-import { loginFn } from "@/lib/admin/admin.server";
+import { loginFn, meFn } from "@/lib/admin/admin.server";
 
 export const Route = createFileRoute("/admin/login")({
   component: LoginPage,
@@ -13,6 +13,15 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Sessão já válida: não mostra o login de novo.
+  useEffect(() => {
+    meFn()
+      .then((r) => {
+        if (r.admin) navigate({ to: "/admin/dashboard" });
+      })
+      .catch(() => undefined);
+  }, [navigate]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { adminCreatePostFn } from "@/lib/admin/blog.server";
-import { COVER_INPUT_MAX_BYTES, COVER_INPUT_TYPES, compressCoverImage } from "@/lib/cover-image";
+import { useRef, useState } from "react";
+import { adminCreatePostFn, adminUploadCoverFn } from "@/lib/admin/blog.server";
+import { CoverImageField } from "@/components/blog/CoverImageField";
+import { readFileAsDataUrl } from "@/lib/cover";
 
 export const Route = createFileRoute("/admin/blog/novo")({
   component: NovoPostPage,
@@ -53,32 +54,10 @@ function NovoPostPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [coverImage, setCoverImage] = useState("");
-  const [coverErr, setCoverErr] = useState<string | null>(null);
-  const [coverBusy, setCoverBusy] = useState(false);
-
-  const onCoverFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = "";
-    if (!file) return;
-    if (!COVER_INPUT_TYPES.includes(file.type)) {
-      setCoverErr("Use uma imagem JPG, PNG ou WebP.");
-      return;
-    }
-    if (file.size > COVER_INPUT_MAX_BYTES) {
-      setCoverErr("A imagem original deve ter no máximo 15 MB.");
-      return;
-    }
-    setCoverBusy(true);
-    setCoverErr(null);
-    try {
-      setCoverImage(await compressCoverImage(file));
-    } catch (ex) {
-      setCoverErr(ex instanceof Error ? ex.message : "Não foi possível ler a imagem.");
-    } finally {
-      setCoverBusy(false);
-    }
-  };
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  // Trava síncrona contra cliques repetidos (o estado React atualiza só no próximo render).
+  const submitting = useRef(false);
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [status, setStatus] = useState<"draft" | "published">("draft");
@@ -88,6 +67,7 @@ function NovoPostPage() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting.current) return;
     setErr(null);
     // Validação client-side igual ao schema (evita roundtrip com mensagem crua do Zod)
     const fe: typeof fieldErrs = {};
@@ -97,6 +77,7 @@ function NovoPostPage() {
     setFieldErrs(fe);
     if (Object.keys(fe).length > 0) return;
 
+    submitting.current = true;
     setLoading(true);
     // Diagnóstico: tamanhos e flags, nunca o conteúdo nem a imagem.
     console.log("[blog.novo] enviando", {
@@ -105,10 +86,17 @@ function NovoPostPage() {
       excerptLen: excerpt.length,
       contentLen: content.length,
       status,
-      coverChars: coverImage.length,
+      temCapa: Boolean(coverFile),
     });
     try {
-      const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage: coverImage || undefined, excerpt, content, status } });
+      // A capa vai ao Cloudinary primeiro. O post só é criado se o upload tiver sucesso.
+      let coverImage: string | undefined;
+      if (coverFile) {
+        setUploading(true);
+        ({ url: coverImage } = await adminUploadCoverFn({ data: { dataUrl: await readFileAsDataUrl(coverFile) } }));
+        setUploading(false);
+      }
+      const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage, excerpt, content, status } });
       console.log("[blog.novo] resposta", { temPost: Boolean(res?.post), slug: res?.post?.slug });
       // O cliente pode resolver mesmo quando o servidor respondeu erro (ex.: 503): valida antes de usar.
       if (!res?.post) {
@@ -138,6 +126,8 @@ function NovoPostPage() {
       }
       setErr(msg);
     } finally {
+      submitting.current = false;
+      setUploading(false);
       setLoading(false);
     }
   };
@@ -160,18 +150,7 @@ function NovoPostPage() {
           <input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="ex: como-planejar-conteudo" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
           <span className="text-xs text-ink-muted">Apenas letras, números e hífen. Usado em /blog/slug.</span>
         </label>
-        <label className="block text-sm">
-          <span className="text-ink">Imagem de capa <span className="font-normal text-ink-muted">(JPG, PNG ou WebP; é reduzida automaticamente)</span></span>
-          <input type="file" accept="image/jpeg,image/png,image/webp" disabled={coverBusy} onChange={onCoverFile} className="mt-1 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-terracotta/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-terracotta hover:file:brightness-95" />
-          {coverBusy && <span className="mt-1 block text-xs text-ink-muted">Preparando imagem…</span>}
-          {coverErr && <span className="mt-1 block text-xs text-destructive">{coverErr}</span>}
-          {coverImage && (
-            <span className="mt-3 flex items-start gap-3">
-              <img src={coverImage} alt="Pré-visualização da capa" className="h-28 w-48 rounded-xl object-cover ring-1 ring-ink/10" />
-              <button type="button" onClick={() => setCoverImage("")} className="text-xs text-ink-muted underline hover:text-ink">Remover imagem</button>
-            </span>
-          )}
-        </label>
+        <CoverImageField savedUrl={null} pendingFile={coverFile} disabled={loading} onChange={setCoverFile} />
         <label className="block text-sm">
           <span className="text-ink">Resumo * <span className="font-normal text-ink-muted">(mín. 10 caracteres)</span></span>
           <textarea value={excerpt} onChange={(e) => { setExcerpt(e.target.value); if (fieldErrs.excerpt) setFieldErrs((s) => ({ ...s, excerpt: undefined })); }} required maxLength={320} rows={3} placeholder="Resumo curto que aparece no card e na página do artigo." className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 ${fieldErrs.excerpt ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
@@ -189,8 +168,8 @@ function NovoPostPage() {
             <option value="published">Publicado</option>
           </select>
         </label>
-        <button type="submit" disabled={loading || coverBusy} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
-          {loading ? "Salvando…" : "Criar artigo"}
+        <button type="submit" disabled={loading} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
+          {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Criar artigo"}
         </button>
       </form>
     </div>

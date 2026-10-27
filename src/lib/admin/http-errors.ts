@@ -42,6 +42,10 @@ export function toErrorResponse(e: unknown): Response {
     return json(400, msg.slice("VALIDATION:".length), debug);
   }
   if (msg.startsWith("NOT_FOUND:")) return json(404, msg.slice("NOT_FOUND:".length), debug);
+  // Falha em serviço externo (ex.: Cloudinary). A mensagem já é segura para o cliente.
+  if (msg.startsWith("UPSTREAM:")) {
+    return json(502, msg.slice("UPSTREAM:".length), debug);
+  }
   if (msg.startsWith("RATE_LIMIT")) {
     return json(429, "Muitas tentativas. Tente novamente em instantes.", debug);
   }

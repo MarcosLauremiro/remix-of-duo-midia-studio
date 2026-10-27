@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { COVER_UPLOAD_MAX_BYTES } from "../cover";
 
 export const loginSchema = z.object({
   email: z.string().trim().email().max(254),
@@ -42,10 +43,11 @@ export function sanitizeString(s: unknown, max = 4000): string {
 
 export const postStatusSchema = z.enum(["draft", "published"]);
 
-// Capa: URL comum (até 2048 chars) ou imagem enviada do computador como data URL.
-// Limite da data URL ~2,2MB de imagem após base64.
+// Capa do post: URL (até 2048 caracteres). Imagens entram pelo upload (coverUploadSchema) e são
+// gravadas como URL do Cloudinary. Data URL só existe em posts antigos e não é aceita na escrita.
 export const COVER_IMAGE_DATA_URL_PATTERN = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/;
-const COVER_IMAGE_DATA_URL_MAX = 3_000_000;
+// Base64 ocupa 4/3 do arquivo original; a folga cobre o cabeçalho "data:image/...;base64,".
+const COVER_UPLOAD_MAX_CHARS = Math.ceil((COVER_UPLOAD_MAX_BYTES * 4) / 3) + 64;
 
 /** Confere a assinatura binária (magic bytes) do conteúdo com o MIME declarado. */
 export function hasImageSignature(dataUrl: string): boolean {
@@ -72,11 +74,23 @@ export function hasImageSignature(dataUrl: string): boolean {
 const coverImageSchema = z
   .string()
   .trim()
-  .max(COVER_IMAGE_DATA_URL_MAX)
-  .refine((v) => {
-    if (!/^data:/i.test(v)) return v.length <= 2048;
-    return COVER_IMAGE_DATA_URL_PATTERN.test(v) && hasImageSignature(v);
-  }, "Imagem de capa inválida");
+  .max(2048)
+  .refine((v) => !/^data:/i.test(v), "Envie a imagem pelo upload de capa");
+
+/** Upload de capa: data URL de JPG/PNG/WebP com assinatura binária conferida e tamanho limitado. */
+export const coverUploadSchema = z.object({
+  dataUrl: z
+    .string()
+    .max(COVER_UPLOAD_MAX_CHARS)
+    .refine((v) => {
+      const payloadBytes = Math.floor(((v.length - v.indexOf(",") - 1) * 3) / 4);
+      return (
+        payloadBytes <= COVER_UPLOAD_MAX_BYTES &&
+        COVER_IMAGE_DATA_URL_PATTERN.test(v) &&
+        hasImageSignature(v)
+      );
+    }, "Imagem de capa inválida"),
+});
 
 export const postCreateSchema = z.object({
   title: z.string().trim().min(3).max(160),

@@ -33,7 +33,7 @@ Páginas React ──(server function)──▶ src/lib/admin/*.server.ts
 |---|---|---|
 | `admins` | `id`, `name`, `email` (normalizado), `passwordHash` (scrypt), `role` (`admin`), `status` (`active`/`disabled`), `tokenVersion`, `createdAt`, `updatedAt` | `id` único; `email` único |
 | `clients` | `id`, `nome`, `contato`, `email`, `telefone`, `empresa`, `documento`, `tipo`, `status` (`lead`/`ativo`/`inativo`/`em_negociacao`), `servicos[]`, `observacoes`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `(deletedAt, createdAt)`; `status` |
-| `posts` | `id`, `title`, `slug`, `coverImage` (URL ou data URL), `excerpt`, `content`, `status` (`draft`/`published`), `publishedAt`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `slug` único **parcial** (`deletedAt: null`); `(status, publishedAt)` |
+| `posts` | `id`, `title`, `slug`, `coverImage` (URL do Cloudinary; posts antigos podem ter data URL), `excerpt`, `content`, `status` (`draft`/`published`), `publishedAt`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `slug` único **parcial** (`deletedAt: null`); `(status, publishedAt)` |
 | `login_attempts` | `_id` (SHA-256 da chave), `count`, `expiresAt` | TTL em `expiresAt` |
 
 - Não há relacionamento formal entre coleções. `clients.servicos` é uma lista de textos.
@@ -79,6 +79,7 @@ Autenticação: "admin" = cookie `duo_admin_session` válido + admin ativo + `to
 |---|---|---|---|
 | `adminListPostsFn` | GET | `{ q?, status?, sortBy?, sortDir?, page?, limit? }` | `{ items, total, page, limit, totalPages }` |
 | `adminGetPostFn` | GET | `{ id }` ou `{ slug }` | `{ post }` |
+| `adminUploadCoverFn` | POST | `{ dataUrl }` (JPG/PNG/WebP, até 8 MB) | `{ url }` (URL segura do Cloudinary) |
 | `adminCreatePostFn` | POST | `{ title, excerpt, content, slug?, coverImage?, status? }` | `{ post }` |
 | `adminUpdatePostFn` | POST | `{ id, ...campos parciais }` | `{ post }` |
 | `adminDeletePostFn` | POST | `{ id }` | `{ ok }` (exclusão lógica) |
@@ -94,6 +95,7 @@ Autenticação: "admin" = cookie `duo_admin_session` válido + admin ativo + `to
 | 404 | registro não encontrado | `{ "error": "..." }` |
 | 429 | mais de 10 tentativas de login por minuto (IP + e-mail) | `{ "error": "Muitas tentativas..." }` |
 | 500 | erro interno ou configuração ausente (ex.: `SESSION_SECRET`) | `{ "error": "Erro interno" }` |
+| 502 | falha ao enviar a imagem ao Cloudinary | `{ "error": "Não foi possível enviar a imagem. Tente novamente." }` |
 | 503 | banco inacessível | `{ "error": "Serviço temporariamente indisponível" }` |
 
 Erros de validação do zod (formato de entrada) são tratados pelo TanStack antes do handler. Nenhuma resposta inclui stack, mensagem do driver ou valor de segredo.
@@ -111,6 +113,28 @@ Erros de validação do zod (formato de entrada) são tratados pelo TanStack ant
 - **Autorização**: há um único papel (`admin`). Não há permissões por recurso porque o projeto não define outros papéis.
 - **Login sem admin**: o login não cria admin. Use `npm run admin:create`.
 
+## 5.1 Capas do blog (Cloudinary)
+
+Novas capas vão ao Cloudinary; o post guarda só a URL segura. O MongoDB não recebe binário nem data URL nova.
+
+**Fluxo de upload**
+1. O formulário (`src/components/blog/CoverImageField.tsx`, usado em `blog.novo.tsx` e `blog.$slug.tsx`) valida tipo e tamanho e mostra a pré-visualização. A imagem original não é alterada no navegador.
+2. Ao salvar, `adminUploadCoverFn` (`src/lib/admin/blog.server.ts`) passa por `withAdmin()` (sessão e admin ativo), valida a data URL com `coverUploadSchema` (tipo, assinatura binária, tamanho decodificado) e chama `uploadCover` (`src/lib/cloudinary.server.ts`).
+3. `uploadCover` assina os parâmetros com SHA-1 (`buildSignature`) e envia por `fetch` para `https://api.cloudinary.com/v1_1/<cloud>/image/upload`, na pasta `duo-midia/blog/capas`. O `public_id` é um UUID novo: não depende do título e não colide.
+4. O navegador recebe a URL e só então chama `adminCreatePostFn` ou `adminUpdatePostFn`. Se o upload falha, o post não é gravado.
+
+**Limites**: JPG, PNG ou WebP; até 8 MB no arquivo original (`COVER_UPLOAD_MAX_BYTES` em `src/lib/cover.ts`). A conferência é feita no cliente e de novo no servidor.
+
+**Entrega**: `coverDeliveryUrl` (`src/lib/cover.ts`) adiciona `f_auto,q_auto,c_limit,w_1280` à URL de exibição. O arquivo original fica intacto no Cloudinary.
+
+**Edição**: sem nova imagem nem pedido de remoção, a capa atual é mantida (`coverImage` não vai na requisição). "Remover capa" grava `null`.
+
+**Posts antigos com data URL**: continuam sendo exibidos. Não são migrados automaticamente. Os endpoints de escrita agora recusam data URL, então trocar a capa de um post antigo grava uma URL do Cloudinary.
+
+**Substituição e exclusão**: a imagem anterior **não** é apagada automaticamente. Um upload que não chega a ser salvo, ou uma capa trocada, deixa um arquivo órfão no Cloudinary. Uma limpeza futura deve listar os `public_id` referenciados pelos posts e remover só os que não são usados.
+
+**Migração futura das capas antigas** (não executada): para cada post com `coverImage` começando por `data:`, enviar a data URL com `uploadCover` e gravar a URL retornada. Deve ser feita em lote, com dry-run e `--apply`, no mesmo padrão de `scripts/import-store-to-mongo.mjs`. Precisa de autorização específica.
+
 ## 6. Variáveis e segredos
 
 | Nome | Tipo no Cloudflare | Obrigatória | Uso |
@@ -121,6 +145,9 @@ Erros de validação do zod (formato de entrada) são tratados pelo TanStack ant
 | `ADMIN_EMAIL` | secret | só para `admin:create` | e-mail do admin |
 | `ADMIN_PASSWORD` | secret | só para `admin:create` | senha inicial (8+ caracteres). Pode ser removida depois |
 | `ADMIN_NAME` | var | não | nome do admin (padrão "Admin") |
+| `CLOUDINARY_CLOUD_NAME` | var | sim, para capas | nome da conta Cloudinary |
+| `CLOUDINARY_API_KEY` | secret | sim, para capas | chave da API (usada na assinatura) |
+| `CLOUDINARY_API_SECRET` | secret | sim, para capas | segredo da API. Só existe no servidor |
 
 `APP_URL`, `PORT` e `NODE_ENV` não são mais lidas pelo código.
 
@@ -129,6 +156,9 @@ Configuração no Cloudflare (nunca no repositório):
 npx wrangler secret put MONGODB_URI
 npx wrangler secret put SESSION_SECRET
 npx wrangler secret put MONGODB_DB        # ou defina como var no painel
+npx wrangler secret put CLOUDINARY_API_KEY
+npx wrangler secret put CLOUDINARY_API_SECRET
+# CLOUDINARY_CLOUD_NAME pode ser var no painel (não é segredo)
 ```
 Requisitos de runtime: `nodejs_compat` e data de compatibilidade ≥ 2025-04-01 (já definidos em `wrangler.jsonc`). Com isso, `process.env` expõe variáveis e segredos.
 
@@ -183,7 +213,7 @@ npm run dev
 
 | Comando | O que cobre | Estado |
 |---|---|---|
-| `npm test` | sessão, senha, token, validação de capa, slug, planejamento da importação | 28 testes passando |
+| `npm test` | sessão, senha, token, validação de capa, assinatura e upload do Cloudinary (fetch simulado), URL de entrega, slug, planejamento da importação | 47 testes passando, 4 ignorados |
 | `npm test` (integração) | CRUD de clientes, busca com regex literal, slug único, contador de login | **ignorado** sem `MONGODB_URI_TEST` e `MONGODB_DB_TEST` (nome do banco deve conter "test") |
 | `npm run typecheck` | TypeScript | passa |
 | `npm run lint` | ESLint nos módulos de servidor | passa em `src/lib` |
@@ -229,13 +259,15 @@ Executado localmente com `wrangler dev` sobre o artefato de deploy (`dist/server
 
 Decisões pendentes (dependem de você):
 - **Contratos e serviços**: não existem no código. Não criei entidades. Informe o modelo esperado.
-- **Uploads de arquivos de clientes**: não existem. Para imagens de capa, o armazenamento de objetos (Cloudflare R2) exige criar um bucket, que é um recurso pago/externo. Não criei.
+- **Uploads de arquivos de clientes**: não existem. Capas do blog usam o Cloudinary (seção 5.1); o R2 não foi usado.
+- **Limpeza de imagens órfãs no Cloudinary**: não automatizada (seção 5.1).
+- **Migração das capas em data URL** para o Cloudinary: não executada, aguarda autorização específica.
 - **Durable Object** para manter a conexão do MongoDB (reduz latência). Não implementado.
 - **Validação de conexão real** com o banco de produção.
 - **Lovable**: a troca do Nitro pelo plugin da Cloudflare altera o build usado pelo editor. Verifique se o editor continua funcionando após o push.
 
 Limitações conhecidas:
-- Capas em data URL ficam dentro do documento do post (até ~2 MB). Listagens de posts ficam mais pesadas com capas grandes.
+- Posts antigos ainda guardam capa em data URL dentro do documento, até a migração (seção 5.1).
 - A busca de clientes filtra por campo: uma busca com dois termos em campos diferentes não casa como antes.
 - `ensureUniquePostSlug` tem uma janela de corrida entre a checagem e a gravação; o índice único é a garantia final, e o erro vira 400.
 - Rate limit por janela fixa, chaveado por IP + e-mail. Quem varia o IP contorna o limite, então ele protege contra força bruta a partir de um mesmo endereço, não contra ataques distribuídos. Considere um limite por e-mail sem IP se isso for relevante.

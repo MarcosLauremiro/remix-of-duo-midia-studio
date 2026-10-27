@@ -22,10 +22,10 @@ describe("capa de post", () => {
     expect(coverOk("/assets/capa.png")).toBe(true);
   });
 
-  it("aceita imagem real de cada tipo permitido", () => {
-    expect(coverOk(`data:image/png;base64,${PNG_HEADER}AAAA`)).toBe(true);
-    expect(coverOk(`data:image/jpeg;base64,${JPEG_HEADER}AAAA`)).toBe(true);
-    expect(coverOk(`data:image/webp;base64,${WEBP_HEADER}AAAA`)).toBe(true);
+  it("não aceita data URL na escrita do post (imagens entram pelo upload do Cloudinary)", () => {
+    expect(coverOk(`data:image/png;base64,${PNG_HEADER}AAAA`)).toBe(false);
+    expect(coverOk(`data:image/jpeg;base64,${JPEG_HEADER}AAAA`)).toBe(false);
+    expect(coverOk(`data:image/webp;base64,${WEBP_HEADER}AAAA`)).toBe(false);
   });
 
   it("rejeita SVG, HTML e outros tipos em data URL", () => {

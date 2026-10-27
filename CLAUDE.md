@@ -48,7 +48,9 @@ Scripts `db:*` e `admin:create` leem o `.env` local via `--env-file-if-exists`. 
 | `src/lib/errors.ts` | `ConfigError` e `DataUnavailableError`. |
 | `src/components/` | `SiteHeader`, `PageShell`, `blog/`. |
 | `scripts/` | `db-setup.mjs`, `import-store-to-mongo.mjs`, `create-admin.mjs`, `remove-dev-vars.mjs`, e `lib/` (índices, conexão de script, planejamento da importação). |
-| `tests/` | Vitest: sessão/senha, validação de capa, planejamento da importação e integração com banco de teste. |
+| `tests/` | Vitest: sessão/senha, validação e upload de capa, planejamento da importação e integração com banco de teste. |
+| `src/lib/cloudinary.server.ts` | Upload de capas ao Cloudinary (assinatura SHA-1 e chamada REST com `fetch`). |
+| `src/lib/cover.ts` | Regras puras da capa (tipo, limite, URL de entrega), usadas no cliente e no servidor. |
 | `.data/store.json` | Dados legados em JSON. **Só para a importação**. Nunca lido pela aplicação. Ignorado pelo git. |
 
 ## Arquitetura
@@ -83,7 +85,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Admin não é criado pelo login.** Use `npm run admin:create`.
 - **Clientes**: exclusão lógica (`deletedAt`) com restauração. Busca usa regex escapada, sem diferenciar maiúsculas.
 - **Blog**: `draft` ou `published`. Slug único entre posts não excluídos. Home e `/blog` leem só publicados.
-- **Capa do post**: o navegador reduz a imagem (lado maior até 1280 px, WebP ou JPEG, `src/lib/cover-image.ts`) e envia como data URL. O servidor valida a assinatura binária. Fica dentro do documento do post.
+- **Capa do post**: enviada ao Cloudinary pela server function `adminUploadCoverFn` (assinada no servidor). O post guarda a URL. Posts antigos com data URL continuam exibidos. Detalhes em `docs/API-AND-DATABASE.md` (seção 5.1).
 - **Demo do cliente** (`entrar`, `pacotes`, `painel-cliente`): não usa backend, guarda estado no `localStorage`.
 
 ## Convenções
@@ -102,7 +104,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Plugin oficial da Cloudflare em vez de Nitro.** O driver `mongodb` é CJS, e o shim `__require` do Nitro falhava no workerd com `No such module "node:process"`. O `wrangler` empacota o driver corretamente. `nitro: false` no plugin Lovable.
 - **Índices criados por script, não pelo runtime.** Evita round-trips a cada conexão e mantém a unicidade fora do caminho da requisição.
 - **Importação idempotente com `$setOnInsert`.** Nunca sobrescreve documentos existentes. Conflitos são reportados.
-- **Cover em data URL dentro do documento.** Simples, mas aumenta as listagens de posts. Migrar para armazenamento de objetos (R2) exige autorização e bucket.
+- **Capas no Cloudinary, upload assinado no servidor.** Evita data URL no MongoDB (listagens de posts ficavam pesadas). Usa `fetch` sem SDK para ser compatível com Workers. O preset público foi descartado para não aceitar uploads anônimos. Substituiu o R2, que exigia bucket pago.
 - **Server functions em vez de API REST.** Tipagem compartilhada; endpoints são `/_serverFn/<hash>`, não caminhos REST.
 - **`tokenVersion` no admin.** Permite invalidar sessões no logout sem tabela de sessões.
 
@@ -113,5 +115,5 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - `src/routes/admin/_layout.tsx`: vazio (`export {}`). Pode ser removido após confirmação.
 - `.codegraph/` não está no `.gitignore`.
 - Contratos e serviços **não existem no código**. Não criar sem especificação.
-- Uploads de arquivos de clientes **não existem**. Armazenamento de objetos aguarda autorização.
+- Uploads de arquivos de clientes **não existem**. Capas do blog usam o Cloudinary. Limpeza de órfãos e migração das capas antigas não estão automatizadas.
 - Conexão real com o MongoDB de produção **não foi validada** nesta base (sem credenciais de teste no ambiente de desenvolvimento).

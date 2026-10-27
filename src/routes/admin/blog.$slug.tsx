@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { adminGetPostFn, adminUpdatePostFn, adminDeletePostFn, adminPublishPostFn } from "@/lib/admin/blog.server";
+import { useEffect, useRef, useState } from "react";
+import { adminGetPostFn, adminUpdatePostFn, adminDeletePostFn, adminPublishPostFn, adminUploadCoverFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
+import { CoverImageField } from "@/components/blog/CoverImageField";
+import { readFileAsDataUrl } from "@/lib/cover";
 
 export const Route = createFileRoute("/admin/blog/$slug")({
   component: EditPostPage,
@@ -13,7 +15,11 @@ function EditPostPage() {
   const [post, setPost] = useState<PostDoc | null>(null);
   const [title, setTitle] = useState("");
   const [slugEdit, setSlugEdit] = useState("");
-  const [coverImage, setCoverImage] = useState("");
+  // Capa: arquivo novo escolhido, ou remoção pedida. Sem nenhum dos dois, a capa atual é mantida.
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [coverRemoved, setCoverRemoved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const submitting = useRef(false);
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -30,7 +36,6 @@ function EditPostPage() {
         setPost(p);
         setTitle(p.title);
         setSlugEdit(p.slug);
-        setCoverImage(p.coverImage ?? "");
         setExcerpt(p.excerpt);
         setContent(p.content);
       })
@@ -48,11 +53,23 @@ function EditPostPage() {
 
   const onSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!post) return;
+    if (!post || submitting.current) return;
     setErr(null);
+    submitting.current = true;
     setSaving(true);
     try {
-      await adminUpdatePostFn({ data: { id: post.id, title, slug: slugEdit, coverImage: coverImage || null, excerpt, content } });
+      // undefined não vai na requisição: o servidor mantém a capa atual.
+      let coverImage: string | null | undefined;
+      if (coverFile) {
+        setUploading(true);
+        ({ url: coverImage } = await adminUploadCoverFn({ data: { dataUrl: await readFileAsDataUrl(coverFile) } }));
+        setUploading(false);
+      } else if (coverRemoved) {
+        coverImage = null;
+      }
+      await adminUpdatePostFn({ data: { id: post.id, title, slug: slugEdit, coverImage, excerpt, content } });
+      setCoverFile(null);
+      setCoverRemoved(false);
       const updated = await adminGetPostFn({ data: { id: post.id } });
       const p = (updated as { post: PostDoc }).post;
       setPost(p);
@@ -62,6 +79,8 @@ function EditPostPage() {
       const msg = ex instanceof Response ? ((await ex.json().catch(() => null)) as { error?: string } | null)?.error ?? "Erro" : ex instanceof Error ? ex.message : String(ex);
       setErr(msg);
     } finally {
+      submitting.current = false;
+      setUploading(false);
       setSaving(false);
     }
   };
@@ -120,10 +139,22 @@ function EditPostPage() {
           <span className="text-ink">Slug</span>
           <input value={slugEdit} onChange={(e) => setSlugEdit(e.target.value)} placeholder="slug-do-artigo" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
         </label>
-        <label className="block text-sm">
-          <span className="text-ink">Imagem de capa (URL)</span>
-          <input value={coverImage} onChange={(e) => setCoverImage(e.target.value)} placeholder="https://..." className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
-        </label>
+        <CoverImageField
+          savedUrl={coverRemoved ? null : post.coverImage}
+          pendingFile={coverFile}
+          disabled={saving}
+          onChange={(file) => {
+            if (file) {
+              setCoverFile(file);
+              setCoverRemoved(false);
+            } else if (coverFile) {
+              // Só cancela a escolha: a capa salva continua.
+              setCoverFile(null);
+            } else {
+              setCoverRemoved(true);
+            }
+          }}
+        />
         <label className="block text-sm">
           <span className="text-ink">Resumo</span>
           <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} required maxLength={320} rows={3} className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
@@ -133,7 +164,7 @@ function EditPostPage() {
           <textarea value={content} onChange={(e) => setContent(e.target.value)} required rows={14} className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 font-mono text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
         </label>
         <button type="submit" disabled={saving} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
-          {saving ? "Salvando…" : "Salvar alterações"}
+          {uploading ? "Enviando capa…" : saving ? "Salvando…" : "Salvar alterações"}
         </button>
       </form>
     </div>
