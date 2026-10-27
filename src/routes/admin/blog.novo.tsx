@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { adminCreatePostFn } from "@/lib/admin/blog.server";
+import { COVER_INPUT_MAX_BYTES, COVER_INPUT_TYPES, compressCoverImage } from "@/lib/cover-image";
 
 export const Route = createFileRoute("/admin/blog/novo")({
   component: NovoPostPage,
@@ -48,35 +49,35 @@ async function extractError(ex: unknown): Promise<string> {
   return formatZodError(ex);
 }
 
-const COVER_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const COVER_MAX_BYTES = 2 * 1024 * 1024;
-
 function NovoPostPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [coverErr, setCoverErr] = useState<string | null>(null);
+  const [coverBusy, setCoverBusy] = useState(false);
 
-  const onCoverFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onCoverFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
-    if (!COVER_TYPES.includes(file.type)) {
+    if (!COVER_INPUT_TYPES.includes(file.type)) {
       setCoverErr("Use uma imagem JPG, PNG ou WebP.");
       return;
     }
-    if (file.size > COVER_MAX_BYTES) {
-      setCoverErr("A imagem deve ter no máximo 2 MB.");
+    if (file.size > COVER_INPUT_MAX_BYTES) {
+      setCoverErr("A imagem original deve ter no máximo 15 MB.");
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setCoverImage(String(reader.result));
-      setCoverErr(null);
-    };
-    reader.onerror = () => setCoverErr("Não foi possível ler a imagem.");
-    reader.readAsDataURL(file);
+    setCoverBusy(true);
+    setCoverErr(null);
+    try {
+      setCoverImage(await compressCoverImage(file));
+    } catch (ex) {
+      setCoverErr(ex instanceof Error ? ex.message : "Não foi possível ler a imagem.");
+    } finally {
+      setCoverBusy(false);
+    }
   };
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
@@ -160,8 +161,9 @@ function NovoPostPage() {
           <span className="text-xs text-ink-muted">Apenas letras, números e hífen. Usado em /blog/slug.</span>
         </label>
         <label className="block text-sm">
-          <span className="text-ink">Imagem de capa <span className="font-normal text-ink-muted">(JPG, PNG ou WebP, até 2 MB)</span></span>
-          <input type="file" accept="image/jpeg,image/png,image/webp" onChange={onCoverFile} className="mt-1 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-terracotta/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-terracotta hover:file:brightness-95" />
+          <span className="text-ink">Imagem de capa <span className="font-normal text-ink-muted">(JPG, PNG ou WebP; é reduzida automaticamente)</span></span>
+          <input type="file" accept="image/jpeg,image/png,image/webp" disabled={coverBusy} onChange={onCoverFile} className="mt-1 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-terracotta/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-terracotta hover:file:brightness-95" />
+          {coverBusy && <span className="mt-1 block text-xs text-ink-muted">Preparando imagem…</span>}
           {coverErr && <span className="mt-1 block text-xs text-destructive">{coverErr}</span>}
           {coverImage && (
             <span className="mt-3 flex items-start gap-3">
@@ -187,7 +189,7 @@ function NovoPostPage() {
             <option value="published">Publicado</option>
           </select>
         </label>
-        <button type="submit" disabled={loading} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
+        <button type="submit" disabled={loading || coverBusy} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
           {loading ? "Salvando…" : "Criar artigo"}
         </button>
       </form>

@@ -83,7 +83,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Admin não é criado pelo login.** Use `npm run admin:create`.
 - **Clientes**: exclusão lógica (`deletedAt`) com restauração. Busca usa regex escapada, sem diferenciar maiúsculas.
 - **Blog**: `draft` ou `published`. Slug único entre posts não excluídos. Home e `/blog` leem só publicados.
-- **Capa do post**: data URL (JPG, PNG ou WebP, até ~2 MB), validada no servidor pela assinatura binária. Fica dentro do documento do post.
+- **Capa do post**: o navegador reduz a imagem (lado maior até 1280 px, WebP ou JPEG, `src/lib/cover-image.ts`) e envia como data URL. O servidor valida a assinatura binária. Fica dentro do documento do post.
 - **Demo do cliente** (`entrar`, `pacotes`, `painel-cliente`): não usa backend, guarda estado no `localStorage`.
 
 ## Convenções
