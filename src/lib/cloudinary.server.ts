@@ -69,8 +69,13 @@ export async function uploadCover(dataUrl: string): Promise<UploadedCover> {
   }
 
   if (!res.ok) {
-    // Status e código HTTP apenas: o corpo do erro não é repassado.
-    console.error("[cloudinary] upload recusado", { status: res.status });
+    // Status e mensagem de erro do Cloudinary (sem segredo nem conteúdo do arquivo).
+    // DIAGNÓSTICO TEMPORÁRIO: a mensagem fica de fora do erro devolvido ao cliente.
+    const detail = (await res.json().catch(() => null)) as { error?: { message?: unknown } } | null;
+    console.error("[cloudinary] upload recusado", {
+      status: res.status,
+      message: typeof detail?.error?.message === "string" ? detail.error.message : undefined,
+    });
     throw new Error("UPSTREAM:Não foi possível enviar a imagem. Tente novamente.");
   }
 
