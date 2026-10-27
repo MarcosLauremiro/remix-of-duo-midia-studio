@@ -85,6 +85,10 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Admin não é criado pelo login.** Use `npm run admin:create`.
 - **Clientes**: exclusão lógica (`deletedAt`) com restauração. Busca usa regex escapada, sem diferenciar maiúsculas.
 - **Blog**: `draft` ou `published`. Slug único entre posts não excluídos. Home e `/blog` leem só publicados.
+  - **Criação** (`/admin/blog/novo`): não tem campo de status nem de slug. Envia `status: "published"` e o servidor gera o slug do título. Ao salvar, vai para `/admin/blog?status=published` (a rota da lista aceita `status` na URL).
+  - **Layout**: a página ocupa a altura da janela no desktop (`lg:h-[calc(100dvh-7.5rem)]`). Dados à esquerda (título, capa, resumo) e conteúdo ocupando o restante à direita. O botão "Publicar artigo" fica no cabeçalho.
+  - **Status**: alterado só na edição (`/admin/blog/:slug`, botão Publicar/Despublicar). A lista mostra a etiqueta de status, sem botão de alternar.
+  - **Exclusão** na lista de blog e de clientes: remove o item da tela sem buscar a lista de novo. Se a página fica vazia, volta uma página.
 - **Capa do post**: enviada ao Cloudinary pela server function `adminUploadCoverFn` (assinada no servidor). O post guarda a URL. Posts antigos com data URL continuam exibidos. Detalhes em `docs/API-AND-DATABASE.md` (seção 5.1).
 - **Demo do cliente** (`entrar`, `pacotes`, `painel-cliente`): não usa backend, guarda estado no `localStorage`.
 

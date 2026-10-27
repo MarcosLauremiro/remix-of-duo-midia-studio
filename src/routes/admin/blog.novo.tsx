@@ -53,14 +53,12 @@ async function extractError(ex: unknown): Promise<string> {
 function NovoPostPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   // Trava síncrona contra cliques repetidos (o estado React atualiza só no próximo render).
   const submitting = useRef(false);
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
-  const [status, setStatus] = useState<"draft" | "published">("draft");
   const [err, setErr] = useState<string | null>(null);
   const [fieldErrs, setFieldErrs] = useState<{ excerpt?: string; content?: string; title?: string }>({});
   const [loading, setLoading] = useState(false);
@@ -82,10 +80,8 @@ function NovoPostPage() {
     // Diagnóstico: tamanhos e flags, nunca o conteúdo nem a imagem.
     console.log("[blog.novo] enviando", {
       titleLen: title.length,
-      slugInformado: Boolean(slug),
       excerptLen: excerpt.length,
       contentLen: content.length,
-      status,
       temCapa: Boolean(coverFile),
     });
     try {
@@ -98,7 +94,8 @@ function NovoPostPage() {
         coverImage = await uploadCoverFile(coverFile);
         setUploading(false);
       }
-      const res = await adminCreatePostFn({ data: { title, slug: slug || undefined, coverImage, excerpt, content, status } });
+      // Artigo novo sai publicado; o slug é gerado do título pelo servidor.
+      const res = await adminCreatePostFn({ data: { title, coverImage, excerpt, content, status: "published" } });
       console.log("[blog.novo] resposta", { temPost: Boolean(res?.post), slug: res?.post?.slug });
       // O cliente pode resolver mesmo quando o servidor respondeu erro (ex.: 503): valida antes de usar.
       if (!res?.post) {
@@ -106,7 +103,7 @@ function NovoPostPage() {
         setErr("Não foi possível salvar o artigo. Veja o console para detalhes.");
         return;
       }
-      navigate({ to: "/admin/blog/$slug", params: { slug: res.post.slug } });
+      navigate({ to: "/admin/blog", search: { status: "published" } });
     } catch (ex) {
       if (ex instanceof Response) {
         const body = await ex.clone().json().catch(() => null);
@@ -135,22 +132,23 @@ function NovoPostPage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto flex max-w-6xl flex-col gap-3 lg:h-[calc(100dvh-7.5rem)]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink">Novo artigo</h1>
-        <Link to="/admin/blog" className="text-sm text-ink-muted hover:text-ink">Voltar</Link>
+        <div className="flex items-center gap-3">
+          <Link to="/admin/blog" className="text-sm text-ink-muted hover:text-ink">Voltar</Link>
+          <button type="submit" form="novo-artigo" disabled={loading} className="inline-flex items-center justify-center rounded-full bg-terracotta px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
+            {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Publicar artigo"}
+          </button>
+        </div>
       </div>
       {err && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>}
-      <form onSubmit={onSubmit} className="space-y-4 rounded-2xl bg-surface p-6 ring-1 ring-ink/10">
+      <form id="novo-artigo" onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col gap-4 rounded-2xl bg-surface p-4 ring-1 ring-ink/10 lg:flex-row lg:p-5">
+        <div className="space-y-3 lg:w-[22rem] lg:shrink-0">
         <label className="block text-sm">
           <span className="text-ink">Título *</span>
           <input value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} placeholder="Ex: Como planejar conteúdo sem sufoco" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
           {fieldErrs.title && <span className="mt-1 block text-xs text-destructive">{fieldErrs.title}</span>}
-        </label>
-        <label className="block text-sm">
-          <span className="text-ink">Slug (opcional, gerado do título se vazio)</span>
-          <input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="ex: como-planejar-conteudo" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
-          <span className="text-xs text-ink-muted">Apenas letras, números e hífen. Usado em /blog/slug.</span>
         </label>
         <CoverImageField savedUrl={null} pendingFile={coverFile} disabled={loading} onChange={setCoverFile} />
         <label className="block text-sm">
@@ -158,21 +156,12 @@ function NovoPostPage() {
           <textarea value={excerpt} onChange={(e) => { setExcerpt(e.target.value); if (fieldErrs.excerpt) setFieldErrs((s) => ({ ...s, excerpt: undefined })); }} required maxLength={320} rows={3} placeholder="Resumo curto que aparece no card e na página do artigo." className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 ${fieldErrs.excerpt ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
           <span className={`text-xs ${fieldErrs.excerpt ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.excerpt ?? `${excerpt.length}/320`}</span>
         </label>
-        <label className="block text-sm">
+        </div>
+        <label className="flex min-h-[12rem] min-w-0 flex-1 flex-col text-sm">
           <span className="text-ink">Conteúdo * <span className="font-normal text-ink-muted">(mín. 20 caracteres)</span></span>
-          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={14} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
+          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={8} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 min-h-0 w-full flex-1 resize-none rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
           <span className={`text-xs ${fieldErrs.content ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.content ?? `${content.length} caracteres`}</span>
         </label>
-        <label className="block text-sm">
-          <span className="text-ink">Status</span>
-          <select value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className="mt-1 rounded-xl border border-ink/10 bg-background px-3 py-2 text-sm">
-            <option value="draft">Rascunho</option>
-            <option value="published">Publicado</option>
-          </select>
-        </label>
-        <button type="submit" disabled={loading} className="inline-flex w-full items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
-          {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Criar artigo"}
-        </button>
       </form>
     </div>
   );
