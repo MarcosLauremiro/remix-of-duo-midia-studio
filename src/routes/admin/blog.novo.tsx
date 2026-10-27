@@ -132,7 +132,7 @@ function NovoPostPage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto flex max-w-6xl flex-col gap-3 lg:h-[calc(100dvh-7.5rem)]">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink">Novo artigo</h1>
         <div className="flex items-center gap-3">
@@ -143,7 +143,8 @@ function NovoPostPage() {
         </div>
       </div>
       {err && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>}
-      <form id="novo-artigo" onSubmit={onSubmit} className="space-y-4 rounded-2xl bg-surface p-5 ring-1 ring-ink/10 sm:p-6">
+      <form id="novo-artigo" onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col gap-4 rounded-2xl bg-surface p-4 ring-1 ring-ink/10 lg:flex-row lg:p-5">
+        <div className="space-y-3 lg:w-[22rem] lg:shrink-0">
         <label className="block text-sm">
           <span className="text-ink">Título *</span>
           <input value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} placeholder="Ex: Como planejar conteúdo sem sufoco" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
@@ -155,9 +156,10 @@ function NovoPostPage() {
           <textarea value={excerpt} onChange={(e) => { setExcerpt(e.target.value); if (fieldErrs.excerpt) setFieldErrs((s) => ({ ...s, excerpt: undefined })); }} required maxLength={320} rows={3} placeholder="Resumo curto que aparece no card e na página do artigo." className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 ${fieldErrs.excerpt ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
           <span className={`text-xs ${fieldErrs.excerpt ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.excerpt ?? `${excerpt.length}/320`}</span>
         </label>
-        <label className="block text-sm">
+        </div>
+        <label className="flex min-h-[12rem] min-w-0 flex-1 flex-col text-sm">
           <span className="text-ink">Conteúdo * <span className="font-normal text-ink-muted">(mín. 20 caracteres)</span></span>
-          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={10} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
+          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={8} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 min-h-0 w-full flex-1 resize-none rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
           <span className={`text-xs ${fieldErrs.content ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.content ?? `${content.length} caracteres`}</span>
         </label>
       </form>
