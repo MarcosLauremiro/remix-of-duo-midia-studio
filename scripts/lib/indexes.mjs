@@ -31,7 +31,10 @@ export const INDEXES = {
 };
 
 export async function ensureIndexes(db) {
+  // O driver espera { key, name, unique, ... } no mesmo nível. Opções aninhadas em `options`
+  // são ignoradas e viram índices sem unicidade com nome padrão.
   for (const [collection, specs] of Object.entries(INDEXES)) {
-    await db.collection(collection).createIndexes(specs);
+    const flat = specs.map(({ key, options }) => ({ key, ...options }));
+    await db.collection(collection).createIndexes(flat);
   }
 }
