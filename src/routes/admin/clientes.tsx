@@ -1,11 +1,19 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { Search, Plus, Trash2, Pencil } from "lucide-react";
 import { listClientsFn, deleteClientFn } from "@/lib/admin/admin.server";
 
 export const Route = createFileRoute("/admin/clientes")({
-  component: ClientesPage,
+  component: ClientesLayout,
 });
+
+// Rotas filhas (novo, :id) precisam de Outlet; sem ele a lista engole a tela de cadastro.
+function ClientesLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isChild = pathname !== "/admin/clientes";
+  if (isChild) return <Outlet />;
+  return <ClientesPage />;
+}
 
 const statusOptions = [
   { value: "todos", label: "Todos" },
