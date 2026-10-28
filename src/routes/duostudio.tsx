@@ -70,7 +70,7 @@ const frentes = [
 function DuoStudioPage() {
   return (
     <PageShell
-      eyebrow="Campanha 2026 · Uma Agência. Várias soluções."
+      eyebrow="  · Uma Agência. Várias soluções."
       title={
         <>
           DUO <span className="font-light text-ink-muted">|</span>{" "}
