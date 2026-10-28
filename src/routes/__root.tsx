@@ -79,23 +79,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DUO | Mídia & Studio | Uma Agência. Várias soluções. | Campanha 2026" },
+      { title: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
       {
         name: "description",
         content:
-          "Uma solução integrada para marcas que precisam de estratégia + criação + produção. Campanha 2026: Uma Agência. Várias soluções.",
+          "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções.",
       },
       { name: "author", content: "DUO | Mídia & Studio" },
-      { property: "og:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. | Campanha 2026" },
+      { property: "og:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
       {
         property: "og:description",
         content:
-          "Uma solução integrada para marcas que precisam de estratégia + criação + produção. Campanha 2026: Uma Agência. Várias soluções.",
+          "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. | Campanha 2026" },
-      { name: "twitter:description", content: "Uma solução integrada para marcas que precisam de estratégia + criação + produção. Campanha 2026: Uma Agência. Várias soluções." },
+      { name: "twitter:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
+      { name: "twitter:description", content: "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
     ],
