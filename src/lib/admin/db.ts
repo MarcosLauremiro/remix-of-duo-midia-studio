@@ -17,6 +17,8 @@ export type AdminDoc = {
 export type ClientDoc = {
   id: string;
   nome: string;
+  /** YYYY-MM-DD. Ausente em clientes cadastrados antes deste campo. */
+  dataInicioContrato?: string | null;
   contato?: string | null;
   email?: string | null;
   telefone?: string | null;

@@ -8,8 +8,18 @@ export const loginSchema = z.object({
 
 export const clientStatusSchema = z.enum(["lead", "ativo", "inativo", "em_negociacao"]);
 
+// Data no formato YYYY-MM-DD (valor do input type="date"). Rejeita datas inexistentes, como 2026-02-30.
+const isoDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((v) => {
+    const d = new Date(`${v}T00:00:00Z`);
+    return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === v;
+  }, "Data inválida");
+
 export const clientCreateSchema = z.object({
   nome: z.string().trim().min(2).max(120),
+  dataInicioContrato: isoDateSchema.optional().nullable().or(z.literal("")),
   contato: z.string().trim().max(120).optional().nullable(),
   email: z.string().trim().email().max(254).optional().nullable().or(z.literal("")),
   telefone: z.string().trim().max(40).optional().nullable(),

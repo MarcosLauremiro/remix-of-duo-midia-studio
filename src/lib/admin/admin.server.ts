@@ -162,6 +162,7 @@ export const createClientFn = createServerFn({ method: "POST" })
         const doc = {
           id: newId(),
           nome: data.nome.trim(),
+          dataInicioContrato: data.dataInicioContrato || null,
           contato: data.contato?.trim() || null,
           email: data.email?.trim() || null,
           telefone: data.telefone?.trim() || null,
@@ -192,6 +193,8 @@ export const updateClientFn = createServerFn({ method: "POST" })
         if (!existing) throw new Error("NOT_FOUND:Cliente não encontrado");
         const patch: Partial<typeof existing> = {};
         if (data.nome !== undefined) patch.nome = data.nome!.trim();
+        if (data.dataInicioContrato !== undefined)
+          patch.dataInicioContrato = data.dataInicioContrato || null;
         if (data.contato !== undefined) patch.contato = data.contato?.trim() || null;
         if (data.email !== undefined) patch.email = data.email?.trim() || null;
         if (data.telefone !== undefined) patch.telefone = data.telefone?.trim() || null;
