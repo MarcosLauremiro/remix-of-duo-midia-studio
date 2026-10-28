@@ -46,7 +46,7 @@ Scripts `db:*` e `admin:create` leem o `.env` local via `--env-file-if-exists`. 
 | `src/lib/data/` | Persistência MongoDB: `mongo.ts` (conexão, `withDb`, `escapeRegex`), `admins.ts`, `clients.ts`, `posts.ts`, `login-attempts.ts`. |
 | `src/lib/admin/` | Backend admin: `admin.server.ts`, `blog.server.ts` (server functions), `auth.ts` (cookie e guarda), `session.ts` (senha e token, puro), `http-errors.ts`, `validators.ts`, `db.ts` (tipos e helpers puros). |
 | `src/lib/errors.ts` | `ConfigError` e `DataUnavailableError`. |
-| `src/components/` | `SiteHeader`, `PageShell`, `blog/`. |
+| `src/components/` | `SiteHeader`, `PageShell`, `blog/`, `clientes/` (campos do formulário de cliente, usados em cadastro e edição). |
 | `scripts/` | `db-setup.mjs`, `import-store-to-mongo.mjs`, `create-admin.mjs`, `remove-dev-vars.mjs`, e `lib/` (índices, conexão de script, planejamento da importação). |
 | `tests/` | Vitest: sessão/senha, validação e upload de capa, planejamento da importação e integração com banco de teste. |
 | `src/lib/cloudinary.server.ts` | Upload de capas ao Cloudinary (assinatura SHA-1 e chamada REST com `fetch`). |
@@ -84,6 +84,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Login**: `loginFn` aplica o rate limit, busca o admin pelo e-mail, verifica a senha e grava o cookie. Resposta 400 com mensagem genérica em ambos os casos (e-mail inexistente ou senha errada). Só o caso de e-mail inexistente ou admin inativo recebe atraso de 400 ms.
 - **Admin não é criado pelo login.** Use `npm run admin:create`.
 - **Clientes**: exclusão lógica (`deletedAt`) com restauração. Busca usa regex escapada, sem diferenciar maiúsculas.
+  - **Cadastro e edição** (`/admin/clientes/novo` e `/admin/clientes/:id`): só nome e início do contrato (`dataInicioContrato`, `YYYY-MM-DD`). Os demais campos continuam no documento e na visualização, mas não são editados pela tela.
 - **Blog**: `draft` ou `published`. Slug único entre posts não excluídos. Home e `/blog` leem só publicados.
   - **Criação** (`/admin/blog/novo`): modal sobre a lista (`blog.tsx` renderiza a lista e o `Outlet`). Não tem campo de status nem de slug; não envia `status`, então o servidor salva como `draft` e gera o slug do título. Ao salvar, volta para `/admin/blog`.
   - **Layout**: modal Radix (`ui/dialog`) sem rolagem; o conteúdo ocupa o espaço restante e o `textarea` rola internamente.
