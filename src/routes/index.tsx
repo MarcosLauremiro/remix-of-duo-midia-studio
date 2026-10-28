@@ -1020,7 +1020,7 @@ function Home_() {
               DUO <span className="text-ink-muted font-light">|</span> <span className="text-terracotta">Mídia</span>{" "}
               <span className="text-ink-muted font-light">&</span> <span className="text-ochre">Studio</span>
             </h1>
-            <p className="eyebrow">  · Uma Agência. Várias soluções.</p>
+            <p className="eyebrow">Campanha 2026 · Uma Agência. Várias soluções.</p>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted text-pretty">
               Uma solução integrada para marcas que precisam de estratégia + criação + produção.
             </p>
@@ -1048,7 +1048,7 @@ function Home_() {
         {/* Serviços DUOMÍDIA e DUOSTUDIO no estilo da referência */}
         <section className="mt-16 lg:mt-20">
           <SectionHeader
-            eyebrow="Uma Agência. Várias soluções.  "
+            eyebrow="Uma Agência. Várias soluções. Campanha 2026"
             title="Duas frentes, uma entrega completa"
             count={duoServiceGroups.reduce((n, g) => n + g.items.length, 0)}
           />
