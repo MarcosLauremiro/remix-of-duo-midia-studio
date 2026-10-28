@@ -36,7 +36,7 @@ function BlogAdminPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   // Muda a cada navegação: ao voltar do modal de criação a lista busca os dados de novo.
-  const locationKey = useRouterState({ select: (s) => s.location.key });
+  const locationHref = useRouterState({ select: (s) => s.location.href });
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -53,8 +53,8 @@ function BlogAdminPage() {
 
   useEffect(() => {
     fetchData();
-    // locationKey não entra em fetchData: serve só para refazer a busca em cada navegação.
-  }, [fetchData, locationKey]);
+    // locationHref não entra em fetchData: serve só para refazer a busca ao voltar de /admin/blog/novo.
+  }, [fetchData, locationHref]);
   useEffect(() => {
     setPage(1);
   }, [q, status, sortBy, sortDir]);
