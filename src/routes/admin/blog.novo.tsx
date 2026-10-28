@@ -1,8 +1,9 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { adminCreatePostFn } from "@/lib/admin/blog.server";
 import { uploadCoverFile } from "@/lib/admin/cover-upload";
 import { CoverImageField } from "@/components/blog/CoverImageField";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/admin/blog/novo")({
   component: NovoPostPage,
@@ -27,7 +28,8 @@ function formatZodError(ex: unknown): string {
   const raw = String(ex);
   try {
     const parsed = JSON.parse(raw) as Array<{ path?: string[]; message?: string }>;
-    if (Array.isArray(parsed)) return parsed.map((e) => `${e.path?.join(".")}: ${e.message}`).join(" | ");
+    if (Array.isArray(parsed))
+      return parsed.map((e) => `${e.path?.join(".")}: ${e.message}`).join(" | ");
   } catch {}
   return raw;
 }
@@ -50,6 +52,13 @@ async function extractError(ex: unknown): Promise<string> {
   return formatZodError(ex);
 }
 
+const fieldClass = (hasError: boolean) =>
+  `mt-1 w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:ring-2 ${
+    hasError
+      ? "border-destructive focus:border-destructive focus:ring-destructive/20"
+      : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"
+  }`;
+
 function NovoPostPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -60,8 +69,16 @@ function NovoPostPage() {
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [err, setErr] = useState<string | null>(null);
-  const [fieldErrs, setFieldErrs] = useState<{ excerpt?: string; content?: string; title?: string }>({});
+  const [fieldErrs, setFieldErrs] = useState<{
+    excerpt?: string;
+    content?: string;
+    title?: string;
+  }>({});
   const [loading, setLoading] = useState(false);
+
+  const close = () => {
+    if (!loading) navigate({ to: "/admin/blog" });
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +86,8 @@ function NovoPostPage() {
     setErr(null);
     // Validação client-side igual ao schema (evita roundtrip com mensagem crua do Zod)
     const fe: typeof fieldErrs = {};
-    if (!title.trim() || title.trim().length < 3) fe.title = "Título deve ter pelo menos 3 caracteres.";
+    if (!title.trim() || title.trim().length < 3)
+      fe.title = "Título deve ter pelo menos 3 caracteres.";
     if (excerpt.trim().length < 10) fe.excerpt = "Resumo deve ter pelo menos 10 caracteres.";
     if (content.trim().length < 20) fe.content = "Conteúdo deve ter pelo menos 20 caracteres.";
     setFieldErrs(fe);
@@ -94,8 +112,8 @@ function NovoPostPage() {
         coverImage = await uploadCoverFile(coverFile);
         setUploading(false);
       }
-      // Artigo novo sai publicado; o slug é gerado do título pelo servidor.
-      const res = await adminCreatePostFn({ data: { title, coverImage, excerpt, content, status: "published" } });
+      // Sem status na criação: o servidor salva como rascunho e o slug é gerado do título.
+      const res = await adminCreatePostFn({ data: { title, coverImage, excerpt, content } });
       console.log("[blog.novo] resposta", { temPost: Boolean(res?.post), slug: res?.post?.slug });
       // O cliente pode resolver mesmo quando o servidor respondeu erro (ex.: 503): valida antes de usar.
       if (!res?.post) {
@@ -103,10 +121,13 @@ function NovoPostPage() {
         setErr("Não foi possível salvar o artigo. Veja o console para detalhes.");
         return;
       }
-      navigate({ to: "/admin/blog", search: { status: "published" } });
+      navigate({ to: "/admin/blog" });
     } catch (ex) {
       if (ex instanceof Response) {
-        const body = await ex.clone().json().catch(() => null);
+        const body = await ex
+          .clone()
+          .json()
+          .catch(() => null);
         console.log("[blog.novo] falhou (HTTP)", { status: ex.status, body });
       } else {
         console.log("[blog.novo] erro inesperado", ex);
@@ -114,9 +135,12 @@ function NovoPostPage() {
       const msg = await extractError(ex);
       console.log("[blog.novo] mensagem mostrada", msg);
       // Mapeia para campos se for erro de tamanho
-      if (msg.includes("excerpt")) setFieldErrs((s) => ({ ...s, excerpt: "Resumo deve ter pelo menos 10 caracteres." }));
-      if (msg.includes("content")) setFieldErrs((s) => ({ ...s, content: "Conteúdo deve ter pelo menos 20 caracteres." }));
-      if (msg.includes("title")) setFieldErrs((s) => ({ ...s, title: "Título deve ter pelo menos 3 caracteres." }));
+      if (msg.includes("excerpt"))
+        setFieldErrs((s) => ({ ...s, excerpt: "Resumo deve ter pelo menos 10 caracteres." }));
+      if (msg.includes("content"))
+        setFieldErrs((s) => ({ ...s, content: "Conteúdo deve ter pelo menos 20 caracteres." }));
+      if (msg.includes("title"))
+        setFieldErrs((s) => ({ ...s, title: "Título deve ter pelo menos 3 caracteres." }));
       if (msg.includes("String must contain") || msg.includes("too_small")) {
         // Antes esta linha limpava o erro e escondia a falha. Agora a mensagem aparece.
         console.log("[blog.novo] erro de validação do schema", msg);
@@ -132,37 +156,107 @@ function NovoPostPage() {
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-3 lg:h-[calc(100dvh-7.5rem)]">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-2xl text-ink">Novo artigo</h1>
-        <div className="flex items-center gap-3">
-          <Link to="/admin/blog" className="text-sm text-ink-muted hover:text-ink">Voltar</Link>
-          <button type="submit" form="novo-artigo" disabled={loading} className="inline-flex items-center justify-center rounded-full bg-terracotta px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60">
-            {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Publicar artigo"}
+    <Dialog open onOpenChange={(open) => !open && close()}>
+      <DialogContent className="flex max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-2xl flex-col gap-3 overflow-hidden rounded-2xl bg-surface p-5">
+        <div className="space-y-1">
+          <DialogTitle className="font-display text-xl text-ink">Novo artigo</DialogTitle>
+          <DialogDescription className="sr-only">
+            Preencha os campos e salve o artigo.
+          </DialogDescription>
+        </div>
+
+        <form id="novo-artigo" onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col gap-3">
+          <label className="block text-sm">
+            <span className="text-ink">Título *</span>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              maxLength={160}
+              placeholder="Ex: Como planejar conteúdo sem sufoco"
+              className={fieldClass(Boolean(fieldErrs.title))}
+            />
+            {fieldErrs.title && (
+              <span className="mt-1 block text-xs text-destructive">{fieldErrs.title}</span>
+            )}
+          </label>
+
+          <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            <CoverImageField
+              savedUrl={null}
+              pendingFile={coverFile}
+              disabled={loading}
+              onChange={setCoverFile}
+            />
+            <label className="block text-sm">
+              <span className="text-ink">
+                Resumo * <span className="font-normal text-ink-muted">(mín. 10)</span>
+              </span>
+              <textarea
+                value={excerpt}
+                onChange={(e) => {
+                  setExcerpt(e.target.value);
+                  if (fieldErrs.excerpt) setFieldErrs((s) => ({ ...s, excerpt: undefined }));
+                }}
+                required
+                maxLength={320}
+                rows={3}
+                placeholder="Aparece no card e na página do artigo."
+                className={`${fieldClass(Boolean(fieldErrs.excerpt))} resize-none`}
+              />
+              <span
+                className={`text-xs ${fieldErrs.excerpt ? "text-destructive" : "text-ink-muted"}`}
+              >
+                {fieldErrs.excerpt ?? `${excerpt.length}/320`}
+              </span>
+            </label>
+          </div>
+
+          <label className="flex min-h-0 flex-1 flex-col text-sm">
+            <span className="text-ink">
+              Conteúdo * <span className="font-normal text-ink-muted">(mín. 20 caracteres)</span>
+            </span>
+            <textarea
+              value={content}
+              onChange={(e) => {
+                setContent(e.target.value);
+                if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined }));
+              }}
+              required
+              placeholder={
+                "Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."
+              }
+              className={`${fieldClass(Boolean(fieldErrs.content))} min-h-[8rem] flex-1 resize-none font-mono`}
+            />
+            <span
+              className={`text-xs ${fieldErrs.content ? "text-destructive" : "text-ink-muted"}`}
+            >
+              {fieldErrs.content ?? `${content.length} caracteres`}
+            </span>
+          </label>
+        </form>
+
+        {err && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>}
+
+        <div className="flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={close}
+            disabled={loading}
+            className="rounded-full px-4 py-2 text-sm font-semibold text-ink-muted hover:text-ink disabled:opacity-60"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            form="novo-artigo"
+            disabled={loading}
+            className="inline-flex items-center justify-center rounded-full bg-terracotta px-5 py-2 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60"
+          >
+            {uploading ? "Enviando capa…" : loading ? "Salvando…" : "Salvar artigo"}
           </button>
         </div>
-      </div>
-      {err && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{err}</p>}
-      <form id="novo-artigo" onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col gap-4 rounded-2xl bg-surface p-4 ring-1 ring-ink/10 lg:flex-row lg:p-5">
-        <div className="space-y-3 lg:w-[22rem] lg:shrink-0">
-        <label className="block text-sm">
-          <span className="text-ink">Título *</span>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} placeholder="Ex: Como planejar conteúdo sem sufoco" className="mt-1 w-full rounded-xl border border-ink/10 bg-background px-3 py-2.5 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20" />
-          {fieldErrs.title && <span className="mt-1 block text-xs text-destructive">{fieldErrs.title}</span>}
-        </label>
-        <CoverImageField savedUrl={null} pendingFile={coverFile} disabled={loading} onChange={setCoverFile} />
-        <label className="block text-sm">
-          <span className="text-ink">Resumo * <span className="font-normal text-ink-muted">(mín. 10 caracteres)</span></span>
-          <textarea value={excerpt} onChange={(e) => { setExcerpt(e.target.value); if (fieldErrs.excerpt) setFieldErrs((s) => ({ ...s, excerpt: undefined })); }} required maxLength={320} rows={3} placeholder="Resumo curto que aparece no card e na página do artigo." className={`mt-1 w-full rounded-xl border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 ${fieldErrs.excerpt ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
-          <span className={`text-xs ${fieldErrs.excerpt ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.excerpt ?? `${excerpt.length}/320`}</span>
-        </label>
-        </div>
-        <label className="flex min-h-[12rem] min-w-0 flex-1 flex-col text-sm">
-          <span className="text-ink">Conteúdo * <span className="font-normal text-ink-muted">(mín. 20 caracteres)</span></span>
-          <textarea value={content} onChange={(e) => { setContent(e.target.value); if (fieldErrs.content) setFieldErrs((s) => ({ ...s, content: undefined })); }} required rows={8} placeholder={"Parágrafos separados por linha em branco.\n\nUse # Título, ## Subtítulo e - itens de lista."} className={`mt-1 min-h-0 w-full flex-1 resize-none rounded-xl border bg-background px-3 py-2.5 font-mono text-sm outline-none focus:ring-2 ${fieldErrs.content ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-ink/10 focus:border-terracotta/40 focus:ring-terracotta/20"}`} />
-          <span className={`text-xs ${fieldErrs.content ? "text-destructive" : "text-ink-muted"}`}>{fieldErrs.content ?? `${content.length} caracteres`}</span>
-        </label>
-      </form>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
