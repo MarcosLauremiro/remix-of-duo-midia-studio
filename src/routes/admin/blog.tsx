@@ -12,7 +12,9 @@ export const Route = createFileRoute("/admin/blog")({
 
 function BlogAdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isChild = pathname === "/admin/blog/novo" || (pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog");
+  // O formulário de criação abre como modal sobre a lista.
+  if (pathname === "/admin/blog/novo") return <><BlogAdminPage /><Outlet /></>;
+  const isChild = pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog";
   if (isChild) return <Outlet />;
   return <BlogAdminPage />;
 }
