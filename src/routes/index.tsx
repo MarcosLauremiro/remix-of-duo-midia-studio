@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { DEFAULT_DESCRIPTION, pageSeo } from "@/lib/seo";
 import {
   Sparkles,
   ArrowUpRight,
@@ -66,6 +67,12 @@ import kasaNossaLogo from "@/assets/clients/KASA NOSSA.png";
 import maraisaSampaioLogo from "@/assets/clients/Maraisa Sampaio.png";
 
 export const Route = createFileRoute("/")({
+  head: () =>
+    pageSeo({
+      title: "DUO | Mídia & Studio | Uma Agência. Várias soluções.",
+      description: DEFAULT_DESCRIPTION,
+      path: "/",
+    }),
   component: Home_,
 });
 

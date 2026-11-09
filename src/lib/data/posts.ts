@@ -129,3 +129,15 @@ export async function listPublishedPosts(
 export async function recentPublishedPosts(db: Db, limit = 6): Promise<PostDoc[]> {
   return (await listPublishedPosts(db, { page: 1, limit })).items;
 }
+
+/** Slug e datas dos posts publicados, para o sitemap. */
+export async function listPublishedPostsForSitemap(
+  db: Db,
+): Promise<Pick<PostDoc, "slug" | "updatedAt" | "publishedAt">[]> {
+  return col(db)
+    .find(
+      { status: "published", deletedAt: null },
+      { projection: { _id: 0, slug: 1, updatedAt: 1, publishedAt: 1 } },
+    )
+    .toArray() as Promise<Pick<PostDoc, "slug" | "updatedAt" | "publishedAt">[]>;
+}

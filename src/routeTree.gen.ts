@@ -19,6 +19,7 @@ import { Route as ImprensaRouteImport } from './routes/imprensa'
 import { Route as PacotesRouteImport } from './routes/pacotes'
 import { Route as PainelClienteRouteImport } from './routes/painel-cliente'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminBlogRouteImport } from './routes/admin/blog'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
@@ -81,6 +82,11 @@ const PainelClienteRoute = PainelClienteRouteImport.update({
 const ServicosRoute = ServicosRouteImport.update({
   id: '/servicos',
   path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/clientes': typeof AdminClientesRouteWithChildren
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
@@ -184,6 +191,7 @@ export interface FileRoutesByTo {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/clientes': typeof AdminClientesRouteWithChildren
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/pacotes': typeof PacotesRoute
   '/painel-cliente': typeof PainelClienteRoute
   '/servicos': typeof ServicosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/clientes': typeof AdminClientesRouteWithChildren
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/sitemap.xml'
     | '/admin/blog'
     | '/admin/clientes'
     | '/admin/configuracoes'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/sitemap.xml'
     | '/admin/blog'
     | '/admin/clientes'
     | '/admin/configuracoes'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/pacotes'
     | '/painel-cliente'
     | '/servicos'
+    | '/sitemap.xml'
     | '/admin/blog'
     | '/admin/clientes'
     | '/admin/configuracoes'
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   PacotesRoute: typeof PacotesRoute
   PainelClienteRoute: typeof PainelClienteRoute
   ServicosRoute: typeof ServicosRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiHealthRoute: typeof ApiHealthRoute
 }
 
@@ -385,6 +398,13 @@ declare module '@tanstack/react-router' {
       path: '/servicos'
       fullPath: '/servicos'
       preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -554,6 +574,7 @@ const rootRouteChildren: RootRouteChildren = {
   PacotesRoute: PacotesRoute,
   PainelClienteRoute: PainelClienteRoute,
   ServicosRoute: ServicosRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiHealthRoute: ApiHealthRoute,
 }
 export const routeTree = rootRouteImport

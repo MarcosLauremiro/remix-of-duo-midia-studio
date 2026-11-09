@@ -8,6 +8,7 @@ import {
   insertPost,
   listPosts,
   listPublishedPosts,
+  listPublishedPostsForSitemap,
   recentPublishedPosts,
   savePost,
 } from "../data/posts";
@@ -67,6 +68,11 @@ export const listPublishedPostsFn = createServerFn({ method: "GET" })
       }),
     ),
   );
+
+/** Slug e datas dos posts publicados, para o sitemap (sem dados de conteúdo). */
+export const listPublishedPostsForSitemapFn = createServerFn({ method: "GET" }).handler(async () =>
+  withDb((db) => listPublishedPostsForSitemap(db)),
+);
 
 export const recentBlogPostsFn = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => {

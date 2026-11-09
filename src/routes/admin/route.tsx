@@ -1,9 +1,20 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, Building2 } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Building2,
+} from "lucide-react";
 import { meFn, logoutFn } from "@/lib/admin/admin.server";
 
 export const Route = createFileRoute("/admin")({
+  // Painel interno: fora dos buscadores (vale para todas as rotas /admin/*).
+  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }] }),
   component: AdminLayout,
 });
 
@@ -74,7 +85,9 @@ function AdminLayout() {
               </span>
               <span className="font-display text-sm font-bold">DUO, Admin</span>
             </Link>
-            <span className="hidden text-xs text-ink-muted lg:inline">Gerenciamento de clientes</span>
+            <span className="hidden text-xs text-ink-muted lg:inline">
+              Gerenciamento de clientes
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden text-right leading-tight sm:block">
@@ -117,7 +130,10 @@ function AdminLayout() {
 
         {/* Sidebar mobile */}
         {mobileOpen && (
-          <div className="fixed inset-0 z-20 bg-black/40 lg:hidden" onClick={() => setMobileOpen(false)}>
+          <div
+            className="fixed inset-0 z-20 bg-black/40 lg:hidden"
+            onClick={() => setMobileOpen(false)}
+          >
             <div className="h-full w-72 bg-surface p-4" onClick={(e) => e.stopPropagation()}>
               <nav className="space-y-1">
                 {nav.map((n) => (

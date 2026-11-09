@@ -1,13 +1,57 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { getPublishedPostBySlugFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
 import { postBlocks, type PostBlock } from "@/lib/blog";
 import { coverDeliveryUrl, coverLoadLogger } from "@/lib/cover";
+import { jsonLd, pageSeo, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
+  // Busca no servidor: o HTML inicial já traz o artigo, o título e a descrição (SEO).
+  loader: async ({ params }) => {
+    try {
+      const { post } = await getPublishedPostBySlugFn({ data: { slug: params.slug } });
+      return { post: post as PostDoc };
+    } catch (e) {
+      if (e instanceof Response && e.status === 404) throw notFound();
+      throw e;
+    }
+  },
+  head: ({ loaderData }) => {
+    const post = loaderData?.post;
+    if (!post) return {};
+    const url = `/blog/${post.slug}`;
+    const image = coverDeliveryUrl(post.coverImage);
+    const seo = pageSeo({
+      title: `${post.title} | DUO | Mídia & Studio`,
+      description: post.excerpt,
+      path: url,
+      image,
+      type: "article",
+    });
+    const published = post.publishedAt ?? post.createdAt;
+    return {
+      ...seo,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: jsonLd({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.excerpt,
+            image: image ? [image] : undefined,
+            datePublished: published,
+            dateModified: post.updatedAt,
+            mainEntityOfPage: `${SITE_URL}${url}`,
+            author: { "@type": "Organization", name: SITE_NAME },
+            publisher: { "@type": "Organization", name: SITE_NAME },
+          }),
+        },
+      ],
+    };
+  },
   component: BlogPostPage,
 });
 
@@ -92,59 +136,7 @@ function BlockView({ block, index }: { block: PostBlock; index: number }) {
 }
 
 function BlogPostPage() {
-  const { slug } = Route.useParams();
-  const [post, setPost] = useState<PostDoc | null>(null);
-  const [err, setErr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    setErr(null);
-    getPublishedPostBySlugFn({ data: { slug } })
-      .then((r) => setPost(r.post as PostDoc))
-      .catch((e) => {
-        const msg = e instanceof Response ? "Artigo não encontrado" : String(e);
-        setErr(msg);
-      })
-      .finally(() => setLoading(false));
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background text-ink">
-        <SiteHeader />
-        <main className="mx-auto max-w-3xl px-5 py-10 lg:px-8">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 w-3/4 rounded bg-surface-strong" />
-            <div className="aspect-[16/9] rounded-2xl bg-surface-strong" />
-            <div className="h-4 w-full rounded bg-surface-strong" />
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  if (err || !post) {
-    return (
-      <div className="min-h-screen bg-background text-ink">
-        <SiteHeader />
-        <main className="mx-auto max-w-3xl px-5 py-10 lg:px-8">
-          <p className="rounded-2xl bg-surface p-6 text-center text-sm text-ink-muted ring-1 ring-ink/10">
-            {err ?? "Artigo não encontrado."}
-          </p>
-          <div className="mt-6 text-center">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-terracotta hover:underline"
-            >
-              <ArrowLeft className="size-4" /> Voltar ao blog
-            </Link>
-          </div>
-        </main>
-        <SiteFooter />
-      </div>
-    );
-  }
+  const { post } = Route.useLoaderData();
 
   const date = formatDate(post.publishedAt ?? post.createdAt);
 
