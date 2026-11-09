@@ -49,7 +49,7 @@ Autenticação: "admin" = cookie `duo_admin_session` válido + admin ativo + `to
 
 | Função | Método | Entrada | Saída |
 |---|---|---|---|
-| `listPublishedPostsFn` | GET | `{ q?, page?, limit? }` | `{ items, total, page, limit, totalPages }` |
+| `listPublishedPostsFn` | GET | `{ page?, limit? }` | `{ items, total, page, limit, totalPages }` |
 | `recentBlogPostsFn` | GET | `{ limit? }` (1–12, padrão 6) | `{ items }` |
 | `getPublishedPostBySlugFn` | GET | `{ slug }` | `{ post }` ou 404 |
 

@@ -54,7 +54,6 @@ export const listPublishedPostsFn = createServerFn({ method: "GET" })
     handleErrors(() =>
       withDb(async (db) => {
         const { items, total } = await listPublishedPosts(db, {
-          q: data.q,
           page: data.page,
           limit: data.limit,
         });

@@ -159,7 +159,6 @@ export const postListQuerySchema = z.object({
 });
 
 export const publishedPostListQuerySchema = z.object({
-  q: z.string().max(120).optional(),
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(12),
 });
