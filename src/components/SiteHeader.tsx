@@ -71,7 +71,7 @@ export function SiteHeader() {
               <span className="text-ochre">Studio</span>
             </span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-ink-muted">
-              Uma Agência. Várias soluções. · 2026
+              Uma Agência. Várias soluções.
             </span>
           </div>
         </Link>
