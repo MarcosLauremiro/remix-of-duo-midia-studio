@@ -109,14 +109,9 @@ export async function listPosts(
 
 export async function listPublishedPosts(
   db: Db,
-  params: { q?: string; page: number; limit: number },
+  params: { page: number; limit: number },
 ): Promise<{ items: PostDoc[]; total: number }> {
   const filter: Filter<PostDoc> = { status: "published", deletedAt: null };
-  const q = params.q?.trim();
-  if (q) {
-    const rx = new RegExp(escapeRegex(q), "i");
-    filter.$or = [{ title: rx }, { excerpt: rx }];
-  }
   // Publicados sempre recebem publishedAt ao serem publicados; createdAt é só desempate.
   const sort: Sort = { publishedAt: -1, createdAt: -1, id: 1 };
 

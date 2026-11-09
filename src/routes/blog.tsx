@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
-import { Search } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { listPublishedPostsFn } from "@/lib/admin/blog.server";
 import type { PostDoc } from "@/lib/admin/db";
@@ -32,7 +31,6 @@ function BlogLayout() {
 }
 
 function BlogPage() {
-  const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
   const [data, setData] = useState<{ items: PostDoc[]; total: number; totalPages: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -40,37 +38,21 @@ function BlogPage() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await listPublishedPostsFn({ data: { q: q || undefined, page, limit: 12 } });
+      const res = await listPublishedPostsFn({ data: { page, limit: 12 } });
       setData({ items: res.items as PostDoc[], total: res.total, totalPages: res.totalPages });
     } catch {
       setData({ items: [], total: 0, totalPages: 1 });
     } finally {
       setLoading(false);
     }
-  }, [q, page]);
+  }, [page]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [q]);
-
   return (
     <PageShell eyebrow="Conteúdo da DUO" title="Blog" intro="Ideias, bastidores e dicas práticas de comunicação para quem quer ver a marca crescer.">
-      <div className="mt-8 flex flex-col gap-3 rounded-2xl bg-surface p-3 ring-1 ring-ink/10 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-muted" />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar artigos por título ou resumo"
-            className="w-full rounded-xl border border-ink/10 bg-background py-2 pl-9 pr-3 text-sm outline-none focus:border-terracotta/40 focus:ring-2 focus:ring-terracotta/20"
-          />
-        </div>
-      </div>
-
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {loading ? (
           [0, 1, 2, 3, 4, 5].map((i) => <BlogCardSkeleton key={i} />)
