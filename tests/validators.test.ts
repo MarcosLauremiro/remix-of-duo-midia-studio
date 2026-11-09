@@ -9,7 +9,7 @@ const WEBP_HEADER = "UklGRiQAAABXRUJQVlA4"; // "RIFF" <len> "WEBP" ...
 const base = {
   title: "Título de teste",
   excerpt: "Resumo com mais de dez caracteres",
-  content: "Conteúdo com pelo menos vinte caracteres",
+  blocks: [{ subtitle: "Subtítulo", text: "Texto do bloco", image: null }],
 };
 
 function coverOk(coverImage: string): boolean {

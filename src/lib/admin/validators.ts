@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { COVER_UPLOAD_MAX_BYTES, isCloudinaryCoverUrl } from "../cover";
+import { MAX_POST_BLOCKS } from "../blog";
 
 export const loginSchema = z.object({
   email: z.string().trim().email().max(254),
@@ -102,12 +103,21 @@ export const coverUploadSchema = z.object({
     }, "Imagem de capa inválida"),
 });
 
+// Bloco: subtítulo e texto obrigatórios; imagem opcional (mesma regra de URL da capa).
+const postBlockSchema = z.object({
+  subtitle: z.string().trim().min(2).max(160),
+  text: z.string().trim().min(2).max(10_000),
+  image: coverImageSchema.optional().nullable().or(z.literal("")),
+});
+
+const postBlocksSchema = z.array(postBlockSchema).min(1).max(MAX_POST_BLOCKS);
+
 export const postCreateSchema = z.object({
   title: z.string().trim().min(3).max(160),
   slug: z.string().trim().max(80).optional().nullable().or(z.literal("")),
   coverImage: coverImageSchema.optional().nullable().or(z.literal("")),
   excerpt: z.string().trim().min(10).max(320),
-  content: z.string().trim().min(20).max(60_000),
+  blocks: postBlocksSchema,
   status: postStatusSchema.default("draft"),
 });
 
@@ -117,7 +127,7 @@ export const postUpdateSchema = z.object({
   slug: z.string().trim().max(80).optional().nullable().or(z.literal("")),
   coverImage: coverImageSchema.optional().nullable().or(z.literal("")),
   excerpt: z.string().trim().min(10).max(320).optional(),
-  content: z.string().trim().min(20).max(60_000).optional(),
+  blocks: postBlocksSchema.optional(),
   status: postStatusSchema.optional(),
 });
 

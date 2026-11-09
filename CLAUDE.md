@@ -86,6 +86,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
 - **Clientes**: exclusão lógica (`deletedAt`) com restauração. Busca usa regex escapada, sem diferenciar maiúsculas.
   - **Cadastro e edição** (`/admin/clientes/novo` e `/admin/clientes/:id`): só nome e início do contrato (`dataInicioContrato`, `YYYY-MM-DD`). Os demais campos continuam no documento e na visualização, mas não são editados pela tela.
 - **Blog**: `draft` ou `published`. Slug único entre posts não excluídos. Home e `/blog` leem só publicados.
+  - **Estrutura do artigo**: capa, título, descrição (`excerpt`) e uma lista de blocos (`blocks`: subtítulo, texto e imagem opcional). Posts antigos têm só `content` e são lidos como um bloco sem subtítulo (`postBlocks` em `src/lib/blog.ts`). Editor compartilhado: `src/components/blog/BlocosEditor.tsx`.
   - **Criação** (`/admin/blog/novo`): modal sobre a lista (`blog.tsx` renderiza a lista e o `Outlet`). Não tem campo de status nem de slug; não envia `status`, então o servidor salva como `draft` e gera o slug do título. Ao salvar, volta para `/admin/blog`.
   - **Layout**: modal Radix (`ui/dialog`) sem rolagem; o conteúdo ocupa o espaço restante e o `textarea` rola internamente.
   - **Status**: alterado só na edição (`/admin/blog/:slug`, botão Publicar/Despublicar). A lista mostra a etiqueta de status, sem botão de alternar.

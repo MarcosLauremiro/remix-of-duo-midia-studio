@@ -8,10 +8,19 @@ type Props = {
   pendingFile: File | null;
   disabled?: boolean;
   onChange: (file: File | null) => void;
+  label?: string;
+  removeLabel?: string;
 };
 
-/** Escolha de capa: valida o arquivo, mostra a pré-visualização e permite remover. */
-export function CoverImageField({ savedUrl, pendingFile, disabled, onChange }: Props) {
+/** Escolha de imagem (capa ou imagem de bloco): valida o arquivo, mostra a pré-visualização e permite remover. */
+export function CoverImageField({
+  savedUrl,
+  pendingFile,
+  disabled,
+  onChange,
+  label = "Imagem de capa",
+  removeLabel = "Remover capa",
+}: Props) {
   const [error, setError] = useState<string | null>(null);
   const [pendingPreview, setPendingPreview] = useState<string | null>(null);
 
@@ -36,7 +45,7 @@ export function CoverImageField({ savedUrl, pendingFile, disabled, onChange }: P
   return (
     <div className="block text-sm">
       <span className="text-ink">
-        Imagem de capa{" "}
+        {label}{" "}
         <span className="font-normal text-ink-muted">
           (JPG, PNG ou WebP, até 8 MB; a imagem original é preservada)
         </span>
@@ -71,7 +80,7 @@ export function CoverImageField({ savedUrl, pendingFile, disabled, onChange }: P
             }}
             className="text-xs text-ink-muted underline hover:text-ink disabled:opacity-60"
           >
-            Remover capa
+            {removeLabel}
           </button>
         </span>
       )}

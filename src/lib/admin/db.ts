@@ -1,5 +1,6 @@
 // Tipos de domínio e helpers puros. A persistência fica em src/lib/data/ (MongoDB).
 import { randomUUID } from "node:crypto";
+import type { PostBlock } from "../blog";
 
 export type AdminDoc = {
   id: string;
@@ -38,8 +39,12 @@ export type PostDoc = {
   title: string;
   slug: string;
   coverImage: string | null;
+  /** Descrição do post (card e topo da página). */
   excerpt: string;
-  content: string;
+  /** Blocos do artigo. Ausente em posts antigos, que só têm `content` (ver postBlocks em src/lib/blog.ts). */
+  blocks?: PostBlock[];
+  /** Texto único dos posts antigos. Não é gravado em posts novos. */
+  content?: string;
   status: "draft" | "published";
   createdAt: string;
   updatedAt: string;
