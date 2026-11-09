@@ -13,6 +13,7 @@ import {
 } from "../data/posts";
 import { withDb } from "../data/mongo";
 import { newId, nowIso, slugify, type PostDoc } from "./db";
+import type { PostBlock } from "../blog";
 import { withAdmin } from "./auth";
 import { handleErrors } from "./http-errors";
 import { uploadCover } from "../cloudinary.server";
@@ -33,6 +34,16 @@ function normalizeCoverImage(raw: string | null | undefined): string | null {
   // Aceita URL absoluta ou caminho /assets; bloqueia javascript: etc
   if (/^javascript:/i.test(t)) return null;
   return t.slice(0, 2048);
+}
+
+function normalizeBlocks(
+  blocks: { subtitle: string; text: string; image?: string | null }[],
+): PostBlock[] {
+  return blocks.map((b) => ({
+    subtitle: b.subtitle.trim(),
+    text: b.text.trim(),
+    image: normalizeCoverImage(b.image),
+  }));
 }
 
 // ── Públicas (sem auth) ────────────────────────────────────────────────────
@@ -174,7 +185,7 @@ export const adminCreatePostFn = createServerFn({ method: "POST" })
           slug,
           coverImage: normalizeCoverImage(data.coverImage as string | null),
           excerpt: data.excerpt.trim(),
-          content: data.content.trim(),
+          blocks: normalizeBlocks(data.blocks),
           status,
           createdAt: now,
           updatedAt: now,
@@ -198,7 +209,7 @@ export const adminUpdatePostFn = createServerFn({ method: "POST" })
         const patch: Partial<PostDoc> = {};
         if (data.title !== undefined) patch.title = data.title.trim();
         if (data.excerpt !== undefined) patch.excerpt = data.excerpt.trim();
-        if (data.content !== undefined) patch.content = data.content.trim();
+        if (data.blocks !== undefined) patch.blocks = normalizeBlocks(data.blocks);
         if (data.coverImage !== undefined)
           patch.coverImage = normalizeCoverImage(data.coverImage as string | null);
         if (data.slug !== undefined) {

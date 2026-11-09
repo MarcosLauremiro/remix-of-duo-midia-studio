@@ -33,7 +33,7 @@ Páginas React ──(server function)──▶ src/lib/admin/*.server.ts
 |---|---|---|
 | `admins` | `id`, `name`, `email` (normalizado), `passwordHash` (scrypt), `role` (`admin`), `status` (`active`/`disabled`), `tokenVersion`, `createdAt`, `updatedAt` | `id` único; `email` único |
 | `clients` | `id`, `nome`, `contato`, `email`, `telefone`, `empresa`, `documento`, `tipo`, `status` (`lead`/`ativo`/`inativo`/`em_negociacao`), `servicos[]`, `observacoes`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `(deletedAt, createdAt)`; `status` |
-| `posts` | `id`, `title`, `slug`, `coverImage` (URL do Cloudinary; posts antigos podem ter data URL), `excerpt`, `content`, `status` (`draft`/`published`), `publishedAt`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `slug` único **parcial** (`deletedAt: null`); `(status, publishedAt)` |
+| `posts` | `id`, `title`, `slug`, `coverImage` (URL do Cloudinary; posts antigos podem ter data URL), `excerpt`, `blocks` (`subtitle`, `text`, `image`; posts antigos têm `content` no lugar), `status` (`draft`/`published`), `publishedAt`, `createdAt`, `updatedAt`, `deletedAt` | `id` único; `slug` único **parcial** (`deletedAt: null`); `(status, publishedAt)` |
 | `login_attempts` | `_id` (SHA-256 da chave), `count`, `expiresAt` | TTL em `expiresAt` |
 
 - Não há relacionamento formal entre coleções. `clients.servicos` é uma lista de textos.
@@ -80,7 +80,7 @@ Autenticação: "admin" = cookie `duo_admin_session` válido + admin ativo + `to
 | `adminListPostsFn` | GET | `{ q?, status?, sortBy?, sortDir?, page?, limit? }` | `{ items, total, page, limit, totalPages }` |
 | `adminGetPostFn` | GET | `{ id }` ou `{ slug }` | `{ post }` |
 | `adminUploadCoverFn` | POST | `{ dataUrl }` (JPG/PNG/WebP, até 8 MB) | `{ url }` (URL segura do Cloudinary) |
-| `adminCreatePostFn` | POST | `{ title, excerpt, content, slug?, coverImage?, status? }` | `{ post }` |
+| `adminCreatePostFn` | POST | `{ title, excerpt, blocks: [{ subtitle, text, image? }] (1–20), slug?, coverImage?, status? }` | `{ post }` |
 | `adminUpdatePostFn` | POST | `{ id, ...campos parciais }` | `{ post }` |
 | `adminDeletePostFn` | POST | `{ id }` | `{ ok }` (exclusão lógica) |
 | `adminPublishPostFn` | POST | `{ id, status }` | `{ post }` |
@@ -118,7 +118,7 @@ Erros de validação do zod (formato de entrada) são tratados pelo TanStack ant
 Novas capas vão ao Cloudinary; o post guarda só a URL segura. O MongoDB não recebe binário nem data URL nova.
 
 **Fluxo de upload**
-1. O formulário (`src/components/blog/CoverImageField.tsx`, usado em `blog.novo.tsx` e `blog.$slug.tsx`) valida tipo e tamanho e mostra a pré-visualização. A imagem original não é alterada no navegador.
+1. O formulário (`src/components/blog/CoverImageField.tsx`, usado em `blog.novo.tsx`, `blog.$slug.tsx` e nas imagens opcionais dos blocos em `BlocosEditor.tsx`) valida tipo e tamanho e mostra a pré-visualização. A imagem original não é alterada no navegador. As imagens dos blocos seguem o mesmo caminho de upload e ficam na mesma pasta.
 2. Ao salvar, `adminUploadCoverFn` (`src/lib/admin/blog.server.ts`) passa por `withAdmin()` (sessão e admin ativo), valida a data URL com `coverUploadSchema` (tipo, assinatura binária, tamanho decodificado) e chama `uploadCover` (`src/lib/cloudinary.server.ts`).
 3. `uploadCover` assina os parâmetros com SHA-1 (`buildSignature`) e envia por `fetch` para `https://api.cloudinary.com/v1_1/<cloud>/image/upload`, na pasta `duo-midia/blog/capas`. O `public_id` é um UUID novo: não depende do título e não colide.
 4. O navegador recebe a URL e só então chama `adminCreatePostFn` ou `adminUpdatePostFn`. Se o upload falha, o post não é gravado.

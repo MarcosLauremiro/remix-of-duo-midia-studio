@@ -4,7 +4,7 @@ import { postCreateSchema, validateOr400 } from "../src/lib/admin/validators";
 const valid = {
   title: "Título válido",
   excerpt: "Resumo válido aqui",
-  content: "Conteúdo válido com mais de vinte caracteres",
+  blocks: [{ subtitle: "Subtítulo válido", text: "Texto válido do bloco", image: null }],
   status: "draft",
 };
 
