@@ -7,24 +7,16 @@ import carrosselImg from "@/assets/service-carrossel.jpg";
 import bannerImg from "@/assets/service-banner.jpg";
 import emailImg from "@/assets/service-email.jpg";
 import media1Img from "@/assets/media-1.jpg";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/duomidia")({
-  head: () => ({
-    meta: [
-      { title: "DUOMÍDIA | Estratégia, conteúdo e campanhas" },
-      {
-        name: "description",
-        content:
-          "A frente de mídia da DUO: planejamento, redes sociais, campanhas e comunicação que aproxima marcas e pessoas.",
-      },
-      { property: "og:title", content: "DUOMÍDIA | Estratégia, conteúdo e campanhas" },
-      {
-        property: "og:description",
-        content:
-          "A frente de mídia da DUO: planejamento, redes sociais, campanhas e comunicação que aproxima marcas e pessoas.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      title: "DUOMÍDIA | Estratégia, conteúdo e campanhas",
+      description:
+        "A frente de mídia da DUO: planejamento, redes sociais, campanhas e comunicação que aproxima marcas e pessoas.",
+      path: "/duomidia",
+    }),
   component: DuoMidiaPage,
 });
 
@@ -89,7 +81,9 @@ function DuoMidiaPage() {
         </Link>
       </div>
       {!WHATSAPP_URL && (
-        <p className="mt-3 text-xs text-ink-muted">WhatsApp será ativado assim que o número for informado.</p>
+        <p className="mt-3 text-xs text-ink-muted">
+          WhatsApp será ativado assim que o número for informado.
+        </p>
       )}
 
       <CardGrid>

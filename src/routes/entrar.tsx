@@ -2,18 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { LogIn } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/entrar")({
-  head: () => ({
-    meta: [
-      { title: "Entrar | DUO | Mídia & Studio" },
-      { name: "description", content: "Acesse sua área de cliente da DUO | Mídia & Studio." },
-      { property: "og:title", content: "Entrar | DUO | Mídia & Studio" },
-      { property: "og:description", content: "Acesse sua área de cliente da DUO | Mídia & Studio." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  head: () => pageSeo({ title: "Entrar | DUO | Mídia & Studio", description: "Acesse sua área de cliente da DUO | Mídia & Studio.", path: "/entrar", noindex: true }),
   component: Entrar,
 });
 

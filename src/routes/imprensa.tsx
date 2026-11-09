@@ -4,27 +4,19 @@ import media1Img from "@/assets/media-1.jpg";
 import media2Img from "@/assets/media-2.jpg";
 import media3Img from "@/assets/media-3.jpg";
 import media4Img from "@/assets/media-4.jpg";
+import { pageSeo } from "@/lib/seo";
 
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@DuoMidia";
 const INSTAGRAM_URL = "https://www.instagram.com/duomidia/";
 
 export const Route = createFileRoute("/imprensa")({
-  head: () => ({
-    meta: [
-      { title: "Imprensa | DUO | Mídia & Studio" },
-      {
-        name: "description",
-        content:
-          "Materiais publicados sobre a DUO em veículos, portais e redes: links, entrevistas e participações.",
-      },
-      { property: "og:title", content: "Imprensa | DUO | Mídia & Studio" },
-      {
-        property: "og:description",
-        content:
-          "Materiais publicados sobre a DUO em veículos, portais e redes: links, entrevistas e participações.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      title: "Imprensa | DUO | Mídia & Studio",
+      description:
+        "Materiais publicados sobre a DUO em veículos, portais e redes: links, entrevistas e participações.",
+      path: "/imprensa",
+    }),
   component: ImprensaPage,
 });
 

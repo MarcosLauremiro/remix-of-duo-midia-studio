@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME } from "../lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -79,25 +80,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
-      {
-        name: "description",
-        content:
-          "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções.",
-      },
+      { title: "DUO | Mídia & Studio | Uma Agência. Várias soluções." },
+      { name: "description", content: DEFAULT_DESCRIPTION },
       { name: "author", content: "DUO | Mídia & Studio" },
-      { property: "og:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
-      {
-        property: "og:description",
-        content:
-          "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções.",
-      },
+      { property: "og:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções." },
+      { property: "og:description", content: DEFAULT_DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: DEFAULT_OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções. |  " },
-      { name: "twitter:description", content: "Uma solução integrada para marcas que precisam de estratégia + criação + produção.  : Uma Agência. Várias soluções." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a9c4d28-a58a-4914-88dc-461e1d0ca14f/id-preview-13f01f62--b8c70938-7619-4bb5-9403-9663f6755d2b.lovable.app-1783917189903.png" },
+      { name: "twitter:title", content: "DUO | Mídia & Studio | Uma Agência. Várias soluções." },
+      { name: "twitter:description", content: DEFAULT_DESCRIPTION },
+      { name: "twitter:image", content: DEFAULT_OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -119,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

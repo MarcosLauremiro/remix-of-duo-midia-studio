@@ -18,28 +18,18 @@ import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
 import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
 import eventPhotoCrowdAsset from "@/assets/events/duo00598.jpg.asset.json";
 import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
+import { pageSeo } from "@/lib/seo";
 
 const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
 
 export const Route = createFileRoute("/servicos")({
-  head: () => ({
-    meta: [
-      { title: "Serviços | DUO | Mídia & Studio" },
-      {
-        name: "description",
-        content:
-          "Serviços da DUO: posts, stories, carrosséis, reels, banners, crachás, coberturas de eventos e podcasts.",
-      },
-      { property: "og:title", content: "Serviços | DUO | Mídia & Studio" },
-      {
-        property: "og:description",
-        content:
-          "Serviços da DUO: posts, stories, carrosséis, reels, banners, crachás, coberturas de eventos e podcasts.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      title: "Serviços | DUO | Mídia & Studio",
+      description:
+        "Serviços da DUO: posts, stories, carrosséis, reels, banners, crachás, coberturas de eventos e podcasts.",
+      path: "/servicos",
+    }),
   component: ServicosPage,
 });
 
@@ -160,7 +150,15 @@ const episodios = [
   },
 ];
 
-function SectionTitle({ eyebrow, title, intro }: { eyebrow: string; title: string; intro: string }) {
+function SectionTitle({
+  eyebrow,
+  title,
+  intro,
+}: {
+  eyebrow: string;
+  title: string;
+  intro: string;
+}) {
   return (
     <div className="mt-20">
       <p className="eyebrow mb-3">{eyebrow}</p>

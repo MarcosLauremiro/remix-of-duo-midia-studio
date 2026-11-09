@@ -2,18 +2,10 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, CreditCard, QrCode, X } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/pacotes")({
-  head: () => ({
-    meta: [
-      { title: "Pacotes de créditos | DUO | Mídia & Studio" },
-      { name: "description", content: "Compre pacotes de créditos e serviços avulsos da DUO | Mídia & Studio." },
-      { property: "og:title", content: "Pacotes de créditos | DUO | Mídia & Studio" },
-      { property: "og:description", content: "Compre pacotes de créditos e serviços avulsos da DUO | Mídia & Studio." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  head: () => pageSeo({ title: "Pacotes de créditos | DUO | Mídia & Studio", description: "Compre pacotes de créditos e serviços avulsos da DUO | Mídia & Studio.", path: "/pacotes" }),
   component: Pacotes,
 });
 

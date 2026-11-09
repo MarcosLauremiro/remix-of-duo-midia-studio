@@ -7,24 +7,16 @@ import podcast2Img from "@/assets/podcast-2.jpg";
 import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
 import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/duostudio")({
-  head: () => ({
-    meta: [
-      { title: "DUOSTUDIO | Audiovisual, foto e podcast" },
-      {
-        name: "description",
-        content:
-          "O estúdio da DUO: vídeos, fotografia, gravação de podcast e coberturas de eventos com produção completa.",
-      },
-      { property: "og:title", content: "DUOSTUDIO | Audiovisual, foto e podcast" },
-      {
-        property: "og:description",
-        content:
-          "O estúdio da DUO: vídeos, fotografia, gravação de podcast e coberturas de eventos com produção completa.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      title: "DUOSTUDIO | Audiovisual, foto e podcast",
+      description:
+        "O estúdio da DUO: vídeos, fotografia, gravação de podcast e coberturas de eventos com produção completa.",
+      path: "/duostudio",
+    }),
   component: DuoStudioPage,
 });
 
@@ -89,7 +81,9 @@ function DuoStudioPage() {
         </Link>
       </div>
       {!WHATSAPP_URL && (
-        <p className="mt-3 text-xs text-ink-muted">WhatsApp será ativado assim que o número for informado.</p>
+        <p className="mt-3 text-xs text-ink-muted">
+          WhatsApp será ativado assim que o número for informado.
+        </p>
       )}
 
       <CardGrid>
@@ -101,8 +95,8 @@ function DuoStudioPage() {
       <section className="mt-12 rounded-[1.75rem] border border-ochre/20 bg-ochre/10 p-6 sm:p-8">
         <h2 className="font-display text-xl text-ink sm:text-2xl">Quer gravar com o DuoStudio?</h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
-          Estúdio equipado, direção de cena e cortes prontos para suas redes. Fale com a equipe e agende sua
-          gravação.
+          Estúdio equipado, direção de cena e cortes prontos para suas redes. Fale com a equipe e
+          agende sua gravação.
         </p>
         <div className="mt-6">
           <WhatsAppCta label="Falar com o DuoStudio" />

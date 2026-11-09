@@ -18,24 +18,17 @@ import {
   Download,
 } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/painel-cliente")({
-  head: () => ({
-    meta: [
-      { title: "Painel do cliente | DUO | Mídia & Studio" },
-      {
-        name: "description",
-        content:
-          "Solicite serviços, acompanhe pedidos, veja seus créditos e baixe seus arquivos em um só lugar.",
-      },
-      { property: "og:title", content: "Painel do cliente | DUO | Mídia & Studio" },
-      {
-        property: "og:description",
-        content:
-          "Solicite serviços, acompanhe pedidos, veja seus créditos e baixe seus arquivos em um só lugar.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      title: "Painel do cliente | DUO | Mídia & Studio",
+      description:
+        "Solicite serviços, acompanhe pedidos, veja seus créditos e baixe seus arquivos em um só lugar.",
+      path: "/painel-cliente",
+      noindex: true,
+    }),
   component: PainelCliente,
 });
 
