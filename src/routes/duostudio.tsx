@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Headphones, Instagram } from "lucide-react";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
@@ -82,23 +83,57 @@ const VIDEO_CATEGORIES = [
   { label: "Clipes musicais", id: "x_gtQ_RRPeY" },
 ];
 
+// O embed do Instagram tem tamanho fixo (328x569). Ele é escalado para caber na largura do cartão.
+const REEL_W = 328;
+const REEL_H = 569;
+
+function ReelFrame({ id, title }: { id: string; title: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / REEL_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="relative w-full overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10"
+      style={{ aspectRatio: `${REEL_W} / ${REEL_H}` }}
+    >
+      <iframe
+        src={`https://www.instagram.com/reel/${id}/embed`}
+        title={title}
+        loading="lazy"
+        allowFullScreen
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: REEL_W,
+          height: REEL_H,
+          border: 0,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
+      />
+    </div>
+  );
+}
+
 function InstagramReelsRow() {
   return (
-    <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 sm:-mx-6 sm:px-6 lg:mx-0 lg:justify-center lg:px-0">
+    <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 lg:mx-0 lg:gap-6 lg:overflow-visible lg:px-0">
       {INSTAGRAM_REELS.map((reel, i) => (
         <div
           key={reel.id}
-          className="w-[328px] shrink-0 snap-start overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10"
+          className="w-[78%] min-w-[260px] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-auto lg:min-w-0 lg:flex-1"
         >
-          <iframe
-            src={`https://www.instagram.com/reel/${reel.id}/embed`}
-            title={`Reel do Instagram ${i + 1}`}
-            width="328"
-            height="569"
-            loading="lazy"
-            allowFullScreen
-            className="block"
-          />
+          <ReelFrame id={reel.id} title={`Reel do Instagram ${i + 1}`} />
         </div>
       ))}
     </div>
