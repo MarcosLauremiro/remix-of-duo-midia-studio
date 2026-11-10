@@ -5,8 +5,8 @@ import reelImg from "@/assets/service-reel.jpg";
 import podcast1Img from "@/assets/podcast-1.webp";
 import podcast2Img from "@/assets/podcast-2.webp";
 import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
-import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
-import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
+import eventPhotoBandImg from "@/assets/coberturas/zappelin-ao-vivo.webp";
+import eventPhotoLadyImg from "@/assets/coberturas/lady-velvet.webp";
 import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/duostudio")({
@@ -34,7 +34,7 @@ const frentes = [
     tag: "Podcast",
   },
   {
-    image: eventPhotoLadyAsset.url,
+    image: eventPhotoLadyImg,
     title: "Cobertura de eventos",
     text: "Fotos e vídeos do seu evento, do começo ao fim, com entrega rápida.",
     tag: "Coberturas",
@@ -52,7 +52,7 @@ const frentes = [
     tag: "Produção",
   },
   {
-    image: eventPhotoBandAsset.url,
+    image: eventPhotoBandImg,
     title: "Transmissões ao vivo",
     text: "Sua marca no ar com imagem e som cuidados por quem entende de palco.",
     tag: "Ao vivo",
