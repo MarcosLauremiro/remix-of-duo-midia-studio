@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
-import postImg from "@/assets/service-post.jpg";
 import storyImg from "@/assets/service-story.jpg";
-import carrosselImg from "@/assets/service-carrossel.jpg";
-import bannerImg from "@/assets/service-banner.jpg";
+import gestaoRedesImg from "@/assets/duomidea/gestao-redes-sociais.webp";
+import campanhasImg from "@/assets/duomidea/campanhas-publicitarias.webp";
+import trafegoImg from "@/assets/duomidea/trafego-pago.webp";
 import emailImg from "@/assets/service-email.jpg";
 import media1Img from "@/assets/media-1.jpg";
 import { pageSeo } from "@/lib/seo";
@@ -22,13 +22,13 @@ export const Route = createFileRoute("/duomidia")({
 
 const frentes = [
   {
-    image: postImg,
+    image: gestaoRedesImg,
     title: "Redes sociais",
     text: "Planejamento, criação e publicação de conteúdo com a cara da sua marca.",
     tag: "Conteúdo",
   },
   {
-    image: carrosselImg,
+    image: campanhasImg,
     title: "Campanhas",
     text: "Ideias que saem do papel: conceito, peças e divulgação em vários canais.",
     tag: "Campanhas",
@@ -40,7 +40,7 @@ const frentes = [
     tag: "Rotina",
   },
   {
-    image: bannerImg,
+    image: trafegoImg,
     title: "Publicidade",
     text: "Anúncios pensados para alcançar as pessoas certas, no momento certo.",
     tag: "Anúncios",

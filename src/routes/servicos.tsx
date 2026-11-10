@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
-import postImg from "@/assets/service-post.jpg";
+import gestaoRedesImg from "@/assets/duomidea/gestao-redes-sociais.webp";
 import storyImg from "@/assets/service-story.jpg";
 import carrosselImg from "@/assets/service-carrossel.jpg";
 import reelImg from "@/assets/service-reel.jpg";
-import bannerImg from "@/assets/service-banner.jpg";
-import emailImg from "@/assets/service-email.jpg";
+import artesImpressoesImg from "@/assets/duomidea/artes-impressoes.webp";
+import papelariaImg from "@/assets/duomidea/papelaria-timbrados.webp";
 import crachaImg from "@/assets/service-cracha.jpg";
 import figurinhaImg from "@/assets/service-figurinha.jpg";
 import podcast1Img from "@/assets/podcast-1.webp";
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/servicos")({
 
 const servicos = [
   {
-    image: postImg,
+    image: gestaoRedesImg,
     title: "Post para redes sociais",
     text: "Uma arte estática pensada para o seu feed engajar mais.",
     tag: "Incluído no plano",
@@ -59,13 +59,13 @@ const servicos = [
     tag: "5 créditos",
   },
   {
-    image: bannerImg,
+    image: artesImpressoesImg,
     title: "Banner",
     text: "Peça horizontal para sites, e-mails e portais parceiros.",
     tag: "Incluído no plano",
   },
   {
-    image: emailImg,
+    image: papelariaImg,
     title: "Assinatura de e-mail",
     text: "Comunicação padronizada e elegante para o seu time.",
     tag: "Incluído no plano",
