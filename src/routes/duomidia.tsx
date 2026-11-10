@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
-import storyImg from "@/assets/service-story.jpg";
+import artesImpressoesImg from "@/assets/duomidea/artes-impressoes.webp";
 import gestaoRedesImg from "@/assets/duomidea/gestao-redes-sociais.webp";
 import campanhasImg from "@/assets/duomidea/campanhas-publicitarias.webp";
 import trafegoImg from "@/assets/duomidea/trafego-pago.webp";
-import emailImg from "@/assets/service-email.jpg";
-import media1Img from "@/assets/media-1.jpg";
+import papelariaImg from "@/assets/duomidea/papelaria-timbrados.webp";
+import sitesImg from "@/assets/duomidea/sites-aplicativos.webp";
 import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/duomidia")({
@@ -34,7 +34,7 @@ const frentes = [
     tag: "Campanhas",
   },
   {
-    image: storyImg,
+    image: artesImpressoesImg,
     title: "Gestão de perfis",
     text: "Rotina de postagens, respostas e acompanhamento de resultados.",
     tag: "Rotina",
@@ -46,13 +46,13 @@ const frentes = [
     tag: "Anúncios",
   },
   {
-    image: emailImg,
+    image: papelariaImg,
     title: "Comunicação interna",
     text: "Materiais que organizam a comunicação do seu time no dia a dia.",
     tag: "Comunicação",
   },
   {
-    image: media1Img,
+    image: sitesImg,
     title: "Assessoria e imprensa",
     text: "Presença da sua marca em portais, veículos e parcerias.",
     tag: "Imprensa",
