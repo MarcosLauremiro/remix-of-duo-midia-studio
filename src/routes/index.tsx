@@ -182,7 +182,9 @@ function DuoServiceCards() {
                 );
               })}
             </ul>
-            <span className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta">
+            <span
+              className={`relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold ${isTerracotta ? "text-terracotta" : "text-ochre"}`}
+            >
               Conhecer {group.title}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </span>
