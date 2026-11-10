@@ -1,4 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Headphones,
+  Instagram,
+  Youtube,
+} from "lucide-react";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
 import reelImg from "@/assets/service-reel.jpg";
@@ -59,6 +68,153 @@ const frentes = [
   },
 ];
 
+// Conteúdo da seção de podcasts e reels (links enviados pela equipe).
+const INSTAGRAM_REELS = [{ id: "C4dxWhZuJIg" }, { id: "Csd3YxPg9_Q" }, { id: "Cppz-TWg_r6" }];
+
+const YOUTUBE_PODCASTS = [
+  { name: "Bari Talks", url: "https://www.youtube.com/@baritalks" },
+  { name: "Papo de Briefing", url: "https://www.youtube.com/@papodebriefing" },
+  { name: "PodCOM ELAS", url: "https://www.youtube.com/@PodcomELAS/featured" },
+];
+
+const SPOTIFY_SHOW_EMBED = "https://open.spotify.com/embed/show/5heui1gJgTZfcjUiUHtRGy";
+
+// Vídeos do DuoStudio por categoria (ID do YouTube).
+const VIDEO_CATEGORIES = [
+  { label: "Vídeos comerciais", id: "AEQlDy3DJU8" },
+  { label: "Vídeos institucionais", id: "W7JCkPeZOvg" },
+  { label: "Vídeos cartelados", id: "QIlGKyZ-6as" },
+  { label: "Vídeo after de eventos", id: "AMuAb87K-xE" },
+  { label: "Vídeos políticos", id: "OYuWg4_diws" },
+  { label: "Vídeos promocionais", id: "hT9KAI8gY64" },
+  { label: "Clipes musicais", id: "x_gtQ_RRPeY" },
+];
+
+const navButton =
+  "grid size-9 place-items-center rounded-full border border-ochre/40 bg-ochre/10 text-ochre transition-colors hover:bg-ochre/20";
+
+function InstagramReels() {
+  const [i, setI] = useState(0);
+  const count = INSTAGRAM_REELS.length;
+  const reel = INSTAGRAM_REELS[i];
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="relative mx-auto aspect-[9/16] w-full max-w-[320px] overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10">
+        <iframe
+          key={reel.id}
+          src={`https://www.instagram.com/reel/${reel.id}/embed`}
+          title={`Reel do Instagram ${i + 1}`}
+          loading="lazy"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full"
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          aria-label="Reel anterior"
+          className={navButton}
+          onClick={() => setI((i - 1 + count) % count)}
+        >
+          <ChevronLeft className="size-4" />
+        </button>
+        <span className="text-xs text-ink-muted">
+          {i + 1} / {count}
+        </span>
+        <button
+          type="button"
+          aria-label="Próximo reel"
+          className={navButton}
+          onClick={() => setI((i + 1) % count)}
+        >
+          <ChevronRight className="size-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PodcastsAndReels() {
+  return (
+    <section className="mt-14">
+      <p className="eyebrow inline-flex items-center gap-1.5">Podcasts e reels</p>
+      <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">Ouça, assista e acompanhe</h2>
+      <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
+          <h3 className="mb-4 inline-flex items-center gap-2 font-display text-lg text-ink">
+            <Instagram className="size-4 text-ochre" /> Reels no Instagram
+          </h3>
+          <InstagramReels />
+        </div>
+
+        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
+          <h3 className="mb-4 inline-flex items-center gap-2 font-display text-lg text-ink">
+            <Youtube className="size-4 text-ochre" /> Podcasts no YouTube
+          </h3>
+          <ul className="flex flex-col gap-3">
+            {YOUTUBE_PODCASTS.map((p) => (
+              <li key={p.name}>
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-background px-4 py-4 text-sm font-semibold text-ink transition-colors hover:border-ochre/40 hover:bg-ochre/5"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Headphones className="size-4 text-ochre" /> {p.name}
+                  </span>
+                  <ExternalLink className="size-4 text-ink-muted" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
+          <h3 className="mb-4 font-display text-lg text-ink">Papo de Briefing no Spotify</h3>
+          <iframe
+            src={SPOTIFY_SHOW_EMBED}
+            title="Papo de Briefing no Spotify"
+            width="100%"
+            height="352"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            className="rounded-2xl"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function VideosSection() {
+  return (
+    <section className="mt-14">
+      <p className="eyebrow inline-flex items-center gap-1.5">Portfólio</p>
+      <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">Vídeos do DuoStudio</h2>
+      <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {VIDEO_CATEGORIES.map((v) => (
+          <figure key={v.id} className="rounded-2xl bg-surface p-3 ring-1 ring-ink/10">
+            <div className="aspect-video overflow-hidden rounded-xl bg-black">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1`}
+                title={v.label}
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="h-full w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs font-mono uppercase tracking-wider text-ochre">
+              {v.label}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function DuoStudioPage() {
   return (
     <PageShell
@@ -91,6 +247,10 @@ function DuoStudioPage() {
           <InfoCard key={f.title} {...f} tagTone="ochre" />
         ))}
       </CardGrid>
+
+      <PodcastsAndReels />
+
+      <VideosSection />
 
       <section className="mt-12 rounded-[1.75rem] border border-ochre/20 bg-ochre/10 p-6 sm:p-8">
         <h2 className="font-display text-xl text-ink sm:text-2xl">Quer gravar com o DuoStudio?</h2>
