@@ -14,10 +14,10 @@ import podcast3Img from "@/assets/podcast-3.webp";
 import podcast4Img from "@/assets/podcast-4.webp";
 import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
-import eventPhotoTeamAsset from "@/assets/events/rt9a3548.jpg.asset.json";
-import eventPhotoLadyAsset from "@/assets/events/rt9a3556.jpg.asset.json";
-import eventPhotoCrowdAsset from "@/assets/events/duo00598.jpg.asset.json";
-import eventPhotoBandAsset from "@/assets/events/dsc04023.jpg.asset.json";
+import eventPhotoTeamImg from "@/assets/coberturas/bastidores-equipe.webp";
+import eventPhotoLadyImg from "@/assets/coberturas/lady-velvet.webp";
+import eventPhotoCrowdImg from "@/assets/coberturas/publico-lotado.webp";
+import eventPhotoBandImg from "@/assets/coberturas/zappelin-ao-vivo.webp";
 import { pageSeo } from "@/lib/seo";
 
 const INSTAGRAM_REELS_URL = "https://www.instagram.com/duomidia/reels/";
@@ -86,25 +86,25 @@ const servicos = [
 
 const coberturas = [
   {
-    image: eventPhotoLadyAsset.url,
+    image: eventPhotoLadyImg,
     title: "Lady Velvet no palco principal",
     text: "Registro do show com iluminação e telão em destaque.",
     tag: "Motoshow",
   },
   {
-    image: eventPhotoCrowdAsset.url,
+    image: eventPhotoCrowdImg,
     title: "Público lotado ao anoitecer",
     text: "Vista do palco para a multidão durante a apresentação.",
     tag: "Motoshow",
   },
   {
-    image: eventPhotoBandAsset.url,
+    image: eventPhotoBandImg,
     title: "Zappelin ao vivo",
     text: "Captação da banda com fumaça, luzes e muito som.",
     tag: "Motoshow",
   },
   {
-    image: eventPhotoTeamAsset.url,
+    image: eventPhotoTeamImg,
     title: "Bastidores com a equipe DUO",
     text: "O time reunido antes da abertura dos portões.",
     tag: "Bastidores",
