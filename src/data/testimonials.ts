@@ -11,16 +11,16 @@
  *  Como adicionar novas avaliações:
  *  1. Acesse o perfil no Google Maps → aba "Avaliações".
  *  2. Copie nome, texto, nota e data. Salve a foto do avatar em
- *     src/assets/testimonials/<nome>.png
- *  3. Adicione: import novoImg from "@/assets/testimonials/novo.png";
+ *     src/assets/testimonials/<nome>.webp
+ *  3. Adicione: import novoImg from "@/assets/testimonials/novo.webp";
  *     e um novo objeto no array abaixo com image: novoImg.
  * ─────────────────────────────────────────────────────────────────────
  */
 
-import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.png";
-import eltonSalesImg from "@/assets/testimonials/elton-sales.png";
-import lianaMeloImg from "@/assets/testimonials/liana-melo.png";
-import nadyaJacobImg from "@/assets/testimonials/nadya-jacob.png";
+import camilaMagalhaesImg from "@/assets/testimonials/camila-magalhaes.webp";
+import eltonSalesImg from "@/assets/testimonials/elton-sales.webp";
+import lianaMeloImg from "@/assets/testimonials/liana-melo.webp";
+import nadyaJacobImg from "@/assets/testimonials/nadya-jacob.webp";
 
 export type Testimonial = {
   quote: string;

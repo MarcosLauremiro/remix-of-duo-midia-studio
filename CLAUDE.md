@@ -93,7 +93,7 @@ Páginas (React)  ──xxxFn({ data })──▶  *.server.ts (server functions)
   - **Exclusão** na lista de blog e de clientes: remove o item da tela sem buscar a lista de novo. Se a página fica vazia, volta uma página.
 - **Capa do post**: enviada ao Cloudinary pela server function `adminUploadCoverFn` (assinada no servidor). O post guarda a URL. Posts antigos com data URL continuam exibidos. Detalhes em `docs/API-AND-DATABASE.md` (seção 5.1).
 - **Demo do cliente** (`entrar`, `pacotes`, `painel-cliente`): não usa backend, guarda estado no `localStorage`. `entrar` e `painel-cliente` saem do índice (`noindex`).
-- **SEO**: cada rota pública define `head()` com `pageSeo` (`src/lib/seo.ts`: título, descrição, Open Graph, canonical). A página do artigo carrega o post no `loader` (renderizada no servidor) e inclui JSON-LD `BlogPosting`. `/sitemap.xml` (`src/routes/sitemap[.]xml.ts`) lista páginas fixas e artigos publicados. `robots.txt` e `og-image.jpg` ficam em `public/`. `/admin/*` tem `noindex`.
+- **SEO**: cada rota pública define `head()` com `pageSeo` (`src/lib/seo.ts`: título, descrição, Open Graph, canonical). A página do artigo carrega o post no `loader` (renderizada no servidor) e inclui JSON-LD `BlogPosting`. `/sitemap.xml` (`src/routes/sitemap[.]xml.ts`) lista páginas fixas e artigos publicados. `robots.txt` e `og-image.jpg` ficam em `public/`. As fontes (Manrope, Inter, JetBrains Mono) ficam em `public/fonts/`, declaradas em `src/styles.css`; não usam Google Fonts. `/admin/*` tem `noindex`.
 
 ## Convenções
 
