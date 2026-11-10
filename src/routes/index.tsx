@@ -336,7 +336,7 @@ function ClientLogosStrip() {
             <h2 className="font-display text-xl leading-tight text-ink sm:text-2xl">
               Uma seleção dos <span className="text-terracotta">nossos clientes</span>.
             </h2>
-            <p className="mt-2 text-sm text-ink-muted">Logotipos em proporção original, sem distorção.</p>
+            <p className="mt-2 text-sm text-ink-muted">Na Duo, confiança aproxima. Parceria transforma ideias em resultados.</p>
           </div>
 
           <div
