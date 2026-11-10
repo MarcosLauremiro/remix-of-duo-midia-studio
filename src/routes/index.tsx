@@ -47,16 +47,16 @@ import motoimp2 from "@/assets/events/motoimp/2.jpg";
 import motoimp3 from "@/assets/events/motoimp/3.jpg";
 
 
-import podcast1Img from "@/assets/podcast-1.jpg";
-import podcast2Img from "@/assets/podcast-2.jpg";
-import podcast3Img from "@/assets/podcast-3.jpg";
-import podcast4Img from "@/assets/podcast-4.jpg";
+import podcast1Img from "@/assets/podcast-1.webp";
+import podcast2Img from "@/assets/podcast-2.webp";
+import podcast3Img from "@/assets/podcast-3.webp";
+import podcast4Img from "@/assets/podcast-4.webp";
 import podcastGallery1 from "@/assets/podcast-gallery-1.jpg";
 import podcastGallery2 from "@/assets/podcast-gallery-2.jpg";
 import podcastGallery3 from "@/assets/podcast-gallery-3.jpg";
 
-import founderFabiaImg from "@/assets/founders/fabia.jpg";
-import founderAnnaImg from "@/assets/founders/anna.jpg";
+import founderFabiaImg from "@/assets/founders/fabia.webp";
+import founderAnnaImg from "@/assets/founders/anna.webp";
 
 import aciiLogo from "@/assets/clients/ACII.png";
 import bengessoLogo from "@/assets/clients/BENGESSO.png";

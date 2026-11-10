@@ -1,13 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  Home,
-  Layers,
-  Radio,
-  MessageCircle,
-  Menu,
-  X,
-} from "lucide-react";
+import { Home, Layers, Radio, MessageCircle, Menu, X } from "lucide-react";
 
 import logoImg from "@/assets/logo/DUO.png";
 
@@ -19,7 +12,6 @@ export const siteNav = [
   { label: "DuoMídia", to: "/duomidia", icon: Layers, accent: "terracotta" as const },
   { label: "DuoStudio", to: "/duostudio", icon: Radio, accent: "ochre" as const },
 ] as const;
-
 
 export function WhatsAppCta({
   label = "Falar no WhatsApp",
@@ -61,7 +53,13 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5">
           <span className="flex h-9 shrink-0 items-center">
-            <img src={logoImg} alt="DUO Mídia & Studio" className="h-9 w-auto object-contain" />
+            <img
+              src={logoImg}
+              alt="DUO Mídia & Studio"
+              width={480}
+              height={270}
+              className="h-9 w-auto object-contain"
+            />
           </span>
           <div className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-[15px] font-bold leading-none text-ink">
