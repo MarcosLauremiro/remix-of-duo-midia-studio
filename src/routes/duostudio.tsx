@@ -1,13 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  Headphones,
-  Instagram,
-  Youtube,
-} from "lucide-react";
+import { ExternalLink, Headphones, Instagram } from "lucide-react";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import { WHATSAPP_URL, WhatsAppCta } from "@/components/SiteHeader";
 import reelImg from "@/assets/service-reel.jpg";
@@ -90,46 +82,25 @@ const VIDEO_CATEGORIES = [
   { label: "Clipes musicais", id: "x_gtQ_RRPeY" },
 ];
 
-const navButton =
-  "grid size-9 place-items-center rounded-full border border-ochre/40 bg-ochre/10 text-ochre transition-colors hover:bg-ochre/20";
-
-function InstagramReels() {
-  const [i, setI] = useState(0);
-  const count = INSTAGRAM_REELS.length;
-  const reel = INSTAGRAM_REELS[i];
+function InstagramReelsRow() {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="relative mx-auto aspect-[9/16] w-full max-w-[320px] overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10">
-        <iframe
+    <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 sm:-mx-6 sm:px-6 lg:mx-0 lg:justify-center lg:px-0">
+      {INSTAGRAM_REELS.map((reel, i) => (
+        <div
           key={reel.id}
-          src={`https://www.instagram.com/reel/${reel.id}/embed`}
-          title={`Reel do Instagram ${i + 1}`}
-          loading="lazy"
-          allowFullScreen
-          className="absolute inset-0 h-full w-full"
-        />
-      </div>
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          aria-label="Reel anterior"
-          className={navButton}
-          onClick={() => setI((i - 1 + count) % count)}
+          className="w-[328px] shrink-0 snap-start overflow-hidden rounded-2xl bg-black ring-1 ring-ink/10"
         >
-          <ChevronLeft className="size-4" />
-        </button>
-        <span className="text-xs text-ink-muted">
-          {i + 1} / {count}
-        </span>
-        <button
-          type="button"
-          aria-label="Próximo reel"
-          className={navButton}
-          onClick={() => setI((i + 1) % count)}
-        >
-          <ChevronRight className="size-4" />
-        </button>
-      </div>
+          <iframe
+            src={`https://www.instagram.com/reel/${reel.id}/embed`}
+            title={`Reel do Instagram ${i + 1}`}
+            width="328"
+            height="569"
+            loading="lazy"
+            allowFullScreen
+            className="block"
+          />
+        </div>
+      ))}
     </div>
   );
 }
@@ -139,39 +110,21 @@ function PodcastsAndReels() {
     <section className="mt-14">
       <p className="eyebrow inline-flex items-center gap-1.5">Podcasts e reels</p>
       <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">Ouça, assista e acompanhe</h2>
-      <div className="mt-6 grid gap-5 lg:grid-cols-3">
-        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
-          <h3 className="mb-4 inline-flex items-center gap-2 font-display text-lg text-ink">
-            <Instagram className="size-4 text-ochre" /> Reels no Instagram
-          </h3>
-          <InstagramReels />
-        </div>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+        Os reels mais recentes no Instagram e os episódios dos nossos podcasts.
+      </p>
 
-        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
-          <h3 className="mb-4 inline-flex items-center gap-2 font-display text-lg text-ink">
-            <Youtube className="size-4 text-ochre" /> Podcasts no YouTube
-          </h3>
-          <ul className="flex flex-col gap-3">
-            {YOUTUBE_PODCASTS.map((p) => (
-              <li key={p.name}>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-background px-4 py-4 text-sm font-semibold text-ink transition-colors hover:border-ochre/40 hover:bg-ochre/5"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <Headphones className="size-4 text-ochre" /> {p.name}
-                  </span>
-                  <ExternalLink className="size-4 text-ink-muted" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="mt-8">
+        <h3 className="mb-4 inline-flex items-center gap-2 font-display text-lg text-ink">
+          <Instagram className="size-4 text-ochre" /> Reels no Instagram
+        </h3>
+        <InstagramReelsRow />
+      </div>
 
-        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10">
-          <h3 className="mb-4 font-display text-lg text-ink">Papo de Briefing no Spotify</h3>
+      <div className="mt-10 grid gap-5 lg:grid-cols-2">
+        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10 sm:p-6">
+          <p className="eyebrow inline-flex items-center gap-1.5">Spotify</p>
+          <h3 className="mt-2 font-display text-xl text-ink">Papo de Briefing</h3>
           <iframe
             src={SPOTIFY_SHOW_EMBED}
             title="Papo de Briefing no Spotify"
@@ -179,8 +132,34 @@ function PodcastsAndReels() {
             height="352"
             loading="lazy"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            className="rounded-2xl"
+            className="mt-5 rounded-2xl"
           />
+        </div>
+
+        <div className="rounded-[1.75rem] bg-surface p-5 ring-1 ring-ink/10 sm:p-6">
+          <p className="eyebrow inline-flex items-center gap-1.5">YouTube</p>
+          <h3 className="mt-2 font-display text-xl text-ink">Canais de podcast</h3>
+          <ul className="mt-5 flex flex-col gap-3">
+            {YOUTUBE_PODCASTS.map((p) => (
+              <li key={p.name}>
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center gap-4 rounded-2xl border border-ink/10 bg-background p-4 transition-colors hover:border-ochre/40 hover:bg-ochre/5"
+                >
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-ochre/15 text-ochre">
+                    <Headphones className="size-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-ink">{p.name}</span>
+                    <span className="block text-xs text-ink-muted">Assistir no YouTube</span>
+                  </span>
+                  <ExternalLink className="size-4 text-ink-muted transition-transform group-hover:translate-x-0.5" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
