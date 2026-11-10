@@ -160,9 +160,6 @@ export function SiteFooter() {
         <Link to="/duostudio" className="hover:text-ink">
           DUOSTUDIO
         </Link>
-        <Link to="/painel-cliente" className="hover:text-ink">
-          Painel do cliente
-        </Link>
       </div>
     </footer>
   );
