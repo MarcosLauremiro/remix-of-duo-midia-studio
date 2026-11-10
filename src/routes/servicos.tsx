@@ -1,13 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, CardGrid, InfoCard } from "@/components/PageShell";
 import gestaoRedesImg from "@/assets/duomidea/gestao-redes-sociais.webp";
-import storyImg from "@/assets/service-story.jpg";
-import carrosselImg from "@/assets/service-carrossel.jpg";
-import reelImg from "@/assets/service-reel.jpg";
+import trafegoImg from "@/assets/duomidea/trafego-pago.webp";
 import artesImpressoesImg from "@/assets/duomidea/artes-impressoes.webp";
 import papelariaImg from "@/assets/duomidea/papelaria-timbrados.webp";
-import crachaImg from "@/assets/service-cracha.jpg";
-import figurinhaImg from "@/assets/service-figurinha.jpg";
 import podcast1Img from "@/assets/podcast-1.webp";
 import podcast2Img from "@/assets/podcast-2.webp";
 import podcast3Img from "@/assets/podcast-3.webp";
@@ -27,7 +23,7 @@ export const Route = createFileRoute("/servicos")({
     pageSeo({
       title: "Serviços | DUO | Mídia & Studio",
       description:
-        "Serviços da DUO: posts, stories, carrosséis, reels, banners, crachás, coberturas de eventos e podcasts.",
+        "Serviços da DUO: posts, stories, carrosséis, reels, banners, coberturas de eventos e podcasts.",
       path: "/servicos",
     }),
   component: ServicosPage,
@@ -41,19 +37,19 @@ const servicos = [
     tag: "Incluído no plano",
   },
   {
-    image: storyImg,
+    image: trafegoImg,
     title: "Story",
     text: "Conteúdo vertical rápido para avisos, novidades e interação.",
     tag: "Incluído no plano",
   },
   {
-    image: carrosselImg,
+    image: gestaoRedesImg,
     title: "Carrossel",
     text: "Sequência de artes para explicar, ensinar ou apresentar.",
     tag: "2 créditos",
   },
   {
-    image: reelImg,
+    image: gestaoRedesImg,
     title: "Reel",
     text: "Vídeo curto editado com trilha e legendas dinâmicas.",
     tag: "5 créditos",
@@ -69,18 +65,6 @@ const servicos = [
     title: "Assinatura de e-mail",
     text: "Comunicação padronizada e elegante para o seu time.",
     tag: "Incluído no plano",
-  },
-  {
-    image: crachaImg,
-    title: "Crachá",
-    text: "Identificação impressa para equipe, eventos e visitas.",
-    tag: "Incluído no plano",
-  },
-  {
-    image: figurinhaImg,
-    title: "Figurinha para WhatsApp",
-    text: "Pacote de adesivos com a personalidade da sua marca.",
-    tag: "1 crédito",
   },
 ];
 
