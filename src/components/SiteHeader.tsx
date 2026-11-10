@@ -16,16 +16,22 @@ export const siteNav = [
 export function WhatsAppCta({
   label = "Falar no WhatsApp",
   variant = "primary",
+  tone = "terracotta",
   className = "",
 }: {
   label?: string;
   variant?: "primary" | "ghost";
+  /** Cor do botão primário. "ochre" é o azul da marca DuoStudio (o token --ochre é azul). */
+  tone?: "terracotta" | "ochre";
   className?: string;
 }) {
   const base =
     "inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition-all";
-  const primary =
-    "bg-terracotta px-5 py-2.5 text-primary-foreground shadow-sm shadow-terracotta/20 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed";
+  const toneClasses = {
+    terracotta: "bg-terracotta shadow-terracotta/20",
+    ochre: "bg-ochre shadow-ochre/20",
+  } as const;
+  const primary = `${toneClasses[tone]} px-5 py-2.5 text-primary-foreground shadow-sm hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`;
   const ghost =
     "border border-ink/10 bg-surface px-5 py-2.5 text-ink hover:bg-surface-strong disabled:opacity-50 disabled:cursor-not-allowed";
   const cls = `${base} ${variant === "primary" ? primary : ghost} ${className}`;

@@ -72,10 +72,10 @@ function DuoStudioPage() {
       intro="Uma solução integrada para marcas que precisam de estratégia + criação + produção. No DuoStudio entregamos imagem, som e movimento com qualidade de estúdio, do roteiro à entrega final."
     >
       <div className="mt-8 flex flex-wrap gap-3">
-        <WhatsAppCta label="Falar com o DuoStudio no WhatsApp" />
+        <WhatsAppCta label="Falar com o DuoStudio no WhatsApp" tone="ochre" />
         <Link
           to="/"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface-strong"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-ochre/40 bg-ochre/10 px-5 py-2.5 text-sm font-semibold text-ochre transition-colors hover:bg-ochre/20"
         >
           Voltar ao início
         </Link>
@@ -99,7 +99,7 @@ function DuoStudioPage() {
           agende sua gravação.
         </p>
         <div className="mt-6">
-          <WhatsAppCta label="Falar com o DuoStudio" />
+          <WhatsAppCta label="Falar com o DuoStudio" tone="ochre" />
         </div>
       </section>
     </PageShell>
